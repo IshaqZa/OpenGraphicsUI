@@ -4,14 +4,14 @@
         {
             "type": "cppbuild",
             "label": "C/C++: g++.exe build active file",
-            "command": "C:/path/to/g++.exe",
+            "command": "C:/MinGW/bin/g++.exe",
             "args": [
                 "-g",
                 "-std=c++17",
                 "-I${workspaceFolder}/include",
                 "-L${workspaceFolder}/lib",
-                "${workspaceFolder}/src/main.cpp",
-                "${workspaceFolder}/src/glad.c",
+                "${workspaceFolder}/main.cpp",
+                "${workspaceFolder}/glad.c",
                 "-lglfw3dll",
                 "-o",
                 "${workspaceFolder}/cutable.exe"
@@ -26,7 +26,7 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "detail": "compiler: C:/C:/path/to/g++.exe"
+            "detail": "C:/MinGW/bin/g++.exe"
         }
     ]
 }
