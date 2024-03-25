@@ -8,6 +8,12 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height){
 
 }
 
+void processInput(GLFWwindow *window)
+{
+    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
+}
+
 int main(){
 
     glfwInit();
@@ -15,7 +21,7 @@ int main(){
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    GLFWwindow *window = glfwCreateWindow(800, 600, "Hello, Window!", NULL, NULL);
+    GLFWwindow *window = glfwCreateWindow(1920, 1080, "Hello, Window!", glfwGetPrimaryMonitor(), NULL);
     if(window == NULL){
         std::cout << "There was an error creating the window" << std::endl;
         glfwTerminate();
@@ -33,7 +39,7 @@ int main(){
 
     while(!glfwWindowShouldClose(window)){
 
-        
+        processInput(window);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
