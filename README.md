@@ -6,6 +6,7 @@ This project is an implementation of a game that will be called **Cheater**, whi
 The following resources have been used to set up and aid in the development of the project:
 - **Integrated Development Environment(IDE)**: Visual Studio Code
 - **Building platform(+compiler)**: MSYS2* the gcc compiler
+- **Version Control**: Github and git
 - **API**: OpenGL(Open Graphics Library)
 - **Libraries**:
     - GLFW: Utility Library for OpenGL
