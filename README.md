@@ -8,7 +8,7 @@ The following resources have been used to set up and aid in the development of t
 - **Building platform(+compiler)**: MSYS2* the gcc compiler
 - **Version Control**: Github and git
 - **API**: OpenGL(Open Graphics Library)
-- **Libraries**:
+- **Dependecies**:
     - GLFW: Utility Library for OpenGL
     - GLAD: "Function loader" which reduces the amount of code that has to be written and helps with cross-compatibility
 
