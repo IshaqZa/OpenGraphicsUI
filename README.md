@@ -11,5 +11,5 @@ The following resources have been used to set up and aid in the development of t
     - GLFW: Utility Library for OpenGL
     - GLAD: "Function loader" which reduces the amount of code that has to be written and helps with cross-compatibility
 
-*MSYS2: is a software distribution platform developed by Microsoft to provide the Unix development environment on Windows OS
+*MSYS2: is a software distribution platform developed for Microsoft Windows and offers the Unix development environment for Windows OS users
 
