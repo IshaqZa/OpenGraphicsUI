@@ -42,17 +42,25 @@ int main(){
 
     GLFWwindow* window = glfwCreateWindow(1920, 1080, "PlaceHolderTitle", glfwGetPrimaryMonitor(), NULL);
     if(window == NULL){
-        const char **error;
-        glfwGetError(error);
-        cout << "An Error occured creating the window: " << error << endl;
+        cout << "An Error occured creating the window: " << endl;
         glfwTerminate();
     }
 
     glfwMakeContextCurrent(window);
 
-    while(!glfwWindowShouldClose(window)){
+    if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 
+        cout << "There was an error intialising GLAD" << endl;
+        return EXIT_FAILURE;
+
+    }
+
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);    
+    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    while(!glfwWindowShouldClose(window)){
+        glClear(GL_COLOR_BUFFER_BIT);
         processInput(window);
+        glfwSwapBuffers(window);
         glfwPollEvents();
     }
 
