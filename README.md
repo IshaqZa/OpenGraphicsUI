@@ -50,4 +50,46 @@ There is a general flow for most OpenGL projects that use GLFW and glad, which l
         ```
         where it checks for the user pressing the "ESC" button on their keyboard to exit the program and calls `glfwSetWindowShouldClose(window, true)` to acheive the true condition in the while loop
     6. Finally we can set a color for the back ground via `glClearColor(float R, float G, float B, float alpha);` and then in the while loop add `glClear(GL_COLOR_BUFFER_BIT)`
-    
+2. #### Basic Geometry and shaders:
+    1. Geometry Data
+        1. In the case of this program, `std::vector<T>` will be used for storing the vertex data
+        2. The VBO(Vertex Buffer Object) is were the data from the vector will be stored onto the memory. This is done by creating `GLuint VBO` and then `glGenBuffers(1, &VBO)`, this gives us an ID for the VBO to use.
+        3. In the case of this program, a GL_ARRAY_BUFFER will be used. `glBindBuffer(GL_ARRAY_BUFFER, VBO)` this specifies that the VBO with the ID provided should be used.
+        4. Now it is time to copy the data from `std::vector<T>` into our VBO. This is done by `glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices.data(), GL_STATIC_DRAW)`(We use GL_STATIC_DRAW only as a placeholder for now)
+        5. Shaders are needed for the rendering of graphics, there are two types of shaders, vertex and fragment shaders
+        6. A vertex shader is needed to process and output geometry while a fragment shader is needed for color output and shading
+        7. This is the most basic vertex shader:
+        ```
+        #version 330 core
+        layout (location = 0) in vec3 aPos;
+
+        void main()
+        {
+            gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
+        } 
+        ```
+        8. This is the most basic fragment shader:
+        ```
+        #version 330 core
+        out vec4 FragColor;
+
+        void main()
+        {
+            FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+        }
+        ``` 
+        9. In order to load the vertex shader above, we need to first create it in the context of OpenGL via `GLuint vertexShader` and then `vertexShader = glCreateShader(GL_VERTEX_SHADER)`, after that the vertex shader source needs to be loaded into the vertexShader with the ID we just created via `glShaderSource(vertexShader, 1, &vertexShaderSource, NULL)` and then to compile it `glCompileShader(vertexShader)`
+        >Note: Error checking can be done via
+        >```
+        >int  success;
+        >char infoLog[512];
+        >glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+        >if(!success)
+        >{
+        >    glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+        >    std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+        >}
+        >```
+        10. Same thing with the fragment shader: `GLuint fragmentShader`, `fragmentShader = glCreateShader(GL_FRAGMENT_SHADER)`, `glSourceShader(fragmentShader, 1, &fragmentShaderSource, NULL)` then `glCompileShader(fragmentShader)`
+        11. Finally to connect both to make the entire shader program. `GLuint shaderProgram`, `shaderProgram = glCreateProgram()`, `glAttachShader(shaderProgram, vertexShader)`, `glAttachShader(shaderProgram, fragmentShader)`
+        and `glLinkProgram(shaderProgram)`
