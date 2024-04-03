@@ -92,4 +92,7 @@ There is a general flow for most OpenGL projects that use GLFW and glad, which l
         >```
         10. Same thing with the fragment shader: `GLuint fragmentShader`, `fragmentShader = glCreateShader(GL_FRAGMENT_SHADER)`, `glSourceShader(fragmentShader, 1, &fragmentShaderSource, NULL)` then `glCompileShader(fragmentShader)`
         11. Finally to connect both to make the entire shader program. `GLuint shaderProgram`, `shaderProgram = glCreateProgram()`, `glAttachShader(shaderProgram, vertexShader)`, `glAttachShader(shaderProgram, fragmentShader)`
-        and `glLinkProgram(shaderProgram)`
+        and `glLinkProgram(shaderProgram)`. `glUseProgram(shaderProgram)` Tells OpenGL that it is time to use the shader program that has just been created
+        >Note: vertex and fragment shaders are no longer useful so it can be deleted using `glDeleteShader(vertexShader)` and `glDeleteShader(fragmentShader)`
+
+    
