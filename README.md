@@ -98,7 +98,7 @@ There is a general flow for most OpenGL projects that use GLFW and glad, which l
         and `glLinkProgram(shaderProgram)`. `glUseProgram(shaderProgram)` Tells OpenGL that it is time to use the shader program that has just been created
         >Note: vertex and fragment shaders are no longer useful so it can be deleted using `glDeleteShader(vertexShader)` and `glDeleteShader(fragmentShader)`
     3. Vertex Attribute Arrays
-        1. The Vertex Attribute Arrays(VAO) is used to tell how the vertex data from the basic vertex data(in the vector\<T\>) using the idea of **Stride**
+        1. The Vertex Attribute Arrays(VAO) is used to tell how the vertex data is to be read (from the vector\<T\>) using the idea of **Stride**
         ![Stride](/resources/README/VAO.png)
         >Image Source: https://learnopengl.com/Getting-started/Hello-Triangle
         2. The Vertex Array has to be generated via `GLuint VAO;` and assinging this VAO a generated Vertex Attribute Array ID via `glGenVertexArrays(1, &VAO)`
