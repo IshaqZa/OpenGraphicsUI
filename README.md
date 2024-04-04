@@ -57,7 +57,7 @@ There is a general flow for most OpenGL projects that use GLFW and glad, which l
         1. In the case of this program, `std::vector<T>` will be used for storing the vertex data
         2. The VBO(Vertex Buffer Object) is were the data from the vector will be stored onto the memory. This is done by creating `GLuint VBO` and then `glGenBuffers(1, &VBO)`, this gives us an ID for the VBO to use.
         3. In the case of this program, a GL_ARRAY_BUFFER will be used. `glBindBuffer(GL_ARRAY_BUFFER, VBO)` this specifies that the VBO with the ID provided should be used.
-        4. Now it is time to copy the data from `std::vector<T>` into our VBO. This is done by `glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices.data(), GL_STATIC_DRAW)`(We use GL_STATIC_DRAW only as a placeholder for now)
+        4. Now it is time to copy the data from `std::vector<T>` into our VBO. This is done by `glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vertices), vertices.data(), GL_STATIC_DRAW)`(We use GL_STATIC_DRAW only as a placeholder for now)
         5. Shaders are needed for the rendering of graphics, there are two types of shaders, vertex and fragment shaders
         6. A vertex shader is needed to process and output geometry while a fragment shader is needed for color output and shading
     2. Shaders
