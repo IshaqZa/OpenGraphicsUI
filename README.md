@@ -1,8 +1,9 @@
 # Senior Project: Cheater
-### introduction
+## introduction
 This project is an implementation of a game that will be called **Cheater**, which follows the hacking adventure of a school kid that failed most of his classes and wants to alter all his grades by hacking the school database. You as the player will be controlling the avatar of this kid's digital presence. This avatar will be shooting, hacking and slashing his way through the security systems that have been set by the school against intruders.
 
-### Project Setup, development environment and resources
+---
+## Project Setup, development environment and resources
 The following resources have been used to set up and aid in the development of the project:
 - **Integrated Development Environment(IDE)**: Visual Studio Code
 - **Building platform(+compiler)**: MSYS2* with the gcc compiler
@@ -14,9 +15,10 @@ The following resources have been used to set up and aid in the development of t
 
 *MSYS2: is a software distribution platform developed for Microsoft Windows and offers the Unix development environment for Windows OS users
 
-### OpenGL, GLFW and glad general code flow
+---
+## OpenGL, GLFW and glad general code flow
 There is a general flow for most OpenGL projects that use GLFW and glad, which looks something like this:
-1. #### Initialisations:  
+1. ### Initialisations:  
     1. GLFW intitalisation, context specification and termination:
         1. GLFW must be intialised (`glfwInit()`) at the beggining of the program and must be terminated at the end (`glfwTerminate()`)
         2. GLFW must be given information about the OpenGL version (major and minor) which in the context of this project is 3.3 (`glfwWindowHint(GLFW_CONTEXT_VERSION_(MAJOR/MINOR), 3)`)
@@ -50,7 +52,7 @@ There is a general flow for most OpenGL projects that use GLFW and glad, which l
         ```
         where it checks for the user pressing the "ESC" button on their keyboard to exit the program and calls `glfwSetWindowShouldClose(window, true)` to acheive the true condition in the while loop
     6. Finally we can set a color for the back ground via `glClearColor(float R, float G, float B, float alpha);` and then in the while loop add `glClear(GL_COLOR_BUFFER_BIT)`
-2. #### Basic Geometry and shaders:
+2. ### Basic Geometry and shaders:
     1. Geometry Data
         1. In the case of this program, `std::vector<T>` will be used for storing the vertex data
         2. The VBO(Vertex Buffer Object) is were the data from the vector will be stored onto the memory. This is done by creating `GLuint VBO` and then `glGenBuffers(1, &VBO)`, this gives us an ID for the VBO to use.
@@ -58,7 +60,8 @@ There is a general flow for most OpenGL projects that use GLFW and glad, which l
         4. Now it is time to copy the data from `std::vector<T>` into our VBO. This is done by `glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices.data(), GL_STATIC_DRAW)`(We use GL_STATIC_DRAW only as a placeholder for now)
         5. Shaders are needed for the rendering of graphics, there are two types of shaders, vertex and fragment shaders
         6. A vertex shader is needed to process and output geometry while a fragment shader is needed for color output and shading
-        7. This is the most basic vertex shader:
+    2. Shaders
+        1. This is the most basic vertex shader:
         ```
         #version 330 core
         layout (location = 0) in vec3 aPos;
@@ -68,7 +71,7 @@ There is a general flow for most OpenGL projects that use GLFW and glad, which l
             gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
         } 
         ```
-        8. This is the most basic fragment shader:
+        2. This is the most basic fragment shader:
         ```
         #version 330 core
         out vec4 FragColor;
@@ -78,7 +81,7 @@ There is a general flow for most OpenGL projects that use GLFW and glad, which l
             FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
         }
         ``` 
-        9. In order to load the vertex shader above, we need to first create it in the context of OpenGL via `GLuint vertexShader` and then `vertexShader = glCreateShader(GL_VERTEX_SHADER)`, after that the vertex shader source needs to be loaded into the vertexShader with the ID we just created via `glShaderSource(vertexShader, 1, &vertexShaderSource, NULL)` and then to compile it `glCompileShader(vertexShader)`
+        3. In order to load the vertex shader above, we need to first create it in the context of OpenGL via `GLuint vertexShader` and then `vertexShader = glCreateShader(GL_VERTEX_SHADER)`, after that the vertex shader source needs to be loaded into the vertexShader with the ID we just created via `glShaderSource(vertexShader, 1, &vertexShaderSource, NULL)` and then to compile it `glCompileShader(vertexShader)`
         >Note: Error checking can be done via
         >```
         >int  success;
@@ -90,9 +93,42 @@ There is a general flow for most OpenGL projects that use GLFW and glad, which l
         >    std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
         >}
         >```
-        10. Same thing with the fragment shader: `GLuint fragmentShader`, `fragmentShader = glCreateShader(GL_FRAGMENT_SHADER)`, `glSourceShader(fragmentShader, 1, &fragmentShaderSource, NULL)` then `glCompileShader(fragmentShader)`
-        11. Finally to connect both to make the entire shader program. `GLuint shaderProgram`, `shaderProgram = glCreateProgram()`, `glAttachShader(shaderProgram, vertexShader)`, `glAttachShader(shaderProgram, fragmentShader)`
+        4. Same thing with the fragment shader: `GLuint fragmentShader`, `fragmentShader = glCreateShader(GL_FRAGMENT_SHADER)`, `glSourceShader(fragmentShader, 1, &fragmentShaderSource, NULL)` then `glCompileShader(fragmentShader)`
+        5. Finally to connect both to make the entire shader program. `GLuint shaderProgram`, `shaderProgram = glCreateProgram()`, `glAttachShader(shaderProgram, vertexShader)`, `glAttachShader(shaderProgram, fragmentShader)`
         and `glLinkProgram(shaderProgram)`. `glUseProgram(shaderProgram)` Tells OpenGL that it is time to use the shader program that has just been created
         >Note: vertex and fragment shaders are no longer useful so it can be deleted using `glDeleteShader(vertexShader)` and `glDeleteShader(fragmentShader)`
+    3. Vertex Attribute Arrays
+        1. The Vertex Attribute Arrays(VAO) is used to tell how the vertex data from the basic vertex data(in the vector\<T\>) using the idea of **Stride**
+        ![Stride](/resources/README/VAO.png)
+        >Image Source: https://learnopengl.com/Getting-started/Hello-Triangle
+        2. The Vertex Array has to be generated via `GLuint VAO;` and assinging this VAO a generated Vertex Attribute Array ID via `glGenVertexArrays(1, &VAO)`
+        3. After binding the VBO and loading the vertex data, the method of how the verticies can be read is done via `glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0)` and `glEnableVertexAttribArray(0)`
+        4. Finally use `glBindVertexArray(0)` to bind the current VAO(or the one at memory location 0)
+3. ### Render Loop
+    1. The rendering loop is where most of the **Draw** functions are gonna be found
+    2. The rendering loop should look like this at this point of the program:
+    ```
+    while(!glfwWindowShouldClose(window)) {
+        processsInput(window);
+
+        glClearColor(/*insert r, g, b, a*/);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        glUseProgram(shaderProgram);
+        glBindVertexArray(VAO); // This part is mainly useful when there are multiple VAO's to deal with
+
+        glDrawElement(GL_TRIANGLES, startingVertexIndex, endingVertexIndex);
+
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+    ```
+    >The **startingVertexIndex** and **endingVertexIndex** depend on how the vertex data has been organised in the `std::vector<GLfloat> vertices;`
+>Note: This should cover the most basic OpenGL code flow, after this point, any addition or removal of code is completely dependant on how the end product of the program should be
+
+---
+
+
+
 
     
