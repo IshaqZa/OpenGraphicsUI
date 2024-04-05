@@ -17,13 +17,20 @@ std::string get_file_contents(const char* filename)
 }
 
 Shader::Shader(const char* vertexFile, const char* fragmentFile){
+    
+    std::string vertexCode;
+    std::string fragmentCode;
+    try {
+        vertexCode = get_file_contents(vertexFile);
+        fragmentCode = get_file_contents(fragmentFile);
+    } catch(int error){
 
-    std::string vertexCode = get_file_contents(vertexFile);
-    std::string fragmentCode = get_file_contents(fragmentFile);
+        std::cout << "Error number:" << error << std::endl;
+        exit(EXIT_FAILURE);
 
+    }
     const char* vertexSource = vertexCode.c_str();
     const char* fragmentSource = fragmentCode.c_str();
-    
     GLuint vertexShader;
     vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexSource, NULL);

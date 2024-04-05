@@ -46,20 +46,20 @@ int main(){
 
     glViewport(0, 0, 1920, 1080);
 
-    Shader shaderProgram("resources/Shaders/default.vert", "/resources/Shaders/default.frag");
+    Shader shaderProgram("../resources/Shaders/default.vert", "../resources/Shaders/default.frag");
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     vector<GLfloat> vertices = { // placeholder triangle
         -0.5f, -0.5f, 0.0f,
         0.5f, -0.5f, 0.0f,
-        0.0f,  0.5f, 0.0f   
+        0.0f,  0.5f, 0.0f
     };
 
     VAO VAO1;
     VAO1.Bind();
-
-    VBO VBO1(vertices.data(), vertices.size() * sizeof(vertices));
+    
+    VBO VBO1(vertices.data(), vertices.size() * sizeof(GLfloat));
     VAO1.linkVBO(VBO1, 0);
     VAO1.Unbind();
     VBO1.Unbind();
@@ -70,11 +70,14 @@ int main(){
         shaderProgram.Activate();
         VAO1.Bind();
         processInput(window);
+
         glDrawArrays(GL_TRIANGLES, 0, 3);
+
         glfwSwapBuffers(window);
         glfwPollEvents();
+        
     }
-
+    
     VAO1.Delete();
     VBO1.Delete();
     shaderProgram.Delete();
