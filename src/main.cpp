@@ -69,6 +69,8 @@ int main(){
     GLuint VAO;
     glGenVertexArrays(1, &VAO);
 
+    GLuint EBO;
+    glGenBuffers(1, &EBO);
 
     GLuint vertexShader;
     vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -88,6 +90,7 @@ int main(){
 
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vertices), vertices.data(), GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
@@ -105,6 +108,12 @@ int main(){
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
+
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &VBO);
+    glDeleteBuffers(1, &EBO);
+
+    glfwDestroyWindow(window);
 
     glfwTerminate();
     return EXIT_SUCCESS;
