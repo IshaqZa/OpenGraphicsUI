@@ -51,16 +51,17 @@ int main(){
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     vector<GLfloat> vertices = { // placeholder triangle
-        -0.5f, -0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f,
-        0.0f,  0.5f, 0.0f
+        -0.5f, -0.5f, 0.0f, 1.0f, 0.0f,  0.0f,
+        0.5f, -0.5f, 0.0f, 0.0f, 1.0f,  0.0f,
+        0.0f,  0.5f, 0.0f, 0.0f, 0.0f,  1.0f
     };
 
     VAO VAO1;
     VAO1.Bind();
     
     VBO VBO1(vertices.data(), vertices.size() * sizeof(GLfloat));
-    VAO1.linkVBO(VBO1, 0);
+    VAO1.linkAttrib(VBO1, 0, 3, GL_FLOAT, 6 * sizeof(float), (void*) 0);
+    VAO1.linkAttrib(VBO1, 1, 3, GL_FLOAT, 6 * sizeof(float), (void*) (3 * sizeof(float)));
     VAO1.Unbind();
     VBO1.Unbind();
 
