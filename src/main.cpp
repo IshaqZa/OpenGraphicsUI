@@ -3,11 +3,11 @@
 #include <iostream>
 #include <vector>
 #include <shader/shader.h>
-
-#include "Buffer/VBO.h"
-#include "Buffer/VAO.h"
-#include "Buffer/EBO.h"
-#include "shader/shader.h"
+#include <stb/stb_image.h>
+#include <Buffer/VBO.h>
+#include <Buffer/VAO.h>
+#include <Buffer/EBO.h>
+#include <shader/shader.h>
 using namespace std;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height){
@@ -50,20 +50,51 @@ int main(){
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-    vector<GLfloat> vertices = { // placeholder triangle
-        -0.5f, -0.5f, 0.0f, 1.0f, 0.0f,  0.0f,
-        0.5f, -0.5f, 0.0f, 0.0f, 1.0f,  0.0f,
-        0.0f,  0.5f, 0.0f, 0.0f, 0.0f,  1.0f
+    vector<GLfloat> vertices =
+    { //     COORDINATES     /        COLORS      /   TexCoord  //
+        -0.5f, -0.5f, 0.0f,     1.0f, 0.0f, 0.0f,	0.0f, 0.0f, // Lower left corner
+        -0.5f,  0.5f, 0.0f,     0.0f, 1.0f, 0.0f,	0.0f, 1.0f, // Upper left corner
+        0.5f,  0.5f, 0.0f,     0.0f, 0.0f, 1.0f,	1.0f, 1.0f, // Upper right corner
+        0.5f, -0.5f, 0.0f,     1.0f, 1.0f, 1.0f,	1.0f, 0.0f  // Lower right corner
+    };
+
+    // Indices for vertices order
+    vector<GLuint> indices =
+    {
+        0, 2, 1, // Upper triangle
+        0, 3, 2 // Lower triangle
     };
 
     VAO VAO1;
     VAO1.Bind();
-    
-    VBO VBO1(vertices.data(), vertices.size() * sizeof(GLfloat));
+
+    VBO VBO1(vertices.data(), vertices.size() * sizeof(vertices));
+    EBO EBO1(indices.data(), indices.size() * sizeof(indices));
+
     VAO1.linkAttrib(VBO1, 0, 3, GL_FLOAT, 6 * sizeof(float), (void*) 0);
     VAO1.linkAttrib(VBO1, 1, 3, GL_FLOAT, 6 * sizeof(float), (void*) (3 * sizeof(float)));
+    EBO1.Bind();
     VAO1.Unbind();
     VBO1.Unbind();
+    EBO1.Unbind();
+
+
+    int widthImg, heightImg, numColCh;
+    unsigned char* bytes = stbi_load("placeholder.png", &widthImg, &heightImg, &numColCh, 0);
+
+    GLuint texture;
+    glGenTextures(1, &texture);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, widthImg, heightImg, 0, GL_RGBA, GL_UNSIGNED_BYTE, bytes);
+
 
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     while(!glfwWindowShouldClose(window)){
@@ -72,7 +103,7 @@ int main(){
         VAO1.Bind();
         processInput(window);
 
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -81,6 +112,8 @@ int main(){
     
     VAO1.Delete();
     VBO1.Delete();
+    EBO1.Delete();
+    glDeleteTextures(1, &texture);
     shaderProgram.Delete();
     glfwDestroyWindow(window);
     glfwTerminate();
