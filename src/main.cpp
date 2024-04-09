@@ -8,6 +8,7 @@
 #include <Buffer/VAO.h>
 #include <Buffer/EBO.h>
 #include <shader/shader.h>
+#include <Buffer/texture.h>
 using namespace std;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height){
@@ -79,28 +80,14 @@ int main(){
     VBO1.Unbind();
     EBO1.Unbind();
 
-    int widthImg, heightImg, numColCh;
-    unsigned char* bytes = stbi_load("../resources/textures/placeholder.png", &widthImg, &heightImg, &numColCh, 0);
-    stbi_set_flip_vertically_on_load(true);
-    GLuint texture;
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
-    glActiveTexture(GL_TEXTURE0);
+    
+    Texture placeholder("../resources/textures/placeholder.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+    placeholder.texUnit(shaderProgram, "tex", 0);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    // To generate nth texture, repeat the previous process with GL_TEXTURE(N) unit
 
-    if(bytes){
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, widthImg, heightImg, 0, GL_RGBA, GL_UNSIGNED_BYTE, bytes);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    } else {
-        cout << "There was an Error generating textures" << endl;
-    }
-
-    stbi_image_free(bytes);
     glBindTexture(GL_TEXTURE_2D, 0);
 
     GLuint texUni = glGetUniformLocation(shaderProgram.ID, "tex");
@@ -111,7 +98,7 @@ int main(){
     while(!glfwWindowShouldClose(window)){
         glClear(GL_COLOR_BUFFER_BIT);
         shaderProgram.Activate();
-        glBindTexture(GL_TEXTURE_2D, texture);
+        placeholder.Bind();
         VAO1.Bind();
         processInput(window);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -123,7 +110,7 @@ int main(){
     VAO1.Delete();
     VBO1.Delete();
     EBO1.Delete();
-    glDeleteTextures(1, &texture);
+    placeholder.Delete();
     shaderProgram.Delete();
     glfwDestroyWindow(window);
     glfwTerminate();
