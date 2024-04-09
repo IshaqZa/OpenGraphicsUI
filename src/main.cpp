@@ -8,7 +8,6 @@
 #include <Buffer/VAO.h>
 #include <Buffer/EBO.h>
 #include <shader/shader.h>
-#include <stb/FilePath.h>
 using namespace std;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height){
@@ -81,7 +80,7 @@ int main(){
     EBO1.Unbind();
 
     int widthImg, heightImg, numColCh;
-    unsigned char* bytes = stbi_load(FileSystem::getPath("../resources/textures/placeholder.png").c_str(), &widthImg, &heightImg, &numColCh, 0);
+    unsigned char* bytes = stbi_load("../resources/textures/placeholder.png", &widthImg, &heightImg, &numColCh, 0);
     stbi_set_flip_vertically_on_load(true);
     GLuint texture;
     glGenTextures(1, &texture);
