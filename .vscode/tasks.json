@@ -16,7 +16,7 @@
                 "${workspaceFolder}/src/graphics/EBO.cpp",
                 "${workspaceFolder}/src/external/stb_image.cpp",
                 "${workspaceFolder}/libglfw3.a",
-                "-mwindows",
+                
                 "-o",
                 "${workspaceFolder}/build/output.exe",
                 "-lgdi32"

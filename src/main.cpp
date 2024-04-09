@@ -8,6 +8,7 @@
 #include <Buffer/VAO.h>
 #include <Buffer/EBO.h>
 #include <shader/shader.h>
+#include <stb/FilePath.h>
 using namespace std;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height){
@@ -51,18 +52,18 @@ int main(){
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     vector<GLfloat> vertices =
-    { //     COORDINATES     /        COLORS      /   TexCoord  //
-        -0.5f, -0.5f, 0.0f,     1.0f, 0.0f, 0.0f,	0.0f, 0.0f, // Lower left corner
-        -0.5f,  0.5f, 0.0f,     0.0f, 1.0f, 0.0f,	0.0f, 1.0f, // Upper left corner
-        0.5f,  0.5f, 0.0f,     0.0f, 0.0f, 1.0f,	1.0f, 1.0f, // Upper right corner
-        0.5f, -0.5f, 0.0f,     1.0f, 1.0f, 1.0f,	1.0f, 0.0f  // Lower right corner
+    { // positions          // colors           // texture coords
+         0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // top right
+         0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // bottom right
+        -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // bottom left
+        -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  // top left 
     };
 
     // Indices for vertices order
     vector<GLuint> indices =
     {
-        0, 2, 1, // Upper triangle
-        0, 3, 2 // Lower triangle
+        0, 1, 3, // first triangle
+        1, 2, 3  // second triangle
     };
 
     VAO VAO1;
@@ -71,21 +72,21 @@ int main(){
     VBO VBO1(vertices.data(), vertices.size() * sizeof(vertices));
     EBO EBO1(indices.data(), indices.size() * sizeof(indices));
 
-    VAO1.linkAttrib(VBO1, 0, 3, GL_FLOAT, 6 * sizeof(float), (void*) 0);
-    VAO1.linkAttrib(VBO1, 1, 3, GL_FLOAT, 6 * sizeof(float), (void*) (3 * sizeof(float)));
+    VAO1.linkAttrib(VBO1, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*) 0);
+    VAO1.linkAttrib(VBO1, 1, 3, GL_FLOAT, 8 * sizeof(float), (void*) (3 * sizeof(float)));
+    VAO1.linkAttrib(VBO1, 2, 2, GL_FLOAT, 8 * sizeof(float), (void*) (6 * sizeof(float)));
     EBO1.Bind();
     VAO1.Unbind();
     VBO1.Unbind();
     EBO1.Unbind();
 
-
     int widthImg, heightImg, numColCh;
-    unsigned char* bytes = stbi_load("placeholder.png", &widthImg, &heightImg, &numColCh, 0);
-
+    unsigned char* bytes = stbi_load(FileSystem::getPath("../resources/textures/placeholder.png").c_str(), &widthImg, &heightImg, &numColCh, 0);
+    stbi_set_flip_vertically_on_load(true);
     GLuint texture;
     glGenTextures(1, &texture);
-    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture);
+    glActiveTexture(GL_TEXTURE0);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -93,18 +94,28 @@ int main(){
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, widthImg, heightImg, 0, GL_RGBA, GL_UNSIGNED_BYTE, bytes);
+    if(bytes){
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, widthImg, heightImg, 0, GL_RGBA, GL_UNSIGNED_BYTE, bytes);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    } else {
+        cout << "There was an Error generating textures" << endl;
+    }
 
+    stbi_image_free(bytes);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    GLuint texUni = glGetUniformLocation(shaderProgram.ID, "tex");
+    shaderProgram.Activate();
+    glUniform1i(texUni, 0);
 
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     while(!glfwWindowShouldClose(window)){
         glClear(GL_COLOR_BUFFER_BIT);
         shaderProgram.Activate();
+        glBindTexture(GL_TEXTURE_2D, texture);
         VAO1.Bind();
         processInput(window);
-
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
         glfwSwapBuffers(window);
         glfwPollEvents();
         
