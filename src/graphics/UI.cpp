@@ -5,12 +5,10 @@ button::button(GLuint globalIndex, char* text, GLfloat xCoor, GLfloat yCoor, GLf
 
 void button::setText(char* text){ this->text = text; };
 
-template<typename value, typename arg> value onClick(value (*action)(arg param, auto params...), ...){ 
+template<typename Value, typename... Args> void button::onClick(Value (*action)(Args...), Args... params){ 
 
-    va_list args;
-    va_start(args, auto);
-
-    return action();
+    this->action->func= action;
+    this->action->params = std::make_tuple(params...);
 
 }
 
