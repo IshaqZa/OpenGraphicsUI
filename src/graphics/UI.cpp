@@ -11,3 +11,9 @@ void button<returnValue, Args...>::onClick(returnValue (*action)(Args...)){
     onClickAction = action;
 }
 
+template<typename returnValue, typename... Args>
+returnValue button<returnValue, Args...>::invoke(Args...){
+
+    return onClickAction(Args...)
+
+}

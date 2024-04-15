@@ -32,6 +32,7 @@ class button {
         void setSize(GLfloat xCoor, GLfloat yCoor);
         void setColor(GLfloat rColor, GLfloat gColor, GLfloat bColor, GLfloat alpha);
         void setTexture(GLfloat xCoor, GLfloat yCoor, unsigned char* bytes);
+        returnValue invoke(Args...);
         void render();
 };
 
