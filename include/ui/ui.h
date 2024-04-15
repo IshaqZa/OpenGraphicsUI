@@ -2,10 +2,10 @@
 #define UI_CLASS_H
 
 #include <glad/glad.h>
-#include <string>
+#include "string"
 #include <vector>
 #include <cstdarg>
-#include <tuple>
+#include <functional>
 enum Texutre_Type {
 
     RGBA_TYPE = 0,
@@ -13,35 +13,21 @@ enum Texutre_Type {
 
 };
 
+template<typename returnValue, typename... Args>
 class button {
 
     private:
-
         GLuint index;
-        char* text;
+        std::string text;
         GLfloat xCoor, yCoor;
         GLfloat width, height;
         GLfloat rColor, gColor, bColor, alpha;
-        
-        template <typename... Arg>
-        struct Action {
-            template<typename Value>
-            using FuncPtr = Value (*)(Arg...);
-
-            template<typename Value>
-            void setFunc(FuncPtr<Value> ptr) {
-                func<Value> = ptr;
-            }
-            std::tuple<Arg...> params;
-        };
-        Action<> action;
-
+        std::function<returnValue(Args...)> onClickAction;
 
     public:
         button(GLuint globalIndex, char* text, GLfloat xCoor, GLfloat yCoor, GLfloat width, GLfloat height);
-        void setText(char* text);
-        template<typename Value, typename... Args> void onClick(Value (*action)(Args...), Args... params);
-        void setText(char* text);
+        void setText(std::string text);
+        void onClick(returnValue (*action)(Args...));
         void setPos(GLfloat xCoor, GLfloat yCoor);
         void setSize(GLfloat xCoor, GLfloat yCoor);
         void setColor(GLfloat rColor, GLfloat gColor, GLfloat bColor, GLfloat alpha);
