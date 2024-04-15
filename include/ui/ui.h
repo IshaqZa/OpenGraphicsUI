@@ -6,12 +6,10 @@
 #include <vector>
 #include <cstdarg>
 #include <functional>
-enum Texutre_Type {
+#include <glad/glad.h>
 
-    RGBA_TYPE = 0,
-    IMAGE_TYPE = 1,
-
-};
+#define RGBA_TYPE 0
+#define IMAGE_TYPE 1
 
 template<typename returnValue, typename... Args>
 class button {
@@ -19,21 +17,24 @@ class button {
     private:
         GLuint index;
         std::string text;
+        Texture_Type renderType = RGBA_TYPE;
         GLfloat xCoor, yCoor;
         GLfloat width, height;
         GLfloat rColor, gColor, bColor, alpha;
+        unsigned char* image;
         std::function<returnValue(Args...)> onClickAction;
 
     public:
-        button(GLuint globalIndex, char* text, GLfloat xCoor, GLfloat yCoor, GLfloat width, GLfloat height);
+        button(std::vector<GLfloat> vertices ,GLuint globalIndex, char* text, GLfloat xCoor, GLfloat yCoor, GLfloat width, GLfloat height);
         void setText(std::string text);
         void onClick(returnValue (*action)(Args...));
         void setPos(GLfloat xCoor, GLfloat yCoor);
         void setSize(GLfloat xCoor, GLfloat yCoor);
         void setColor(GLfloat rColor, GLfloat gColor, GLfloat bColor, GLfloat alpha);
-        void setTexture(GLfloat xCoor, GLfloat yCoor, unsigned char* bytes);
-        returnValue invoke(Args...);
+        void setRenderType(int type);
+        void setTexture(unsigned char* bytes);
         void render();
+        returnValue invoke(Args...);
 };
 
 #endif //UI_CLASS_H
