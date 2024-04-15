@@ -33,7 +33,7 @@ class button {
         void setColor(GLfloat rColor, GLfloat gColor, GLfloat bColor, GLfloat alpha);
         void setRenderType(int type);
         void setTexture(unsigned char* bytes);
-        void render();
+        void draw();
         returnValue invoke(Args...);
 };
 

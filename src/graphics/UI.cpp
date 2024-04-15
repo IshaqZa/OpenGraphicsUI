@@ -3,8 +3,10 @@ template<typename returnValue, typename... Args>
 button<returnValue, Args...>::button(std::vector<GLfloat> vertices ,GLuint globalIndex, char* text, GLfloat xCoor, GLfloat yCoor, GLfloat width, GLfloat height):
     index(globalIndex),  text(text), xCoor(xCoor), yCoor(yCoor), width(width), height(height){
 
-        vertices.insert(vector<GLfloat>(xCoor, yCoor, 0, rColor, gColor, bColor, 0, 0));
-
+        vertices.insert(vector<GLfloat>(xCoor, yCoor, 0, rColor, gColor, bColor, 0, 1)); // top left
+        vertices.insert(vector<GLfloat>(xCoor + width, yCoor, 0, rColor, gColor, bColor, 1, 1)); // top right
+        vertices.insert(vector<GLfloat>(xCoor + width, yCoor + height, 0, rColor, gColor, bColor, 1, 0)); // bottom right
+        vertices.insert(vector<GLfloat>(xCoor, yCoor + height, 0, rColor, gColor, bColor, 0, 0)); // bottom left
     };
 
 template<typename returnValue, typename... Args>
@@ -49,12 +51,9 @@ void button<returnValue, Args...>::setTexture(unsigned char* bytes){
 }
 
 template<typename returnValue, typename... Args>
-void button<returnValue, Args...>::render(){
+void button<returnValue, Args...>::draw(){
     
-    if(renderType == RGBA_TYPE) {
-
-
-
-    }
+    glDrawArrays(GL_TRIANGLES, index, index + 3);
+    glDrawArrays(GL_TRIANGLES, index + 1, index + 4);
 
 }
