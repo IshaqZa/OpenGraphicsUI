@@ -9,6 +9,8 @@
 #include <Buffer/EBO.h>
 #include <shader/shader.h>
 #include <Buffer/texture.h>
+#include <ui/ui.h>
+
 using namespace std;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height){
@@ -51,21 +53,12 @@ int main(){
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-    vector<GLfloat> vertices =
-    { // positions          // colors           // texture coords
-         0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // top right
-         0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // bottom right
-        -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // bottom left
-        -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  // top left 
-    };
+    vector<GLfloat> vertices;
 
-    // Indices for vertices order
-    vector<GLuint> indices =
-    {
-        0, 1, 3, // first triangle
-        1, 2, 3  // second triangle
-    };
+    vector<GLuint> indices;
 
+    button myButton = button<void>(vertices, indices, 0, "First Button", -0.5f, 0.5f, 1.0f, 1.0f);
+    myButton.setColor(1.0f, 0.0f, 0.0f, 1.0f);
     VAO VAO1;
     VAO1.Bind();
 
@@ -84,24 +77,28 @@ int main(){
     Texture placeholder("../resources/textures/placeholder.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
     placeholder.texUnit(shaderProgram, "tex", 0);
 
-    
+    Texture testButton("../resources/textures/nodraw.jpg", GL_TEXTURE_2D, GL_TEXTURE1, GL_RGB, GL_UNSIGNED_BYTE);
+    testButton.texUnit(shaderProgram, "tex", 1);
 
     // To generate nth texture, repeat the previous process with GL_TEXTURE(N) unit
 
-    glBindTexture(GL_TEXTURE_2D, 0);
+    glBindTexture(GL_TEXTURE_2D, 1);
 
     GLuint texUni = glGetUniformLocation(shaderProgram.ID, "tex");
     shaderProgram.Activate();
     glUniform1i(texUni, 0);
+    glUniform1i(texUni, 1);
+
 
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     while(!glfwWindowShouldClose(window)){
         glClear(GL_COLOR_BUFFER_BIT);
         shaderProgram.Activate();
-        placeholder.Bind();
+        testButton.Bind();
         VAO1.Bind();
         processInput(window);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        myButton.draw();
+        // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         glfwSwapBuffers(window);
         glfwPollEvents();
         
