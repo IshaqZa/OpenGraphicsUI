@@ -62,8 +62,8 @@ int main(){
 
     vector<GLuint> indices;
 
-    button myButton = button<void, int, int>(vertices, indices, 0, "First Button", -0.5f, 0.5f, 1.0f, 1.0f);
-    myButton.setColor(1.0f, 0.0f, 1.0f, 1.0f);
+    button play = button<void, int, int>(vertices, indices, 0, "First Button", -0.5f, 0.5f, 1.0f, 1.0f);
+    play.setColor(1.0f, 0.0f, 1.0f, 1.0f);
     VAO VAO1;
     VAO1.Bind();
 
@@ -82,8 +82,8 @@ int main(){
     Texture placeholder("../resources/textures/placeholder.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
     placeholder.texUnit(shaderProgram, "tex", 0);
 
-    Texture testButton("../resources/textures/nodraw.jpg", GL_TEXTURE_2D, GL_TEXTURE1, GL_RGB, GL_UNSIGNED_BYTE);
-    testButton.texUnit(shaderProgram, "tex", 1);
+    Texture playButton("../resources/textures/play-button.png", GL_TEXTURE_2D, GL_TEXTURE1, GL_RGBA, GL_UNSIGNED_BYTE);
+    playButton.texUnit(shaderProgram, "tex", 1);
     // To generate nth texture, repeat the previous process with GL_TEXTURE(N) unit
 
     // this part is for testing purposes
@@ -95,19 +95,18 @@ int main(){
     GLuint texUni = glGetUniformLocation(shaderProgram.ID, "tex");
     GLuint isTex = glGetUniformLocation(shaderProgram.ID, "isTex");
     shaderProgram.Activate();
-    myButton.setRenderType(RGBA_TYPE, isTex);
+    play.setRenderType(IMAGE_TYPE, isTex);
     glUniform1i(texUni, 0);
     glUniform1i(texUni, 1);
-
 
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     while(!glfwWindowShouldClose(window)){
         glClear(GL_COLOR_BUFFER_BIT);
         shaderProgram.Activate();
-        testButton.Bind();
+        playButton.Bind();
         VAO1.Bind();
         processInput(window);
-        myButton.draw();
+        play.draw();
         // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         glfwSwapBuffers(window);
         glfwPollEvents();
