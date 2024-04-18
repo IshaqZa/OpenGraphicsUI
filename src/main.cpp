@@ -63,7 +63,7 @@ int main(){
     vector<GLuint> indices;
 
     button myButton = button<void, int, int>(vertices, indices, 0, "First Button", -0.5f, 0.5f, 1.0f, 1.0f);
-    myButton.setColor(1.0f, 0.0f, 0.0f, 1.0f);
+    myButton.setColor(1.0f, 0.0f, 1.0f, 1.0f);
     VAO VAO1;
     VAO1.Bind();
 
@@ -93,7 +93,9 @@ int main(){
     glBindTexture(GL_TEXTURE_2D, 1);
 
     GLuint texUni = glGetUniformLocation(shaderProgram.ID, "tex");
+    GLuint isTex = glGetUniformLocation(shaderProgram.ID, "isTex");
     shaderProgram.Activate();
+    myButton.setRenderType(RGBA_TYPE, isTex);
     glUniform1i(texUni, 0);
     glUniform1i(texUni, 1);
 

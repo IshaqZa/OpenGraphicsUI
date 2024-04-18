@@ -23,29 +23,29 @@ class button {
         std::function<returnValue(Args...)> onClickAction;
 
     public:
-        button(std::vector<GLfloat> &vertices, std::vector<GLuint> &index,GLuint globalIndex, std::string text, GLfloat xCoor, GLfloat yCoor, GLfloat width, GLfloat height):
+        button(std::vector<GLfloat> &vertices, std::vector<GLuint> &indices,GLuint globalIndex, std::string text, GLfloat xCoor, GLfloat yCoor, GLfloat width, GLfloat height):
             index(globalIndex),  text(text), xCoor(xCoor), yCoor(yCoor), width(width), height(height){
 
             vertices.insert(vertices.end(), {
 
                 // top left
-                xCoor, yCoor, 0.0f, rColor, gColor, bColor, 0.0f, 1.0f,
+                xCoor, yCoor, 0.0f, rColor, gColor, bColor, alpha, 0.0f, 1.0f,
                 
                 // top right
-                xCoor + width, yCoor, 0.0f, rColor, gColor, bColor, 1.0f, 1.0f,
+                xCoor + width, yCoor, 0.0f, rColor, gColor, bColor, alpha, 1.0f, 1.0f,
                 
                 // bottom right
-                xCoor + width, yCoor - height, 0.0f, rColor, gColor, bColor, 1.0f, 0.0f,
+                xCoor + width, yCoor - height, 0.0f, rColor, gColor, bColor, alpha, 1.0f, 0.0f,
                 
                 // bottom left
-                xCoor, yCoor - height, 0.0f, rColor, gColor, bColor, 0.0f, 0.0f
+                xCoor, yCoor - height, 0.0f, rColor, gColor, bColor, alpha, 0.0f, 0.0f
 
             });
 
-            index.insert(index.end(), {
+            indices.insert(indices.end(), {
 
-                0, 1, 3,
-                1, 2, 3
+                index + 0, + index + 1, index + 3,
+                index + 1, index + 2, index + 3
 
             });
         };
@@ -65,7 +65,9 @@ class button {
             this->bColor = bColor;
             this->alpha = alpha;
         }
-        void setRenderType(int type){ this->renderType = type; }
+        void setRenderType(int value ,GLuint location){
+            glUniform1i(location, value);
+        }
         void draw(){
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         }
