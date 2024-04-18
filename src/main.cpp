@@ -25,6 +25,11 @@ void processInput(GLFWwindow *window)
         glfwSetWindowShouldClose(window, true);
 }
 
+// this function is purely for testing purposes
+// void print(int a, int b){
+//     cout << a + b << endl;
+// }
+
 int main(){
 
     glfwInit();
@@ -57,7 +62,7 @@ int main(){
 
     vector<GLuint> indices;
 
-    button myButton = button<void>(vertices, indices, 0, "First Button", -0.5f, 0.5f, 1.0f, 1.0f);
+    button myButton = button<void, int, int>(vertices, indices, 0, "First Button", -0.5f, 0.5f, 1.0f, 1.0f);
     myButton.setColor(1.0f, 0.0f, 0.0f, 1.0f);
     VAO VAO1;
     VAO1.Bind();
@@ -65,9 +70,9 @@ int main(){
     VBO VBO1(vertices.data(), vertices.size() * sizeof(vertices));
     EBO EBO1(indices.data(), indices.size() * sizeof(indices));
 
-    VAO1.linkAttrib(VBO1, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*) 0);
-    VAO1.linkAttrib(VBO1, 1, 3, GL_FLOAT, 8 * sizeof(float), (void*) (3 * sizeof(float)));
-    VAO1.linkAttrib(VBO1, 2, 2, GL_FLOAT, 8 * sizeof(float), (void*) (6 * sizeof(float)));
+    VAO1.linkAttrib(VBO1, 0, 3, GL_FLOAT, 9 * sizeof(float), (void*) 0); // location
+    VAO1.linkAttrib(VBO1, 1, 4, GL_FLOAT, 9 * sizeof(float), (void*) (4 * sizeof(float))); // color
+    VAO1.linkAttrib(VBO1, 2, 2, GL_FLOAT, 9 * sizeof(float), (void*) (7 * sizeof(float))); // texture
     EBO1.Bind();
     VAO1.Unbind();
     VBO1.Unbind();
@@ -79,8 +84,11 @@ int main(){
 
     Texture testButton("../resources/textures/nodraw.jpg", GL_TEXTURE_2D, GL_TEXTURE1, GL_RGB, GL_UNSIGNED_BYTE);
     testButton.texUnit(shaderProgram, "tex", 1);
-
     // To generate nth texture, repeat the previous process with GL_TEXTURE(N) unit
+
+    // this part is for testing purposes
+    // myButton.onClick(print);
+    // myButton.invoke(3, 4);
 
     glBindTexture(GL_TEXTURE_2D, 1);
 
