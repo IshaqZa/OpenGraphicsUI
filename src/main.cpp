@@ -54,7 +54,11 @@ int main(){
 
     glViewport(0, 0, 1920, 1080);
 
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     Shader shaderProgram("../resources/Shaders/default.vert", "../resources/Shaders/default.frag");
+
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
