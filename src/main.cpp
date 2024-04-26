@@ -54,8 +54,8 @@ int main(){
 
     glViewport(0, 0, 1920, 1080);
 
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    // glEnable(GL_BLEND);
+    // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     Shader shaderProgram("../resources/Shaders/default.vert", "../resources/Shaders/default.frag");
 
@@ -67,7 +67,6 @@ int main(){
     vector<GLuint> indices;
 
     button play = button<void, int, int>(vertices, indices, 0, "First Button", -0.5f, 0.5f, 1.0f, 1.0f);
-    play.setColor(1.0f, 0.0f, 1.0f, 1.0f);
     VAO VAO1;
     VAO1.Bind();
 
@@ -82,36 +81,30 @@ int main(){
     VBO1.Unbind();
     EBO1.Unbind();
 
-    
-    Texture placeholder("../resources/textures/placeholder.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
-    placeholder.texUnit(shaderProgram, "tex", 0);
-
-    Texture playButton("../resources/textures/play-button.png", GL_TEXTURE_2D, GL_TEXTURE1, GL_RGBA, GL_UNSIGNED_BYTE);
-    playButton.texUnit(shaderProgram, "tex", 1);
-    // To generate nth texture, repeat the previous process with GL_TEXTURE(N) unit
-
     // this part is for testing purposes
     // myButton.onClick(print);
     // myButton.invoke(3, 4);
 
-    glBindTexture(GL_TEXTURE_2D, 1);
+    Texture tex("../resources/textures/play-button.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 
-    GLuint texUni = glGetUniformLocation(shaderProgram.ID, "tex");
-    GLuint isTex = glGetUniformLocation(shaderProgram.ID, "isTex");
     shaderProgram.Activate();
-    play.setRenderType(IMAGE_TYPE, isTex);
-    glUniform1i(texUni, 0);
-    glUniform1i(texUni, 1);
+    GLuint isTex = glGetUniformLocation(shaderProgram.ID, "isTex");
 
+    play.setRenderType(RGBA_TYPE, isTex);
+    // play.setColor(1.0f, 0.0f, 0.0f, 1.0f);
+    // play.setColor(1.0f, 1.0f, 0.0f, 1.0f);
+    play.setColor(0.76f, 0.13f, 0.53f, 1.0f);
+    play.updateColor(vertices, 3);
+    play.setTexture(tex, shaderProgram, "tex", 0);
+    play.printData(vertices);
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     while(!glfwWindowShouldClose(window)){
         glClear(GL_COLOR_BUFFER_BIT);
         shaderProgram.Activate();
-        playButton.Bind();
+        // playButton.Bind();
         VAO1.Bind();
         processInput(window);
         play.draw();
-        // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         glfwSwapBuffers(window);
         glfwPollEvents();
         
@@ -120,7 +113,7 @@ int main(){
     VAO1.Delete();
     VBO1.Delete();
     EBO1.Delete();
-    placeholder.Delete();
+    // placeholder.Delete();
     shaderProgram.Delete();
     glfwDestroyWindow(window);
     glfwTerminate();

@@ -6,6 +6,7 @@
 #include <vector>
 #include <functional>
 #include <glad/glad.h>
+#include <Buffer/texture.h>
 
 #define RGBA_TYPE 0
 #define IMAGE_TYPE 1
@@ -18,8 +19,8 @@ class MenuElement {
         int renderType = RGBA_TYPE;
         GLfloat xCoor, yCoor;
         GLfloat width, height;
-        GLfloat rColor, gColor, bColor, alpha;
-
+        GLfloat rColor = 0.0f, gColor = 0.0f, bColor = 0.0f, alpha=1.0f;
+        Texture menuTexture = Texture("../resources/textures/placeholder.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
     public:
 
         MenuElement(std::vector<GLfloat> &vertices, std::vector<GLuint> &indices,GLuint globalIndex, std::string text, GLfloat xCoor, GLfloat yCoor, GLfloat width, GLfloat height):
@@ -41,9 +42,33 @@ class MenuElement {
             this->alpha = alpha;
         }
 
-        void setRenderType(int value ,GLuint location){ glUniform1i(location, value); }
+        void updateColor(std::vector<GLfloat> &vertices, int colorOffSet){
+            for(int i = 0; i < 4; i++){
+                vertices[index + i * 9 + colorOffSet] = rColor;
+                vertices[index + i * 9 + colorOffSet + 1] = gColor;
+                vertices[index + i * 9 + colorOffSet + 2] = bColor;
+                vertices[index + i * 9 + colorOffSet + 3] = alpha;
+            }
+        }
+
+        void setRenderType(int renderType, GLuint texBool){
+            this->renderType = renderType;
+            glUniform1i(texBool, renderType);
+        }
+
+        //this function has been made for debugging purposes
+        void printData(std::vector<GLfloat> vertices){
+            
+            for(int i = index; i < index + 9 * 4; i++){
+                std::cout << vertices[i] << ",\t";
+                if(i != 0 && (i+1)%9 == 0) std::cout << std::endl;
+            }
+
+        }
+
         void setText(std::string text){ this->text = text; }
         virtual void draw() = 0;
+        virtual void setTexture(Texture texture, Shader& shader, const char* uniform, GLuint unit) = 0;
 
 };
 
@@ -80,12 +105,21 @@ class button : public MenuElement{
 
             });
         };
-        
+
         void onClick(returnValue (*action)(Args...)){ onClickAction = action; }
         
+        void setTexture(Texture texture, Shader& shader, const char* texLocation, GLuint unit) override{
+            menuTexture = texture;
+            menuTexture.texUnit(shader, texLocation, unit);
+            
+
+        }
+
         void draw() override{
+            menuTexture.Bind();
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         }
+
         returnValue invoke(Args... args){ return onClickAction(args...); }
 };
 
