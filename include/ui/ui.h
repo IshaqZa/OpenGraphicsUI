@@ -7,6 +7,7 @@
 #include <functional>
 #include <glad/glad.h>
 #include <Buffer/texture.h>
+#include <Buffer/EBO.h>
 
 #define RGBA_TYPE 0
 #define IMAGE_TYPE 1
@@ -20,10 +21,12 @@ class MenuElement {
         GLfloat xCoor, yCoor;
         GLfloat width, height;
         GLfloat rColor = 0.0f, gColor = 0.0f, bColor = 0.0f, alpha=1.0f;
+        std::vector<GLuint> indices;
+        EBO *ebo;
         Texture menuTexture = Texture("../resources/textures/placeholder.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
     public:
 
-        MenuElement(std::vector<GLfloat> &vertices, std::vector<GLuint> &indices,GLuint globalIndex, std::string text, GLfloat xCoor, GLfloat yCoor, GLfloat width, GLfloat height):
+        MenuElement(std::vector<GLfloat> &vertices, GLuint globalIndex, std::string text, GLfloat xCoor, GLfloat yCoor, GLfloat width, GLfloat height):
             index(globalIndex),  text(text), xCoor(xCoor), yCoor(yCoor), width(width), height(height){};
 
         void setPos(GLfloat xCoor, GLfloat yCoor){
@@ -55,6 +58,12 @@ class MenuElement {
             this->renderType = renderType;
             glUniform1i(texBool, renderType);
         }
+        
+        virtual void dummyFun(){
+
+            std::cout << "Debugg" << std::endl;
+
+        }
 
         //this function has been made for debugging purposes
         void printData(std::vector<GLfloat> vertices){
@@ -67,20 +76,20 @@ class MenuElement {
         }
 
         void setText(std::string text){ this->text = text; }
-        virtual void draw() = 0;
-        virtual void setTexture(Texture texture, Shader& shader, const char* uniform, GLuint unit) = 0;
-
+        virtual void draw() { std::cout << "parent draw" << std::endl; };
+        virtual void setTexture(Texture texture, Shader& shader, const char* uniform, GLuint unit) {};
+        virtual void createEBO(){}
 };
 
 template<typename returnValue, typename... Args>
-class button : public MenuElement{
+class Button : public MenuElement{
 
     private:
         std::function<returnValue(Args...)> onClickAction;
 
     public:
-        button(std::vector<GLfloat> &vertices, std::vector<GLuint> &indices,GLuint globalIndex, std::string text, GLfloat xCoor, GLfloat yCoor, GLfloat width, GLfloat height):
-            MenuElement(vertices, indices, globalIndex, text, xCoor, yCoor, width, height){
+        Button(std::vector<GLfloat> &vertices, GLuint globalIndex, std::string text, GLfloat xCoor, GLfloat yCoor, GLfloat width, GLfloat height):
+            MenuElement(vertices, globalIndex, text, xCoor, yCoor, width, height){
 
             vertices.insert(vertices.end(), {
 
@@ -104,21 +113,43 @@ class button : public MenuElement{
                 index + 1, index + 2, index + 3
 
             });
+
+            std::cout << "Creating EBO" << std::endl;
+            *ebo = EBO(indices.data(), indices.size() * sizeof(indices));
         };
 
         void onClick(returnValue (*action)(Args...)){ onClickAction = action; }
         
+        // void createEBO() override{
+        //     *ebo = EBO(indices.data(), indices.size() * sizeof(indices));
+        // }
+
         void setTexture(Texture texture, Shader& shader, const char* texLocation, GLuint unit) override{
             menuTexture = texture;
             menuTexture.texUnit(shader, texLocation, unit);
-            
-
         }
 
         void draw() override{
             menuTexture.Bind();
-            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            ebo->Bind();
+
+            GLenum error = glGetError();
+            if(error != GL_NO_ERROR){
+
+                std::cerr << "OpenGL error: " << error << std::endl;
+
+            }
+            else {
+                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+                std::cout << "Child draw" << std::endl;
+            }
         }
+
+        // void dummyFun() override{
+
+        //     std::cout << "Child debug" << std::endl;
+
+        // }
 
         returnValue invoke(Args... args){ return onClickAction(args...); }
 };
