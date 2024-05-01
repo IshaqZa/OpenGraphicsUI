@@ -23,7 +23,7 @@ class Scene2D {
         void createVBO(std::vector<GLfloat> &vertices);
         void createVAO(int posSize, int colorSize, int texSize, GLenum type);
         void addElement(MenuElement* element);
-        void render();
+        void render(GLuint texBool);
 
 };
 

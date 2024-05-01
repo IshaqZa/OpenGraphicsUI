@@ -37,9 +37,10 @@ void Scene2D::activate(){
     vbo->Bind();
 }
 
-void Scene2D::render(){
+//TODO: one element is being drawn, fix that
+void Scene2D::render(GLuint texBool){
     vao->Bind();
     for(MenuElement* x : elementArray){
-        x->draw();
+        x->draw(texBool);
     }
 }

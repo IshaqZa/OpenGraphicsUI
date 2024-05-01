@@ -58,6 +58,8 @@ int main(){
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+    GLuint globalIndex = 0;
+
     Shader shaderProgram("../resources/Shaders/default.vert", "../resources/Shaders/default.frag");
 
 
@@ -67,7 +69,7 @@ int main(){
 
     vector<GLuint> indices;
 
-    Button play = Button<void, int, int>(vertices, 0, "First Button", -0.5f, 0.5f, 1.0f, 1.0f);
+    Button play = Button<void, int, int>(vertices, &globalIndex, "First Button", -0.9f, 0.1f, 0.4f, 0.3f);
     
     Scene2D testScene(shaderProgram);
 
@@ -79,14 +81,23 @@ int main(){
 
     shaderProgram.Activate();
     GLuint isTex = glGetUniformLocation(shaderProgram.ID, "isTex");
-    play.setRenderType(IMAGE_TYPE, isTex);
+    play.setRenderType(IMAGE_TYPE);
     play.setColor(0.76f, 0.13f, 0.53f, 1.0f);
     play.updateColor(vertices, 3);
     play.setTexture(tex, shaderProgram, "tex", 0);
     play.printData(vertices);
 
-    testScene.addElement(&play);
+    Button exit = Button<void>(vertices, &globalIndex, "Second Button", 0.0f, -0.4f, 0.4f, 0.3f);
     
+    exit.setTexture(tex, shaderProgram, "tex", 0);
+    exit.setRenderType(RGBA_TYPE);
+    exit.setColor(0.76f, 0.13f, 0.53f, 1.0f);
+    exit.updateColor(vertices, 3);
+    exit.printData(vertices);
+
+    testScene.addElement(&play);
+    testScene.addElement(&exit);
+
     try{
         testScene.activate();
     }catch(std::exception& e){
@@ -100,17 +111,13 @@ int main(){
         
         processInput(window);
 
-        testScene.render();
+        testScene.render(isTex);
         
         glfwSwapBuffers(window);
         glfwPollEvents();
         
     }
     
-    // VAO1.Delete();
-    // VBO1.Delete();
-    // EBO1.Delete();
-    // placeholder.Delete();
     shaderProgram.Delete();
     glfwDestroyWindow(window);
     glfwTerminate();
