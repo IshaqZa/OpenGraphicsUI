@@ -58,12 +58,6 @@ class MenuElement {
             this->renderType = renderType;
             glUniform1i(texBool, renderType);
         }
-        
-        virtual void dummyFun(){
-
-            std::cout << "Debugg" << std::endl;
-
-        }
 
         //this function has been made for debugging purposes
         void printData(std::vector<GLfloat> vertices){
@@ -115,7 +109,7 @@ class Button : public MenuElement{
             });
 
             std::cout << "Creating EBO" << std::endl;
-            *ebo = EBO(indices.data(), indices.size() * sizeof(indices));
+            ebo = new EBO(indices.data(), indices.size() * sizeof(indices));
         };
 
         void onClick(returnValue (*action)(Args...)){ onClickAction = action; }
@@ -131,8 +125,11 @@ class Button : public MenuElement{
 
         void draw() override{
             menuTexture.Bind();
-            ebo->Bind();
-
+            try{
+                ebo->Bind();
+            } catch(std::exception& e){
+                std::cerr << "Error: " << e.what() << std::endl;
+            }
             GLenum error = glGetError();
             if(error != GL_NO_ERROR){
 
@@ -141,7 +138,6 @@ class Button : public MenuElement{
             }
             else {
                 glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-                std::cout << "Child draw" << std::endl;
             }
         }
 

@@ -68,57 +68,48 @@ int main(){
     vector<GLuint> indices;
 
     Button play = Button<void, int, int>(vertices, 0, "First Button", -0.5f, 0.5f, 1.0f, 1.0f);
-    VAO VAO1;
-    VAO1.Bind();
+    
+    Scene2D testScene(shaderProgram);
 
-    VBO VBO1(vertices.data(), vertices.size() * sizeof(vertices));
-    EBO EBO1(indices.data(), indices.size() * sizeof(indices));
-
-    VAO1.linkAttrib(VBO1, 0, 3, GL_FLOAT, 9 * sizeof(float), (void*) 0); // location
-    VAO1.linkAttrib(VBO1, 1, 4, GL_FLOAT, 9 * sizeof(float), (void*) (3 * sizeof(float))); // color
-    VAO1.linkAttrib(VBO1, 2, 2, GL_FLOAT, 9 * sizeof(float), (void*) (6 * sizeof(float))); // texture
-    EBO1.Bind();
-    VAO1.Unbind();
-    VBO1.Unbind();
-    EBO1.Unbind();
+    testScene.createVBO(vertices);
+    testScene.createVAO(3, 4, 2, GL_FLOAT);
+    testScene.activate();
 
     Texture tex("../resources/textures/play-button.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 
     shaderProgram.Activate();
     GLuint isTex = glGetUniformLocation(shaderProgram.ID, "isTex");
-
     play.setRenderType(IMAGE_TYPE, isTex);
     play.setColor(0.76f, 0.13f, 0.53f, 1.0f);
     play.updateColor(vertices, 3);
     play.setTexture(tex, shaderProgram, "tex", 0);
     play.printData(vertices);
 
-    Scene2D testScene(shaderProgram);
-    testScene.linkVBO(&VBO1);
-    testScene.linkVAO(&VAO1);
-
     testScene.addElement(&play);
     
-    testScene.activate();
-
+    try{
+        testScene.activate();
+    }catch(std::exception& e){
+        std::cerr << "Error: " << e.what() << endl;
+    }
 
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     while(!glfwWindowShouldClose(window)){
         glClear(GL_COLOR_BUFFER_BIT);
         shaderProgram.Activate();
-        // VAO1.Bind();
+        
         processInput(window);
-        // play.draw();
+
         testScene.render();
-        // std::cin.get();
+        
         glfwSwapBuffers(window);
         glfwPollEvents();
         
     }
     
-    VAO1.Delete();
-    VBO1.Delete();
-    EBO1.Delete();
+    // VAO1.Delete();
+    // VBO1.Delete();
+    // EBO1.Delete();
     // placeholder.Delete();
     shaderProgram.Delete();
     glfwDestroyWindow(window);
