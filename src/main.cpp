@@ -55,19 +55,14 @@ int main(){
 
     glViewport(0, 0, 1920, 1080);
 
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    // glEnable(GL_BLEND);
+    // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     GLuint globalIndex = 0;
 
     Shader shaderProgram("../resources/Shaders/default.vert", "../resources/Shaders/default.frag");
 
-
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-
-    
-
-    
     
     Scene2D testScene(shaderProgram);
     vector<GLfloat> *vertices = testScene.getVertices();
@@ -84,7 +79,7 @@ int main(){
 
     Button exit = Button<void>(*vertices, &globalIndex, "Second Button", -0.9f, -0.4f, 0.4f, 0.3f);
     
-    exit.setTexture(exit_button, shaderProgram, "tex1", 0);
+    exit.setTexture(exit_button, shaderProgram, "tex1", 1);
     exit.setRenderType(IMAGE_TYPE);
     exit.printData(*vertices);
 
@@ -95,8 +90,6 @@ int main(){
     testScene.createVAO(3, 4, 2, GL_FLOAT);
     testScene.activate();
     
-    
-
     try{
         testScene.activate();
     }catch(std::exception& e){
@@ -115,7 +108,7 @@ int main(){
         glfwPollEvents();
         
     }
-    
+    testScene.deleteResources();
     shaderProgram.Delete();
     glfwDestroyWindow(window);
     glfwTerminate();

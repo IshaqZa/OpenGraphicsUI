@@ -26,6 +26,7 @@ class Scene2D {
         void createVAO(int posSize, int colorSize, int texSize, GLenum type);
         void addElement(MenuElement* element);
         void render(GLuint texBool);
+        void deleteResources();
 
 };
 

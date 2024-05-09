@@ -45,7 +45,16 @@ void Scene2D::render(GLuint texBool){
 }
 
 std::vector<GLfloat>* Scene2D::getVertices(){
-
     return &vertices;
+}
 
+void Scene2D::deleteResources(){
+    if(vao != nullptr){
+        vao->Delete();
+        delete vao;
+    }
+    if(vbo != nullptr){
+        vbo->Delete();
+        delete vbo;
+    }
 }
