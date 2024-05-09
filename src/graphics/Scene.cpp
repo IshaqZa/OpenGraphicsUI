@@ -26,7 +26,7 @@ void Scene2D::createVAO(int posSize, int colorSize, int texSize, GLenum type){
     vao->Unbind();
 }
 
-void Scene2D::createVBO(std::vector<GLfloat> &vertices){
+void Scene2D::createVBO(){
     vbo = new VBO(vertices.data(), vertices.size() * sizeof(vertices));
 }
 
@@ -37,10 +37,15 @@ void Scene2D::activate(){
     vbo->Bind();
 }
 
-//TODO: one element is being drawn, fix that
 void Scene2D::render(GLuint texBool){
     vao->Bind();
     for(MenuElement* x : elementArray){
         x->draw(texBool);
     }
+}
+
+std::vector<GLfloat>* Scene2D::getVertices(){
+
+    return &vertices;
+
 }

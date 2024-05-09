@@ -13,6 +13,7 @@ class Scene2D {
         VBO *vbo;
         VAO *vao;
         Shader shader;
+        std::vector<GLfloat> vertices;
         std::vector<MenuElement*> elementArray;
 
     public:
@@ -20,7 +21,8 @@ class Scene2D {
         void activate();
         void linkVBO(VBO *vbo);
         void linkVAO(VAO *vao);
-        void createVBO(std::vector<GLfloat> &vertices);
+        std::vector<GLfloat>* getVertices();
+        void createVBO();
         void createVAO(int posSize, int colorSize, int texSize, GLenum type);
         void addElement(MenuElement* element);
         void render(GLuint texBool);
