@@ -67,7 +67,7 @@ int main(){
 
     Texture play_button("../resources/textures/play.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 
-    Button play = Button<void, int, int>(*vertices, testScene.currentIndex(), "First Button", -0.9f, 0.1f, 0.4f, 0.3f);
+    Button play = Button<void>(*vertices, testScene.currentIndex(), "First Button", -0.9f, 0.1f, 0.4f, 0.3f);
     play.setRenderType(IMAGE_TYPE);
     play.setTexture(play_button, *sceneShader, "tex", 0);
     // play.printData(*vertices);
@@ -92,7 +92,7 @@ int main(){
         std::cerr << "Error: " << e.what() << endl;
     }
 
-    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
     GLuint isTex = glGetUniformLocation(sceneShader->ID, "isTex");
     while(!glfwWindowShouldClose(window)){
