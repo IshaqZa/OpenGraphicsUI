@@ -84,15 +84,12 @@ int main(){
 
     testScene.createVBO();
     testScene.createVAO(3, 4, 2, GL_FLOAT);
-    testScene.activate();
-    
+    testScene.setBackgroundColor(0.1f, 0.1f, 0.1f, 1.0f);
     try{
         testScene.activate();
     }catch(std::exception& e){
         std::cerr << "Error: " << e.what() << endl;
     }
-
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
     GLuint isTex = glGetUniformLocation(sceneShader->ID, "isTex");
     while(!glfwWindowShouldClose(window)){

@@ -17,6 +17,13 @@ Shader* Scene2D::createShader(const char* vertexFile, const char* fragmentFile){
     return shader;
 }
 
+void Scene2D::setBackgroundColor(GLfloat r, GLfloat g, GLfloat b, GLfloat alpha){
+    backgroundColor[0] = r;
+    backgroundColor[1] = g;
+    backgroundColor[2] = b;
+    backgroundColor[3] = alpha;
+}
+
 void Scene2D::addElement(MenuElement* element) {
     elementArray.push_back(element);
 }
@@ -40,6 +47,7 @@ void Scene2D::createVBO(){
 }
 
 void Scene2D::activate(){
+    glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
     if(vao == nullptr) throw std::runtime_error("VAO not initialised");
     if(vbo == nullptr) throw std::runtime_error("VBO not initialised");
     vao->Bind();
