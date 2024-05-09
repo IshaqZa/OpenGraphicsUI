@@ -58,26 +58,26 @@ int main(){
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    Shader shaderProgram("../resources/Shaders/default.vert", "../resources/Shaders/default.frag");
-
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     
-    Scene2D testScene(shaderProgram);
+    Scene2D testScene;
     vector<GLfloat> *vertices = testScene.getVertices();
+
+    Shader* sceneShader = testScene.createShader("../resources/Shaders/default.vert", "../resources/Shaders/default.frag");
 
     Texture play_button("../resources/textures/play.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 
     Button play = Button<void, int, int>(*vertices, testScene.currentIndex(), "First Button", -0.9f, 0.1f, 0.4f, 0.3f);
-    GLuint isTex = glGetUniformLocation(shaderProgram.ID, "isTex");
+    GLuint isTex = glGetUniformLocation(sceneShader->ID, "isTex");
     play.setRenderType(IMAGE_TYPE);
-    play.setTexture(play_button, shaderProgram, "tex0", 0);
+    play.setTexture(play_button, *sceneShader, "tex0", 0);
     play.printData(*vertices);
 
     Texture exit_button("../resources/textures/exit.png", GL_TEXTURE_2D, GL_TEXTURE1, GL_RGBA, GL_UNSIGNED_BYTE);
 
     Button exit = Button<void>(*vertices, testScene.currentIndex(), "Second Button", -0.9f, -0.4f, 0.4f, 0.3f);
     
-    exit.setTexture(exit_button, shaderProgram, "tex1", 1);
+    exit.setTexture(exit_button, *sceneShader, "tex1", 1);
     exit.setRenderType(IMAGE_TYPE);
     exit.printData(*vertices);
 
@@ -97,7 +97,7 @@ int main(){
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     while(!glfwWindowShouldClose(window)){
         glClear(GL_COLOR_BUFFER_BIT);
-        shaderProgram.Activate();
+        sceneShader->Activate();
         
         processInput(window);
         testScene.render(isTex);
@@ -107,7 +107,6 @@ int main(){
         
     }
     testScene.deleteResources();
-    shaderProgram.Delete();
     glfwDestroyWindow(window);
     glfwTerminate();
     return EXIT_SUCCESS;

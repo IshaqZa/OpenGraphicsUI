@@ -8,6 +8,15 @@ void Scene2D::linkVAO(VAO *vao){
     this->vao = vao;
 }
 
+void Scene2D::linkShader(Shader* shader){
+    this->shader = shader;
+}
+
+Shader* Scene2D::createShader(const char* vertexFile, const char* fragmentFile){
+    shader = new Shader(vertexFile, fragmentFile);
+    return shader;
+}
+
 void Scene2D::addElement(MenuElement* element) {
     elementArray.push_back(element);
 }
@@ -57,6 +66,10 @@ void Scene2D::deleteResources(){
         vbo->Delete();
         delete vbo;
     }
+    if(shader != nullptr){
+        shader->Delete();
+        delete shader;
+    }  
 }
 
 unsigned int* Scene2D::currentIndex(){

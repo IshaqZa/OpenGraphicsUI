@@ -12,18 +12,20 @@ class Scene2D {
         unsigned int index = 0;
         VBO *vbo;
         VAO *vao;
-        Shader shader;
+        Shader *shader;
         std::vector<GLfloat> vertices;
         std::vector<MenuElement*> elementArray;
 
     public:
-        Scene2D(Shader &shader) : shader(shader){};
+        Scene2D();
         void activate();
         void linkVBO(VBO *vbo);
         void linkVAO(VAO *vao);
+        void linkShader(Shader *shader);
         std::vector<GLfloat>* getVertices();
         void createVBO();
         void createVAO(int posSize, int colorSize, int texSize, GLenum type);
+        Shader* createShader(const char* vertexFile, const char* fragmentFile);
         void addElement(MenuElement* element);
         void render(GLuint texBool);
         void deleteResources();
