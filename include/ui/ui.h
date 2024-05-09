@@ -76,7 +76,7 @@ class MenuElement {
         }
 
         void setText(std::string text){ this->text = text; }
-        virtual void draw(GLuint texBool) { std::cout << "parent draw" << std::endl; };
+        virtual void draw(GLuint texBool) {};
         virtual void setTexture(Texture texture, Shader& shader, const char* uniform, GLuint unit) {};
 };
 

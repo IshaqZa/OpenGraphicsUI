@@ -17,7 +17,6 @@ class Scene2D {
         std::vector<MenuElement*> elementArray;
 
     public:
-        Scene2D();
         void activate();
         void linkVBO(VBO *vbo);
         void linkVAO(VAO *vao);

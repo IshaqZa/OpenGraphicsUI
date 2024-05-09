@@ -68,18 +68,16 @@ int main(){
     Texture play_button("../resources/textures/play.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 
     Button play = Button<void, int, int>(*vertices, testScene.currentIndex(), "First Button", -0.9f, 0.1f, 0.4f, 0.3f);
-    GLuint isTex = glGetUniformLocation(sceneShader->ID, "isTex");
     play.setRenderType(IMAGE_TYPE);
-    play.setTexture(play_button, *sceneShader, "tex0", 0);
-    play.printData(*vertices);
+    play.setTexture(play_button, *sceneShader, "tex", 0);
+    // play.printData(*vertices);
 
-    Texture exit_button("../resources/textures/exit.png", GL_TEXTURE_2D, GL_TEXTURE1, GL_RGBA, GL_UNSIGNED_BYTE);
+    Texture exit_button("../resources/textures/quit.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 
     Button exit = Button<void>(*vertices, testScene.currentIndex(), "Second Button", -0.9f, -0.4f, 0.4f, 0.3f);
-    
-    exit.setTexture(exit_button, *sceneShader, "tex1", 1);
+    exit.setTexture(exit_button, *sceneShader, "tex", 0);
     exit.setRenderType(IMAGE_TYPE);
-    exit.printData(*vertices);
+    // exit.printData(*vertices);
 
     testScene.addElement(&play);
     testScene.addElement(&exit);
@@ -95,6 +93,8 @@ int main(){
     }
 
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+
+    GLuint isTex = glGetUniformLocation(sceneShader->ID, "isTex");
     while(!glfwWindowShouldClose(window)){
         glClear(GL_COLOR_BUFFER_BIT);
         sceneShader->Activate();
