@@ -58,3 +58,9 @@ void Scene2D::deleteResources(){
         delete vbo;
     }
 }
+
+unsigned int* Scene2D::currentIndex(){
+
+    return &index;
+
+}

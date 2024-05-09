@@ -112,10 +112,7 @@ class Button : public MenuElement{
                 eboIndex + 1, eboIndex + 2, eboIndex + 3
 
             });
-
-            std::cout << "Creating EBO" << std::endl;
             ebo = new EBO(indices.data(), indices.size() * sizeof(indices));
-
             *globalIndex += 36;
         };
 

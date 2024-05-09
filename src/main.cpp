@@ -55,10 +55,8 @@ int main(){
 
     glViewport(0, 0, 1920, 1080);
 
-    // glEnable(GL_BLEND);
-    // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    GLuint globalIndex = 0;
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     Shader shaderProgram("../resources/Shaders/default.vert", "../resources/Shaders/default.frag");
 
@@ -69,7 +67,7 @@ int main(){
 
     Texture play_button("../resources/textures/play.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 
-    Button play = Button<void, int, int>(*vertices, &globalIndex, "First Button", -0.9f, 0.1f, 0.4f, 0.3f);
+    Button play = Button<void, int, int>(*vertices, testScene.currentIndex(), "First Button", -0.9f, 0.1f, 0.4f, 0.3f);
     GLuint isTex = glGetUniformLocation(shaderProgram.ID, "isTex");
     play.setRenderType(IMAGE_TYPE);
     play.setTexture(play_button, shaderProgram, "tex0", 0);
@@ -77,7 +75,7 @@ int main(){
 
     Texture exit_button("../resources/textures/exit.png", GL_TEXTURE_2D, GL_TEXTURE1, GL_RGBA, GL_UNSIGNED_BYTE);
 
-    Button exit = Button<void>(*vertices, &globalIndex, "Second Button", -0.9f, -0.4f, 0.4f, 0.3f);
+    Button exit = Button<void>(*vertices, testScene.currentIndex(), "Second Button", -0.9f, -0.4f, 0.4f, 0.3f);
     
     exit.setTexture(exit_button, shaderProgram, "tex1", 1);
     exit.setRenderType(IMAGE_TYPE);

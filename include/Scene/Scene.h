@@ -9,7 +9,7 @@
 class Scene2D {
 
     private:
-        unsigned int index;
+        unsigned int index = 0;
         VBO *vbo;
         VAO *vao;
         Shader shader;
@@ -27,6 +27,7 @@ class Scene2D {
         void addElement(MenuElement* element);
         void render(GLuint texBool);
         void deleteResources();
+        unsigned int* currentIndex();
 
 };
 
