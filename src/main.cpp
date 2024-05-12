@@ -3,11 +3,15 @@
 #include <iostream>
 #include <vector>
 #include <shader/shader.h>
+#include <stb/stb_image.h>
+#include <Buffer/VBO.h>
+#include <Buffer/VAO.h>
+#include <Buffer/EBO.h>
+#include <Scene/Scene.h>
+#include <shader/shader.h>
+#include <Buffer/texture.h>
+#include <ui/ui.h>
 
-#include "Buffer/VBO.h"
-#include "Buffer/VAO.h"
-#include "Buffer/EBO.h"
-#include "shader/shader.h"
 using namespace std;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height){
@@ -21,6 +25,11 @@ void processInput(GLFWwindow *window)
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 }
+
+// this function is purely for testing purposes
+// void print(int a, int b){
+//     cout << a + b << endl;
+// }
 
 int main(){
 
@@ -46,42 +55,55 @@ int main(){
 
     glViewport(0, 0, 1920, 1080);
 
-    Shader shaderProgram("../resources/Shaders/default.vert", "../resources/Shaders/default.frag");
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-
-    vector<GLfloat> vertices = { // placeholder triangle
-        -0.5f, -0.5f, 0.0f, 1.0f, 0.0f,  0.0f,
-        0.5f, -0.5f, 0.0f, 0.0f, 1.0f,  0.0f,
-        0.0f,  0.5f, 0.0f, 0.0f, 0.0f,  1.0f
-    };
-
-    VAO VAO1;
-    VAO1.Bind();
     
-    VBO VBO1(vertices.data(), vertices.size() * sizeof(GLfloat));
-    VAO1.linkAttrib(VBO1, 0, 3, GL_FLOAT, 6 * sizeof(float), (void*) 0);
-    VAO1.linkAttrib(VBO1, 1, 3, GL_FLOAT, 6 * sizeof(float), (void*) (3 * sizeof(float)));
-    VAO1.Unbind();
-    VBO1.Unbind();
+    Scene2D testScene;
+    vector<GLfloat> *vertices = testScene.getVertices();
 
-    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    Shader* sceneShader = testScene.createShader("../resources/Shaders/default.vert", "../resources/Shaders/default.frag");
+
+    Texture play_button("../resources/textures/play.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+
+    Button play = Button<void>(*vertices, testScene.currentIndex(), "First Button", -0.9f, 0.1f, 0.4f, 0.3f);
+    play.setRenderType(IMAGE_TYPE);
+    play.setTexture(play_button, *sceneShader, "tex", 0);
+    // play.printData(*vertices);
+
+    Texture exit_button("../resources/textures/quit.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+
+    Button exit = Button<void>(*vertices, testScene.currentIndex(), "Second Button", -0.9f, -0.4f, 0.4f, 0.3f);
+    exit.setTexture(exit_button, *sceneShader, "tex", 0);
+    exit.setRenderType(IMAGE_TYPE);
+    // exit.printData(*vertices);
+
+    testScene.addElement(&play);
+    testScene.addElement(&exit);
+
+    testScene.createVBO();
+    testScene.createVAO(3, 4, 2, GL_FLOAT);
+    testScene.setBackgroundColor(0.1f, 0.1f, 0.1f, 1.0f);
+    try{
+        testScene.activate();
+    }catch(std::exception& e){
+        std::cerr << "Error: " << e.what() << endl;
+    }
+
+    GLuint isTex = glGetUniformLocation(sceneShader->ID, "isTex");
     while(!glfwWindowShouldClose(window)){
         glClear(GL_COLOR_BUFFER_BIT);
-        shaderProgram.Activate();
-        VAO1.Bind();
+        sceneShader->Activate();
+        
         processInput(window);
-
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-
+        testScene.render(isTex);
+        
         glfwSwapBuffers(window);
         glfwPollEvents();
         
     }
-    
-    VAO1.Delete();
-    VBO1.Delete();
-    shaderProgram.Delete();
+    testScene.deleteResources();
     glfwDestroyWindow(window);
     glfwTerminate();
     return EXIT_SUCCESS;
