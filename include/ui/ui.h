@@ -7,6 +7,7 @@
 #include <functional>
 #include <glad/glad.h>
 #include <Buffer/texture.h>
+#include <Buffer/EBO.h>
 
 #define RGBA_TYPE 0
 #define IMAGE_TYPE 1
@@ -20,11 +21,13 @@ class MenuElement {
         GLfloat xCoor, yCoor;
         GLfloat width, height;
         GLfloat rColor = 0.0f, gColor = 0.0f, bColor = 0.0f, alpha=1.0f;
+        std::vector<GLuint> indices;
+        EBO *ebo;
         Texture menuTexture = Texture("../resources/textures/placeholder.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
     public:
 
-        MenuElement(std::vector<GLfloat> &vertices, std::vector<GLuint> &indices,GLuint globalIndex, std::string text, GLfloat xCoor, GLfloat yCoor, GLfloat width, GLfloat height):
-            index(globalIndex),  text(text), xCoor(xCoor), yCoor(yCoor), width(width), height(height){};
+        MenuElement(std::vector<GLfloat> &vertices, GLuint* globalIndex, std::string text, GLfloat xCoor, GLfloat yCoor, GLfloat width, GLfloat height):
+            index(*globalIndex),  text(text), xCoor(xCoor), yCoor(yCoor), width(width), height(height){};
 
         void setPos(GLfloat xCoor, GLfloat yCoor){
             this->xCoor = xCoor;
@@ -51,36 +54,41 @@ class MenuElement {
             }
         }
 
-        void setRenderType(int renderType, GLuint texBool){
+        void setRenderType(int renderType){
             this->renderType = renderType;
-            glUniform1i(texBool, renderType);
         }
 
         //this function has been made for debugging purposes
         void printData(std::vector<GLfloat> vertices){
-            
+            std::cout << "Vertex Data: " << std::endl;
             for(int i = index; i < index + 9 * 4; i++){
                 std::cout << vertices[i] << ",\t";
                 if(i != 0 && (i+1)%9 == 0) std::cout << std::endl;
+            }
+            std::cout << "Index Data: " << std::endl;
+            for(int i = 0; i < 6; i ++){
+
+                std::cout << indices[i] << ",\t";
+                if(i!=0 && (i+1)%3 == 0) std::cout << std::endl;
+
             }
 
         }
 
         void setText(std::string text){ this->text = text; }
-        virtual void draw() = 0;
-        virtual void setTexture(Texture texture, Shader& shader, const char* uniform, GLuint unit) = 0;
-
+        virtual void draw(GLuint texBool) {};
+        virtual void setTexture(Texture texture, Shader& shader, const char* uniform, GLuint unit) {};
 };
 
 template<typename returnValue, typename... Args>
-class button : public MenuElement{
+class Button : public MenuElement{
 
     private:
         std::function<returnValue(Args...)> onClickAction;
 
     public:
-        button(std::vector<GLfloat> &vertices, std::vector<GLuint> &indices,GLuint globalIndex, std::string text, GLfloat xCoor, GLfloat yCoor, GLfloat width, GLfloat height):
-            MenuElement(vertices, indices, globalIndex, text, xCoor, yCoor, width, height){
+        Button(std::vector<GLfloat> &vertices, GLuint* globalIndex, std::string text, GLfloat xCoor, GLfloat yCoor, GLfloat width, GLfloat height):
+            MenuElement(vertices, globalIndex, text, xCoor, yCoor, width, height){
 
             vertices.insert(vertices.end(), {
 
@@ -97,27 +105,36 @@ class button : public MenuElement{
                 xCoor, yCoor - height, 0.0f, rColor, gColor, bColor, alpha, 0.0f, 0.0f
 
             });
-
+            GLuint eboIndex = *globalIndex / 9;
             indices.insert(indices.end(), {
 
-                index + 0, + index + 1, index + 3,
-                index + 1, index + 2, index + 3
+                eboIndex + 0, eboIndex + 1, eboIndex + 3,
+                eboIndex + 1, eboIndex + 2, eboIndex + 3
 
             });
+            ebo = new EBO(indices.data(), indices.size() * sizeof(indices));
+            *globalIndex += 36;
         };
 
         void onClick(returnValue (*action)(Args...)){ onClickAction = action; }
-        
+
         void setTexture(Texture texture, Shader& shader, const char* texLocation, GLuint unit) override{
             menuTexture = texture;
             menuTexture.texUnit(shader, texLocation, unit);
-            
-
         }
 
-        void draw() override{
+        void draw(GLuint texBool) override{
             menuTexture.Bind();
+            glUniform1i(texBool, renderType);
+            try{
+                ebo->Bind();
+            } catch(std::exception& e){
+                std::cerr << "Error: " << e.what() << std::endl;
+            }
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+            menuTexture.Unbind();
+            ebo->Unbind();
         }
 
         returnValue invoke(Args... args){ return onClickAction(args...); }

@@ -7,6 +7,7 @@
 #include <Buffer/VBO.h>
 #include <Buffer/VAO.h>
 #include <Buffer/EBO.h>
+#include <Scene/Scene.h>
 #include <shader/shader.h>
 #include <Buffer/texture.h>
 #include <ui/ui.h>
@@ -54,67 +55,55 @@ int main(){
 
     glViewport(0, 0, 1920, 1080);
 
-    // glEnable(GL_BLEND);
-    // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    Shader shaderProgram("../resources/Shaders/default.vert", "../resources/Shaders/default.frag");
-
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    
+    Scene2D testScene;
+    vector<GLfloat> *vertices = testScene.getVertices();
 
-    vector<GLfloat> vertices;
+    Shader* sceneShader = testScene.createShader("../resources/Shaders/default.vert", "../resources/Shaders/default.frag");
 
-    vector<GLuint> indices;
+    Texture play_button("../resources/textures/play.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 
-    button play = button<void, int, int>(vertices, indices, 0, "First Button", -0.5f, 0.5f, 1.0f, 1.0f);
-    VAO VAO1;
-    VAO1.Bind();
+    Button play = Button<void>(*vertices, testScene.currentIndex(), "First Button", -0.9f, 0.1f, 0.4f, 0.3f);
+    play.setRenderType(IMAGE_TYPE);
+    play.setTexture(play_button, *sceneShader, "tex", 0);
+    // play.printData(*vertices);
 
-    VBO VBO1(vertices.data(), vertices.size() * sizeof(vertices));
-    EBO EBO1(indices.data(), indices.size() * sizeof(indices));
+    Texture exit_button("../resources/textures/quit.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 
-    VAO1.linkAttrib(VBO1, 0, 3, GL_FLOAT, 9 * sizeof(float), (void*) 0); // location
-    VAO1.linkAttrib(VBO1, 1, 4, GL_FLOAT, 9 * sizeof(float), (void*) (4 * sizeof(float))); // color
-    VAO1.linkAttrib(VBO1, 2, 2, GL_FLOAT, 9 * sizeof(float), (void*) (7 * sizeof(float))); // texture
-    EBO1.Bind();
-    VAO1.Unbind();
-    VBO1.Unbind();
-    EBO1.Unbind();
+    Button exit = Button<void>(*vertices, testScene.currentIndex(), "Second Button", -0.9f, -0.4f, 0.4f, 0.3f);
+    exit.setTexture(exit_button, *sceneShader, "tex", 0);
+    exit.setRenderType(IMAGE_TYPE);
+    // exit.printData(*vertices);
 
-    // this part is for testing purposes
-    // myButton.onClick(print);
-    // myButton.invoke(3, 4);
+    testScene.addElement(&play);
+    testScene.addElement(&exit);
 
-    Texture tex("../resources/textures/play-button.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+    testScene.createVBO();
+    testScene.createVAO(3, 4, 2, GL_FLOAT);
+    testScene.setBackgroundColor(0.1f, 0.1f, 0.1f, 1.0f);
+    try{
+        testScene.activate();
+    }catch(std::exception& e){
+        std::cerr << "Error: " << e.what() << endl;
+    }
 
-    shaderProgram.Activate();
-    GLuint isTex = glGetUniformLocation(shaderProgram.ID, "isTex");
-
-    play.setRenderType(RGBA_TYPE, isTex);
-    // play.setColor(1.0f, 0.0f, 0.0f, 1.0f);
-    // play.setColor(1.0f, 1.0f, 0.0f, 1.0f);
-    play.setColor(0.76f, 0.13f, 0.53f, 1.0f);
-    play.updateColor(vertices, 3);
-    play.setTexture(tex, shaderProgram, "tex", 0);
-    play.printData(vertices);
-    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    GLuint isTex = glGetUniformLocation(sceneShader->ID, "isTex");
     while(!glfwWindowShouldClose(window)){
         glClear(GL_COLOR_BUFFER_BIT);
-        shaderProgram.Activate();
-        // playButton.Bind();
-        VAO1.Bind();
+        sceneShader->Activate();
+        
         processInput(window);
-        play.draw();
+        testScene.render(isTex);
+        
         glfwSwapBuffers(window);
         glfwPollEvents();
         
     }
-    
-    VAO1.Delete();
-    VBO1.Delete();
-    EBO1.Delete();
-    // placeholder.Delete();
-    shaderProgram.Delete();
+    testScene.deleteResources();
     glfwDestroyWindow(window);
     glfwTerminate();
     return EXIT_SUCCESS;

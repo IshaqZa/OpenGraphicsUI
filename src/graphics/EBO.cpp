@@ -10,8 +10,14 @@ EBO::EBO(GLuint* vertices, GLsizeiptr size){
 };
 
 void EBO::Bind(){
-
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ID);
+
+    GLenum error = glGetError();
+    if(error != GL_NO_ERROR){
+
+        throw std::runtime_error("OpenGL error: " + error);
+
+    }
 
 };
 
