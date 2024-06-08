@@ -2,6 +2,8 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <vector>
+#include <glm/glm.hpp>
+#include <memory>
 #include <shader/shader.h>
 #include <stb/stb_image.h>
 #include <Buffer/VBO.h>
@@ -67,14 +69,17 @@ int main(){
 
     Texture play_button("../resources/textures/play.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 
-    Button play = Button<void>(*vertices, testScene.currentIndex(), "First Button", -0.9f, 0.1f, 0.4f, 0.3f);
+    std::unique_ptr<Appearance2D> playDisplay = std::make_unique<Appearance2D>(glm::vec2(-0.9f, 0.1f), glm::vec2(0.4f, 0.3f), glm::vec4(0.0f, 0.0f, 0.0f, 0.0f), glm::vec2(0.0f, 0.0f));
+    std::unique_ptr<Square> playShape = std::make_unique<Square>()
+
+    Button play = Button(*vertices, testScene.currentIndex(), "First Button", std::move(playDisplay), );
     play.setRenderType(IMAGE_TYPE);
     play.setTexture(play_button, *sceneShader, "tex", 0);
     // play.printData(*vertices);
 
     Texture exit_button("../resources/textures/quit.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 
-    Button exit = Button<void>(*vertices, testScene.currentIndex(), "Second Button", -0.9f, -0.4f, 0.4f, 0.3f);
+    Button exit = Button(*vertices, testScene.currentIndex(), "Second Button", -0.9f, -0.4f, 0.4f, 0.3f);
     exit.setTexture(exit_button, *sceneShader, "tex", 0);
     exit.setRenderType(IMAGE_TYPE);
     // exit.printData(*vertices);
