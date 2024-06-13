@@ -12,25 +12,31 @@
 #include "Shape.h"
 
 
+enum Shapes{
+    TRIANGLE_SHAPE,
+    RECTANGLE_SHAPE,
+    CIRCLE_SHAPE
+};
+
 class MenuElement {
 
     protected:
         GLuint index;
         std::string text;
         std::unique_ptr<Shape> shape;
-        std::unique_ptr<Appearance2D> appearance;
-        std::vector<GLuint> indices;
-        std::unique_ptr<EBO> ebo;
+        std::shared_ptr<Appearance2D> appearance;
+        std::shared_ptr<std::vector<GLuint>> indices;
+        std::shared_ptr<EBO> ebo;
     public:
 
         void setPos(glm::vec2 pos);
         void setSize(glm::vec2 size);
         void setColor(glm::vec4 color);
-        void updateColor(std::vector<GLfloat> &vertices, int colorOffSet);
+        void updateColor(std::shared_ptr<std::vector<GLfloat>> vertices, int colorOffSet);
         void setRenderType(int renderType);
 
         //this function has been made for debugging purposes
-        void printData(std::vector<GLfloat> vertices);
+        void printData(std::shared_ptr<std::vector<GLfloat>> vertices);
 
         void setText(std::string text);
         virtual void draw(GLuint texBool)=0;
@@ -40,7 +46,7 @@ class MenuElement {
 class Button : public MenuElement{
 
     public:
-        Button(std::vector<GLfloat> &vertices, GLuint* globalIndex, std::string text, std::unique_ptr<Appearance2D> appearance, std::unique_ptr<Shape> shape);
+        Button(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalIndex, std::string text, std::shared_ptr<Appearance2D> appearance, Shapes shape);
 
         void setTexture(Texture texture, Shader& shader, const char* texLocation, GLuint unit) override;
 

@@ -1,27 +1,28 @@
 #include <Scene/Scene.h>
 
-void Scene2D::linkVBO(VBO *vbo){
+void Scene2D::createVertexData(){
+    vertices = std::make_shared<std::vector<GLfloat>>();
+}
+
+void Scene2D::linkVBO(std::shared_ptr<VBO> vbo){
     this->vbo = vbo;
 }
 
-void Scene2D::linkVAO(VAO *vao){
+void Scene2D::linkVAO(std::shared_ptr<VAO> vao){
     this->vao = vao;
 }
 
-void Scene2D::linkShader(Shader* shader){
+void Scene2D::linkShader(std::shared_ptr<Shader> shader){
     this->shader = shader;
 }
 
-Shader* Scene2D::createShader(const char* vertexFile, const char* fragmentFile){
-    shader = new Shader(vertexFile, fragmentFile);
+std::shared_ptr<Shader> Scene2D::createShader(const char* vertexFile, const char* fragmentFile){
+    shader = std::make_shared<Shader>(vertexFile, fragmentFile);
     return shader;
 }
 
-void Scene2D::setBackgroundColor(GLfloat r, GLfloat g, GLfloat b, GLfloat alpha){
-    backgroundColor[0] = r;
-    backgroundColor[1] = g;
-    backgroundColor[2] = b;
-    backgroundColor[3] = alpha;
+void Scene2D::setBackgroundColor(glm::vec4 backgroundColor){
+    this->backgroundColor = backgroundColor;
 }
 
 void Scene2D::addElement(MenuElement* element) {
@@ -30,7 +31,7 @@ void Scene2D::addElement(MenuElement* element) {
 
 void Scene2D::createVAO(int posSize, int colorSize, int texSize, GLenum type){
 
-    vao = new VAO();
+    vao = std::make_shared<VAO>();
     vao->Bind();
     if(vbo){
         vao->linkAttrib(*vbo, 0, posSize, type, (posSize + colorSize + texSize) * sizeof(float), (void*) 0);
@@ -43,11 +44,11 @@ void Scene2D::createVAO(int posSize, int colorSize, int texSize, GLenum type){
 }
 
 void Scene2D::createVBO(){
-    vbo = new VBO(vertices.data(), vertices.size() * sizeof(vertices));
+    vbo = std::make_shared<VBO>(vertices->data(), vertices->size() * sizeof(vertices));
 }
 
 void Scene2D::activate(){
-    glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
+    glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, backgroundColor.w);
     if(vao == nullptr) throw std::runtime_error("VAO not initialised");
     if(vbo == nullptr) throw std::runtime_error("VBO not initialised");
     vao->Bind();
@@ -56,28 +57,18 @@ void Scene2D::activate(){
 
 void Scene2D::render(GLuint texBool){
     vao->Bind();
+    std::cout << "Prepared to render elements" << std::endl;
+    int i = 1;
     for(MenuElement* x : elementArray){
+        std::cout << "Rendering element: " << i << std::endl;
+        i++;
+        if(!x) std::cout << "Error: Element is empty" << std::endl;
         x->draw(texBool);
     }
 }
 
-std::vector<GLfloat>* Scene2D::getVertices(){
-    return &vertices;
-}
-
-void Scene2D::deleteResources(){
-    if(vao != nullptr){
-        vao->Delete();
-        delete vao;
-    }
-    if(vbo != nullptr){
-        vbo->Delete();
-        delete vbo;
-    }
-    if(shader != nullptr){
-        shader->Delete();
-        delete shader;
-    }  
+std::shared_ptr<std::vector<GLfloat>> Scene2D::getVertices(){
+    return vertices;
 }
 
 unsigned int* Scene2D::currentIndex(){

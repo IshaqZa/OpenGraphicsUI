@@ -62,53 +62,74 @@ int main(){
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     
-    Scene2D testScene;
-    vector<GLfloat> *vertices = testScene.getVertices();
+    std::cout << "created and speicified window and viewport" << std::endl;
 
-    Shader* sceneShader = testScene.createShader("../resources/Shaders/default.vert", "../resources/Shaders/default.frag");
+    Scene2D testScene;
+    testScene.createVertexData();
+    std::shared_ptr<std::vector<GLfloat>> vertices = testScene.getVertices();
+
+    if(!vertices) std::cout << "Vertices null in main" << std::endl;
+
+
+    std::shared_ptr<Shader> sceneShader = testScene.createShader("../resources/Shaders/default.vert", "../resources/Shaders/default.frag");
+
+    std::cout << "Created test scene and created shader" << std::endl;
 
     Texture play_button("../resources/textures/play.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 
-    std::unique_ptr<Appearance2D> playDisplay = std::make_unique<Appearance2D>(glm::vec2(-0.9f, 0.1f), glm::vec2(0.4f, 0.3f), glm::vec4(0.0f, 0.0f, 0.0f, 0.0f), glm::vec2(0.0f, 0.0f));
-    std::unique_ptr<Square> playShape = std::make_unique<Square>()
+    std::cout << "Created and loaded play button texture" << std::endl;
 
-    Button play = Button(*vertices, testScene.currentIndex(), "First Button", std::move(playDisplay), );
+    std::shared_ptr<Appearance2D> playDisplay = std::make_shared<Appearance2D>(glm::vec2(-0.9f, 0.1f), glm::vec2(0.4f, 0.3f), glm::vec4(0.0f, 0.0f, 0.0f, 0.0f), glm::vec2(0.0f, 0.0f));
+
+    std::cout << "Created appearance" << std::endl;
+
+    Button play(vertices, testScene.currentIndex(), "Play Button", playDisplay, RECTANGLE_SHAPE);
     play.setRenderType(IMAGE_TYPE);
     play.setTexture(play_button, *sceneShader, "tex", 0);
-    // play.printData(*vertices);
+    play.printData(vertices);
 
     Texture exit_button("../resources/textures/quit.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 
-    Button exit = Button(*vertices, testScene.currentIndex(), "Second Button", -0.9f, -0.4f, 0.4f, 0.3f);
+    std::shared_ptr<Appearance2D> exitDisplay = std::make_shared<Appearance2D>(glm::vec2(-0.9f, -0.4f), glm::vec2(0.4f, 0.3f), glm::vec4(0.0f, 0.0f, 0.0f, 0.0f), glm::vec2(0.0f, 0.0f));
+    Button exit(vertices, testScene.currentIndex(), "Play Button", exitDisplay, RECTANGLE_SHAPE);
     exit.setTexture(exit_button, *sceneShader, "tex", 0);
     exit.setRenderType(IMAGE_TYPE);
-    // exit.printData(*vertices);
+    exit.printData(vertices);
 
     testScene.addElement(&play);
     testScene.addElement(&exit);
 
+    std::cout << "Added play button to scene" << std::endl;
+
     testScene.createVBO();
     testScene.createVAO(3, 4, 2, GL_FLOAT);
-    testScene.setBackgroundColor(0.1f, 0.1f, 0.1f, 1.0f);
+
+    glm::vec4 background(0.1f, 0.1f, 0.1f, 1.0f);
+
+    testScene.setBackgroundColor(background);
     try{
         testScene.activate();
     }catch(std::exception& e){
-        std::cerr << "Error: " << e.what() << endl;
+        std::cerr << "Error: " << e.what() << std::endl;
     }
 
+    std::cout << "Created VBO, VAO, set background color and activated scene" << std::endl;
+
     GLuint isTex = glGetUniformLocation(sceneShader->ID, "isTex");
+    int i = 0;
     while(!glfwWindowShouldClose(window)){
         glClear(GL_COLOR_BUFFER_BIT);
         sceneShader->Activate();
+
         
         processInput(window);
         testScene.render(isTex);
         
         glfwSwapBuffers(window);
         glfwPollEvents();
-        
+        i++;
+        std::cout << "Reached end of loop: " << i << std::endl;
     }
-    testScene.deleteResources();
     glfwDestroyWindow(window);
     glfwTerminate();
     return EXIT_SUCCESS;

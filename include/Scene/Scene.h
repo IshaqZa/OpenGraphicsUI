@@ -5,31 +5,30 @@
 #include <Buffer/VBO.h>
 #include <Buffer/VAO.h>
 #include <shader/shader.h>
-
 class Scene2D {
 
     private:
         unsigned int index = 0;
-        VBO *vbo;
-        VAO *vao;
-        Shader *shader;
-        GLfloat backgroundColor[4];
-        std::vector<GLfloat> vertices;
+        std::shared_ptr<VBO> vbo;
+        std::shared_ptr<VAO> vao;
+        std::shared_ptr<Shader> shader;
+        std::shared_ptr<std::vector<GLfloat>> vertices;
+        glm::vec4 backgroundColor;        
         std::vector<MenuElement*> elementArray;
 
     public:
         void activate();
-        void linkVBO(VBO *vbo);
-        void linkVAO(VAO *vao);
-        void linkShader(Shader *shader);
-        void setBackgroundColor(GLfloat r, GLfloat g, GLfloat b, GLfloat alpha);
-        std::vector<GLfloat>* getVertices();
+        void createVertexData();
+        void linkVBO(std::shared_ptr<VBO> vbo);
+        void linkVAO(std::shared_ptr<VAO> vao);
+        void linkShader(std::shared_ptr<Shader> shader);
+        void setBackgroundColor(glm::vec4 backgroundColor);
+        std::shared_ptr<std::vector<GLfloat>> getVertices();
         void createVBO();
         void createVAO(int posSize, int colorSize, int texSize, GLenum type);
-        Shader* createShader(const char* vertexFile, const char* fragmentFile);
+        std::shared_ptr<Shader> createShader(const char* vertexFile, const char* fragmentFile);
         void addElement(MenuElement* element);
         void render(GLuint texBool);
-        void deleteResources();
         unsigned int* currentIndex();
 
 };
