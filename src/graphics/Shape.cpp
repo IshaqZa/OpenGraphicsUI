@@ -33,10 +33,10 @@ void Square::generateVertices(std::shared_ptr<Appearance2D> appearance){
     std::cout << "Added vertices" << std::endl;
 }
 
-void Square::generateIndices(){
+void Square::generateIndices(GLuint index){
     indices->insert(indices->end(), {
-       0, 1, 3,
-       1, 2, 3
+       index + 0, index + 1, index + 3,
+       index + 1, index + 2, index + 3
     });
 
 }

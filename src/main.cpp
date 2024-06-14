@@ -86,15 +86,16 @@ int main(){
     Button play(vertices, testScene.currentIndex(), "Play Button", playDisplay, RECTANGLE_SHAPE);
     play.setRenderType(IMAGE_TYPE);
     play.setTexture(play_button, *sceneShader, "tex", 0);
-    play.printData(vertices);
+    // play.printData(vertices); don't use, needs fixing
 
     Texture exit_button("../resources/textures/quit.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 
     std::shared_ptr<Appearance2D> exitDisplay = std::make_shared<Appearance2D>(glm::vec2(-0.9f, -0.4f), glm::vec2(0.4f, 0.3f), glm::vec4(0.0f, 0.0f, 0.0f, 0.0f), glm::vec2(0.0f, 0.0f));
+    std::cout << "Created exit button" << std::endl;
     Button exit(vertices, testScene.currentIndex(), "Play Button", exitDisplay, RECTANGLE_SHAPE);
     exit.setTexture(exit_button, *sceneShader, "tex", 0);
     exit.setRenderType(IMAGE_TYPE);
-    exit.printData(vertices);
+    // exit.printData(vertices); don't use, needs fixing
 
     testScene.addElement(&play);
     testScene.addElement(&exit);

@@ -29,6 +29,7 @@ void MenuElement::setRenderType(int renderType){
 void MenuElement::printData(std::shared_ptr<std::vector<GLfloat>> vertices){
     std::cout << "Vertex Data: " << std::endl;
     for(int i = index; i < index + 9 * 4; i++){
+        std::cout << "reach here" << std::endl;
         std::cout << (*vertices)[i] << ",\t";
         if(i != 0 && (i+1)%9 == 0) std::cout << std::endl;
     }
@@ -57,7 +58,7 @@ Button::Button(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalInd
             std::cout << "Created shape object shared pointer" << std::endl;
             this->shape->generateVertices(appearance);
             std::cout << "Generated vertices" << std::endl;
-            this->shape->generateIndices();
+            this->shape->generateIndices(eboIndex);
             std::cout << "Generated indices" << std::endl;
         break;
     }
