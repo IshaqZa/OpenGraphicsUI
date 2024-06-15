@@ -13,6 +13,7 @@
 #include <shader/shader.h>
 #include <Buffer/texture.h>
 #include <ui/ui.h>
+#include <EventHandler/EventHandler.h>
 
 using namespace std;
 
@@ -22,7 +23,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height){
 
 }
 
-void processInput(GLFWwindow *window)
+void exitInput(GLFWwindow *window)
 {
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
@@ -102,6 +103,14 @@ int main(){
 
     std::cout << "Added play button to scene" << std::endl;
 
+
+
+    EventHandler events;
+    Button* playPtr = &play;
+    std::shared_ptr<Button> sharedPlayPtr(playPtr);
+    events.addOnClickElement(sharedPlayPtr, [](){ std::cout << "It works" << std::endl; });
+
+
     testScene.createVBO();
     testScene.createVAO(3, 4, 2, GL_FLOAT);
 
@@ -114,22 +123,19 @@ int main(){
         std::cerr << "Error: " << e.what() << std::endl;
     }
 
-    std::cout << "Created VBO, VAO, set background color and activated scene" << std::endl;
-
     GLuint isTex = glGetUniformLocation(sceneShader->ID, "isTex");
     int i = 0;
     while(!glfwWindowShouldClose(window)){
         glClear(GL_COLOR_BUFFER_BIT);
         sceneShader->Activate();
 
-        
-        processInput(window);
+        events.processInputs(window);
+        exitInput(window);
         testScene.render(isTex);
         
         glfwSwapBuffers(window);
         glfwPollEvents();
-        i++;
-        std::cout << "Reached end of loop: " << i << std::endl;
+
     }
     glfwDestroyWindow(window);
     glfwTerminate();

@@ -57,10 +57,8 @@ void Scene2D::activate(){
 
 void Scene2D::render(GLuint texBool){
     vao->Bind();
-    std::cout << "Prepared to render elements" << std::endl;
     int i = 1;
     for(MenuElement* x : elementArray){
-        std::cout << "Rendering element: " << i << std::endl;
         i++;
         if(!x) std::cout << "Error: Element is empty" << std::endl;
         x->draw(texBool);

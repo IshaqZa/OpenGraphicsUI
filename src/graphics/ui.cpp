@@ -42,6 +42,15 @@ void MenuElement::printData(std::shared_ptr<std::vector<GLfloat>> vertices){
     }
 }
 
+bool MenuElement::contains(glm::vec2 pos){
+    if(pos.x > appearance->position.x && pos.x < (appearance->position.x + appearance->size.x)){
+        if(pos.y < appearance->position.y && pos.y > (appearance->position.y - appearance->size.y)){
+            return true;
+        }
+    }
+    return false;
+}
+
 void MenuElement::setText(std::string text){ this->text = text; }
 
 Button::Button(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalIndex, std::string text, std::shared_ptr<Appearance2D> appearance, Shapes shape) {
@@ -53,7 +62,6 @@ Button::Button(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalInd
 
     switch(shape){
         case RECTANGLE_SHAPE:
-            std::cout<< "Inside case" << std::endl;
             this->shape = std::make_unique<Square>(vertices, indices);
             std::cout << "Created shape object shared pointer" << std::endl;
             this->shape->generateVertices(appearance);
@@ -75,20 +83,14 @@ void Button::setTexture(Texture texture, Shader& shader, const char* texLocation
 
 void Button::draw(GLuint texBool) {
     appearance->texture.Bind();
-    std::cout << "texture bind" << std::endl;
     glUniform1i(texBool, appearance->renderType);
-    std::cout << "texBool set" << std::endl;
     try{
         ebo->Bind();
     } catch(std::exception& e){
         std::cerr << "Error: " << e.what() << std::endl;
     }
-    std::cout << "ebo bind" << std::endl;
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-    std::cout << "Draw call" << std::endl;
 
     appearance->texture.Unbind();
-    std::cout << "Unbind texutre" << std::endl;
     ebo->Unbind();
-    std::cout << "Unbind ebo" << std::endl;
 }

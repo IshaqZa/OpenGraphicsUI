@@ -4,7 +4,6 @@
 #include <glad/glad.h>
 #include <vector>
 #include <functional>
-#include <glad/glad.h>
 #include <Buffer/texture.h>
 #include <Buffer/EBO.h>
 #include <memory>
@@ -34,7 +33,7 @@ class MenuElement {
         void setColor(glm::vec4 color);
         void updateColor(std::shared_ptr<std::vector<GLfloat>> vertices, int colorOffSet);
         void setRenderType(int renderType);
-
+        bool contains(glm::vec2 pos);
         //this function has been made for debugging purposes
         void printData(std::shared_ptr<std::vector<GLfloat>> vertices);
 
