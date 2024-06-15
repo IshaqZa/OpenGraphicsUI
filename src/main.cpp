@@ -62,8 +62,6 @@ int main(){
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-    
-    std::cout << "created and speicified window and viewport" << std::endl;
 
     Scene2D testScene;
     testScene.createVertexData();
@@ -71,18 +69,11 @@ int main(){
 
     if(!vertices) std::cout << "Vertices null in main" << std::endl;
 
-
     std::shared_ptr<Shader> sceneShader = testScene.createShader("../resources/Shaders/default.vert", "../resources/Shaders/default.frag");
-
-    std::cout << "Created test scene and created shader" << std::endl;
 
     Texture play_button("../resources/textures/play.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 
-    std::cout << "Created and loaded play button texture" << std::endl;
-
     std::shared_ptr<Appearance2D> playDisplay = std::make_shared<Appearance2D>(glm::vec2(-0.9f, 0.1f), glm::vec2(0.4f, 0.3f), glm::vec4(0.0f, 0.0f, 0.0f, 0.0f), glm::vec2(0.0f, 0.0f));
-
-    std::cout << "Created appearance" << std::endl;
 
     Button play(vertices, testScene.currentIndex(), "Play Button", playDisplay, RECTANGLE_SHAPE);
     play.setRenderType(IMAGE_TYPE);
@@ -92,7 +83,6 @@ int main(){
     Texture exit_button("../resources/textures/quit.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 
     std::shared_ptr<Appearance2D> exitDisplay = std::make_shared<Appearance2D>(glm::vec2(-0.9f, -0.4f), glm::vec2(0.4f, 0.3f), glm::vec4(0.0f, 0.0f, 0.0f, 0.0f), glm::vec2(0.0f, 0.0f));
-    std::cout << "Created exit button" << std::endl;
     Button exit(vertices, testScene.currentIndex(), "Play Button", exitDisplay, RECTANGLE_SHAPE);
     exit.setTexture(exit_button, *sceneShader, "tex", 0);
     exit.setRenderType(IMAGE_TYPE);
@@ -101,15 +91,10 @@ int main(){
     testScene.addElement(&play);
     testScene.addElement(&exit);
 
-    std::cout << "Added play button to scene" << std::endl;
-
-
-
     EventHandler events;
     Button* playPtr = &play;
     std::shared_ptr<Button> sharedPlayPtr(playPtr);
     events.addOnClickElement(sharedPlayPtr, [](){ std::cout << "It works" << std::endl; });
-
 
     testScene.createVBO();
     testScene.createVAO(3, 4, 2, GL_FLOAT);

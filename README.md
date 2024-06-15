@@ -135,16 +135,14 @@ In this section, the main components of this program are to be explained so as t
     - #### ui.h:
         - **ui.h** is the basic building block of all the GUI menus in the game, spanning from the basic main menu and options menu, to the pause menu
         - **ui.h** inlcudes the parent(super) class **MenuElement** which is the very basic architecture of a simple UI component. However, delcaring an object of type MenuElement will not draw anything, it is rather used as an interface for other UI elements.
-        - **Button** class is the first child class of MenuElement, its most defining features are the `onClick()` function and the `invoke()` function, which in tandum with an Event(Action)handler will be responsible to manage user clicks, hover over and other possible actions
         - The **Button** class also has 2 render types as will most other UI component classes, the 2 render types are 1. IMAGE_TYPE and 2. RGBA_TYPE, one handeling a button with an image and the other handeling the button with a color and possibly text, respectively
     - #### Scene.h:
         - **Scene.h** header file contains the most important classes as they will be responsible for the rendering of most visual aspects of the game engine.
         - **Scene2D** class will be responsible for UI rendering(especially menus) and holds the following attributes:  
             - A localised **`unsigned int index`** to help track where each UI component exists in **`std::vector<GLfloat> vertices`** which is then used in rendering each component
             - **`std::vector<Glfloat> vertices`** Will be used to store the vertex data of each UI component(though each UI component has its own Index array for seperate draw calls)
-            - **`VBO* vbo`** and **`VAO* vao`** pointers that are naturally used for storing of vertex data and its interpretation(a VAO and VBO can be reused via the use of `linkVBO(VBO* vbo)` and `linkVAO(VAO* vao)` functions)
-            - **`GLfloat backgroundColors[4]`** to store the background color of a Scene(allows for more dynamic customisations of different scenes)
-            - **`Shader* shader`** pointer is used in the case that each Scene requires a different shader(however the function getShader() and linkShader(Shader* shader) allow for the reuse of a shader from different scenes)
+            - **`std::shared_ptr<VBO> vbo`** and **`std::shared_ptr<VAO> vao`** pointers that are naturally used for storing of vertex data and its interpretation(a VAO and VBO can be reused via the use of `linkVBO(std::shared_ptr<VBO> vbo)` and `linkVAO(std::shared_ptr<VAO> vao)` functions)
+            - **`glm::vec4 backgroundColor`** to store the background color of a Scene(allows for more dynamic customisations of different scenes)
+            - **`std::shared_ptr<Shader> shader`** pointer is used in the case that each Scene requires a different shader(however the function getShader() and linkShader(Shader* shader) allow for the reuse of a shader from different scenes)
             - **`std::vector<MenuElements> elementArray`** stores all instances of objects that are stored in a particular scene, this is required so the `draw()` function in each object can be invoked when the `Scene2D::render(GLuint texBool)` function is called
         - The range of functions in the Scene2D class make it dynamic as to whether the Scene is to have its own new VBO, VAO and shaders or whether it is to share those resources from other classes
-        - For proper resource management, a `deleteResources()` function has been made to clear any unused scenes here on out
