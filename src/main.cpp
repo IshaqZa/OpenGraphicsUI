@@ -65,6 +65,7 @@ int main(){
 
     Scene2D testScene;
     testScene.createVertexData();
+    testScene.createEventHandler();
     std::shared_ptr<std::vector<GLfloat>> vertices = testScene.getVertices();
 
     if(!vertices) std::cout << "Vertices null in main" << std::endl;
@@ -75,26 +76,24 @@ int main(){
 
     std::shared_ptr<Appearance2D> playDisplay = std::make_shared<Appearance2D>(glm::vec2(-0.9f, 0.1f), glm::vec2(0.4f, 0.3f), glm::vec4(0.0f, 0.0f, 0.0f, 0.0f), glm::vec2(0.0f, 0.0f));
 
-    Button play(vertices, testScene.currentIndex(), "Play Button", playDisplay, RECTANGLE_SHAPE);
-    play.setRenderType(IMAGE_TYPE);
-    play.setTexture(play_button, *sceneShader, "tex", 0);
+    std::shared_ptr<Button> play = std::make_shared<Button>(vertices, testScene.currentIndex(), "Play Button", playDisplay, RECTANGLE_SHAPE);
+    play->setRenderType(IMAGE_TYPE);
+    play->setTexture(play_button, *sceneShader, "tex", 0);
     // play.printData(vertices); don't use, needs fixing
 
     Texture exit_button("../resources/textures/quit.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 
     std::shared_ptr<Appearance2D> exitDisplay = std::make_shared<Appearance2D>(glm::vec2(-0.9f, -0.4f), glm::vec2(0.4f, 0.3f), glm::vec4(0.0f, 0.0f, 0.0f, 0.0f), glm::vec2(0.0f, 0.0f));
-    Button exit(vertices, testScene.currentIndex(), "Play Button", exitDisplay, RECTANGLE_SHAPE);
-    exit.setTexture(exit_button, *sceneShader, "tex", 0);
-    exit.setRenderType(IMAGE_TYPE);
+
+    std::shared_ptr<Button> exit = std::make_shared<Button>(vertices, testScene.currentIndex(), "Play Button", exitDisplay, RECTANGLE_SHAPE);
+    exit->setTexture(exit_button, *sceneShader, "tex", 0);
+    exit->setRenderType(IMAGE_TYPE);
     // exit.printData(vertices); don't use, needs fixing
 
-    testScene.addElement(&play);
-    testScene.addElement(&exit);
+    testScene.addElement("play", play);
+    testScene.addElement("exit", exit);
 
-    EventHandler events;
-    Button* playPtr = &play;
-    std::shared_ptr<Button> sharedPlayPtr(playPtr);
-    events.addOnClickElement(sharedPlayPtr, [](){ std::cout << "It works" << std::endl; });
+    testScene.addEventListener(EVENT_ON_CLICK, "play", [](){std::cout << "It works!" << std::endl;});
 
     testScene.createVBO();
     testScene.createVAO(3, 4, 2, GL_FLOAT);
@@ -112,12 +111,10 @@ int main(){
     int i = 0;
     while(!glfwWindowShouldClose(window)){
         glClear(GL_COLOR_BUFFER_BIT);
-        sceneShader->Activate();
-
-        events.processInputs(window);
-        exitInput(window);
-        testScene.render(isTex);
         
+        exitInput(window);
+        testScene.update(window);
+        testScene.render(isTex);
         glfwSwapBuffers(window);
         glfwPollEvents();
 

@@ -1,35 +1,40 @@
 #include <Scene/Scene.h>
 
-void Scene2D::createVertexData(){
+void Scene::createVertexData(){
     vertices = std::make_shared<std::vector<GLfloat>>();
 }
 
-void Scene2D::linkVBO(std::shared_ptr<VBO> vbo){
+void Scene::linkVBO(std::shared_ptr<VBO> vbo){
     this->vbo = vbo;
 }
 
-void Scene2D::linkVAO(std::shared_ptr<VAO> vao){
+void Scene::linkVAO(std::shared_ptr<VAO> vao){
     this->vao = vao;
 }
 
-void Scene2D::linkShader(std::shared_ptr<Shader> shader){
+void Scene::linkShader(std::shared_ptr<Shader> shader){
     this->shader = shader;
 }
 
-std::shared_ptr<Shader> Scene2D::createShader(const char* vertexFile, const char* fragmentFile){
+void Scene2D::createEventHandler(){
+    if(events) throw std::runtime_error("Event Handler already exists");
+    events = std::make_unique<EventHandler>();
+}
+
+std::shared_ptr<Shader> Scene::createShader(const char* vertexFile, const char* fragmentFile){
     shader = std::make_shared<Shader>(vertexFile, fragmentFile);
     return shader;
 }
 
-void Scene2D::setBackgroundColor(glm::vec4 backgroundColor){
+void Scene::setBackgroundColor(glm::vec4 backgroundColor){
     this->backgroundColor = backgroundColor;
 }
 
-void Scene2D::addElement(MenuElement* element) {
-    elementArray.push_back(element);
+void Scene2D::addElement(std::string name, std::shared_ptr<MenuElement> element) {
+    elementArray[name] = element;
 }
 
-void Scene2D::createVAO(int posSize, int colorSize, int texSize, GLenum type){
+void Scene::createVAO(int posSize, int colorSize, int texSize, GLenum type){
 
     vao = std::make_shared<VAO>();
     vao->Bind();
@@ -43,11 +48,11 @@ void Scene2D::createVAO(int posSize, int colorSize, int texSize, GLenum type){
     vao->Unbind();
 }
 
-void Scene2D::createVBO(){
+void Scene::createVBO(){
     vbo = std::make_shared<VBO>(vertices->data(), vertices->size() * sizeof(vertices));
 }
 
-void Scene2D::activate(){
+void Scene::activate(){
     glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, backgroundColor.w);
     if(vao == nullptr) throw std::runtime_error("VAO not initialised");
     if(vbo == nullptr) throw std::runtime_error("VBO not initialised");
@@ -56,21 +61,37 @@ void Scene2D::activate(){
 }
 
 void Scene2D::render(GLuint texBool){
-    vao->Bind();
-    int i = 1;
-    for(MenuElement* x : elementArray){
-        i++;
-        if(!x) std::cout << "Error: Element is empty" << std::endl;
-        x->draw(texBool);
+    for(const auto& x : elementArray){
+        if(!x.second) std::cout << "Error: Element is empty" << std::endl;
+        x.second->draw(texBool);
     }
 }
 
-std::shared_ptr<std::vector<GLfloat>> Scene2D::getVertices(){
+void Scene2D::update(GLFWwindow* window){
+    events->processInputs(window);
+    glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, backgroundColor.w);
+    glClear(GL_COLOR_BUFFER_BIT);
+    shader->Activate();
+    vao->Bind();
+}
+
+std::shared_ptr<std::vector<GLfloat>> Scene::getVertices(){
     return vertices;
 }
 
-unsigned int* Scene2D::currentIndex(){
+unsigned int* Scene::currentIndex(){
 
     return &index;
 
+}
+
+void Scene2D::addEventListener(EventType eventType, std::string elementName, std::function<void()> action){
+    if(!events) throw std::runtime_error("Event Handler has not been created for this scene");
+    if(!elementArray[elementName]) throw std::runtime_error("No such element");
+
+    switch(eventType){
+        case EVENT_ON_CLICK:
+            events->addOnClickElement(elementArray[elementName], action);
+        break;
+    }
 }

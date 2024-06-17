@@ -1,3 +1,6 @@
+#ifndef CLASS_EVENT_HANDLER
+#define CLASS_EVENT_HANDLER
+
 #include <vector>
 #include <functional>
 #include "ui/ui.h"
@@ -18,4 +21,7 @@ private:
 public:
     void addOnClickElement(std::shared_ptr<MenuElement> element, std::function<void()> action);
     void processInputs(GLFWwindow* window);
+
 };
+
+#endif
