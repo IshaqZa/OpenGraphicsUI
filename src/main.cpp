@@ -24,11 +24,11 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height){
 
 }
 
-void exitInput(GLFWwindow *window)
-{
-    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
-}
+// void exitInput(GLFWwindow *window)
+// {
+//     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+//         glfwSetWindowShouldClose(window, true);
+// }
 
 // this function is purely for testing purposes
 // void print(int a, int b){
@@ -42,7 +42,7 @@ int main(){
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    GLFWwindow* window = glfwCreateWindow(1920, 1080, "PlaceHolderTitle", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(1920, 1080, "PlaceHolderTitle", glfwGetPrimaryMonitor(), NULL);
     if(window == NULL){
         cout << "An Error occured creating the window: " << endl;
         glfwTerminate();
@@ -65,7 +65,6 @@ int main(){
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     SceneManager sceneManager;
-
 
     std::shared_ptr<Scene2D> mainMenu = std::make_shared<Scene2D>();
     mainMenu->createVertexData();
@@ -98,7 +97,7 @@ int main(){
     mainMenu->addElement("exit", exit);
 
     mainMenu->addEventListener(EVENT_ON_CLICK, "play", [&sceneManager](){ sceneManager.switchCurrentScene("settings"); });
-
+    mainMenu->addEventListener(EVENT_ON_CLICK, "exit", [](){ std::exit(EXIT_SUCCESS); });
     mainMenu->createVBO();
     mainMenu->createVAO(3, 4, 2, GL_FLOAT);
 
@@ -132,7 +131,6 @@ int main(){
     while(!glfwWindowShouldClose(window)){
         glClear(GL_COLOR_BUFFER_BIT);
         
-        exitInput(window);
         sceneManager.update(window);
         sceneManager.render(isTex);
         glfwSwapBuffers(window);
