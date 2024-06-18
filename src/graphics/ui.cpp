@@ -24,6 +24,7 @@ void MenuElement::updateColor(std::shared_ptr<std::vector<GLfloat>> vertices, in
 void MenuElement::setRenderType(int renderType){
     if(!appearance) std::cout << "Appearance is null" << std::endl;
     else appearance->renderType = renderType;
+    std::cout << "Set render type for appearance attribute" << std::endl;
 }
 
 void MenuElement::printData(std::shared_ptr<std::vector<GLfloat>> vertices){
@@ -74,11 +75,13 @@ Button::Button(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalInd
     std::cout << "Created Shape" << std::endl;
     ebo = std::make_shared<EBO>(indices->data(), indices->size() * sizeof(indices));
     *globalIndex += 36;
+    std::cout << "Created ebo and updated global index" << std::endl;
 };
 
 void Button::setTexture(Texture texture, Shader& shader, const char* texLocation, GLuint unit) { 
     appearance->texture = texture;
     appearance->texture.texUnit(shader, texLocation, unit);
+    std::cout << "Set texture for button" << std::endl;
 }
 
 void Button::draw(GLuint texBool) {

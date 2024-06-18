@@ -6,14 +6,14 @@
 class SceneManager {
 
     private:
-        std::unordered_map<std::string, std::unique_ptr<Scene>> scenes;
-        Scene* currScene;
+        std::unordered_map<std::string, std::shared_ptr<Scene>> scenes;
+        std::string currScene;
 
     public:
-        void addScene(std::string name, std::unique_ptr<Scene> scene);
+        void addScene(std::string name, std::shared_ptr<Scene> scene);
         void switchCurrentScene(std::string name);
-        void update();
-        void render();
+        void update(GLFWwindow* window);
+        void render(GLuint texBool);
 };
 
 #endif

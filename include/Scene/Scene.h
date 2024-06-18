@@ -31,6 +31,8 @@ class Scene {
         void createVAO(int posSize, int colorSize, int texSize, GLenum type);
         std::shared_ptr<Shader> createShader(const char* vertexFile, const char* fragmentFile);
         virtual void update(GLFWwindow* window) = 0;
+        virtual void render(){};
+        virtual void render(GLuint texBool) = 0;
 };
 
 class Scene2D : public Scene{
@@ -43,7 +45,7 @@ class Scene2D : public Scene{
         void createEventHandler();
         void addEventListener(EventType eventType, std::string elementName, std::function<void()> action);
         void addElement(std::string name, std::shared_ptr<MenuElement> element);
-        void render(GLuint texBool);
+        void render(GLuint texBool) override;
         void update(GLFWwindow* window) override;
 };
 
