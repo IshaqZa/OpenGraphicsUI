@@ -2,6 +2,7 @@
 
 Texture::Texture(const char* image, GLenum texType, GLenum slot, GLenum format, GLenum pixelType)
 {
+	path = image;
 	// Assigns the type of the texture ot the texture object
 	type = texType;
 
@@ -65,4 +66,18 @@ void Texture::Unbind()
 void Texture::Delete()
 {
 	glDeleteTextures(1, &ID);
+}
+
+void to_json(json& j, const Texture& texture){
+	j = json{
+		{"ID", texture.ID},
+		{"type", texture.type},
+		{"path", texture.path}
+	};
+}
+void from_json(const json& j, Texture& texture){
+
+	j.at("ID").get_to(texture.ID);
+	j.at("type").get_to(texture.type);
+	j.at("path").get_to(texture.path);
 }

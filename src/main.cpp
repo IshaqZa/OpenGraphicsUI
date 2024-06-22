@@ -15,7 +15,6 @@
 #include <Buffer/texture.h>
 #include <ui/ui.h>
 #include <EventHandler/EventHandler.h>
-
 using namespace std;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height){

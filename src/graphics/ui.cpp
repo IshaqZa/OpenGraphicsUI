@@ -60,8 +60,8 @@ Button::Button(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalInd
     GLuint eboIndex = *globalIndex / 9;
 
     indices = std::make_shared<std::vector<GLuint>>();
-
-    switch(shape){
+    shapeValue = shape;
+    switch(shapeValue){
         case RECTANGLE_SHAPE:
             this->shape = std::make_unique<Square>(vertices, indices);
             std::cout << "Created shape object shared pointer" << std::endl;
@@ -92,8 +92,22 @@ void Button::draw(GLuint texBool) {
     } catch(std::exception& e){
         std::cerr << "Error: " << e.what() << std::endl;
     }
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    shape->draw();
 
     appearance->texture.Unbind();
     ebo->Unbind();
+}
+
+void to_json(json& j, const MenuElement& element){
+    j = json{
+        {"text", element.text},
+        {"Shape", element.shapeValue},
+        {"appearance", (*element.appearance)}
+    };
+}
+
+void from_json(const json& j, MenuElement& element){
+    j.at("text").get_to(element.text);
+    j.at("Shape").get_to(element.shapeValue);
+    j.at("appearance").get_to((*element.appearance));
 }

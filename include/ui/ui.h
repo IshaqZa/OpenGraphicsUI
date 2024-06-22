@@ -9,6 +9,9 @@
 #include <memory>
 #include "glm/glm.hpp"
 #include "Shape.h"
+#include "Json/json.hpp"
+
+using json = nlohmann::json;
 
 
 enum Shapes{
@@ -17,17 +20,24 @@ enum Shapes{
     CIRCLE_SHAPE
 };
 
+NLOHMANN_JSON_SERIALIZE_ENUM(Shapes,{
+    {TRIANGLE_SHAPE, "triangle"},
+    {RECTANGLE_SHAPE, "rectangle"},
+    {CIRCLE_SHAPE, "circle"}
+});
+
 class MenuElement {
 
     protected:
         GLuint index;
         std::string text;
+        Shapes shapeValue;
         std::unique_ptr<Shape> shape;
         std::shared_ptr<Appearance2D> appearance;
         std::shared_ptr<std::vector<GLuint>> indices;
         std::shared_ptr<EBO> ebo;
-    public:
 
+    public:
         void setPos(glm::vec2 pos);
         void setSize(glm::vec2 size);
         void setColor(glm::vec4 color);
@@ -40,9 +50,16 @@ class MenuElement {
         void setText(std::string text);
         virtual void draw(GLuint texBool)=0;
         virtual void setTexture(Texture texture, Shader& shader, const char* uniform, GLuint unit)=0;
+
+        friend void to_json(json& j, const MenuElement& element);
+        friend void from_json(const json& j, MenuElement& element);
+
 };
 
 class Button : public MenuElement{
+
+    private:
+        
 
     public:
         Button(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalIndex, std::string text, std::shared_ptr<Appearance2D> appearance, Shapes shape);
