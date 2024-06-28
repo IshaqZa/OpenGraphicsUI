@@ -27,7 +27,4 @@ struct Appearance2D
 
 };
 
-void to_json(json &j, const Appearance2D &appearance);
-void from_json(const json &j, Appearance2D &appearance);
-
 #endif

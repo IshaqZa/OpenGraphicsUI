@@ -4,6 +4,7 @@
 #include <ui/ui.h>
 #include <Scene/Scene.h>
 #include <Json/json.hpp>
+#include <fstream>
 
 class UIManager {
     public:

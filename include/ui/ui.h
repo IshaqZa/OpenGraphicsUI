@@ -51,9 +51,6 @@ class MenuElement {
         virtual void draw(GLuint texBool)=0;
         virtual void setTexture(Texture texture, Shader& shader, const char* uniform, GLuint unit)=0;
 
-        friend void to_json(json& j, const MenuElement& element);
-        friend void from_json(const json& j, MenuElement& element);
-
 };
 
 class Button : public MenuElement{
@@ -67,6 +64,7 @@ class Button : public MenuElement{
         void setTexture(Texture texture, Shader& shader, const char* texLocation, GLuint unit) override;
 
         void draw(GLuint texBool) override;
+        
 };
 
 #endif //UI_CLASS_H

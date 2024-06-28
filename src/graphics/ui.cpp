@@ -97,17 +97,3 @@ void Button::draw(GLuint texBool) {
     appearance->texture.Unbind();
     ebo->Unbind();
 }
-
-void to_json(json& j, const MenuElement& element){
-    j = json{
-        {"text", element.text},
-        {"Shape", element.shapeValue},
-        {"appearance", (*element.appearance)}
-    };
-}
-
-void from_json(const json& j, MenuElement& element){
-    j.at("text").get_to(element.text);
-    j.at("Shape").get_to(element.shapeValue);
-    j.at("appearance").get_to((*element.appearance));
-}

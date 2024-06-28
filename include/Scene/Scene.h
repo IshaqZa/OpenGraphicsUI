@@ -8,6 +8,8 @@
 #include <EventHandler/EventHandler.h>
 #include <EventHandler/EventType.h>
 
+using json = nlohmann::json;
+
 class Scene {
 
     protected:
@@ -48,5 +50,8 @@ class Scene2D : public Scene{
         void render(GLuint texBool) override;
         void update(GLFWwindow* window) override;
 };
+
+
+
 
 #endif //SCENE_CLASS_H
