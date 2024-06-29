@@ -27,7 +27,4 @@ public:
 	void Delete();
 };
 
-void to_json(json& j, const Texture& texture);
-void from_json(const json& j, Texture& texture);
-
 #endif
