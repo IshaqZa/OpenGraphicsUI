@@ -9,22 +9,6 @@
 #include <Json/json.hpp>
 #include <ui/ui.h>
 
-typedef struct StructScene {
-    std::string name;
-    std::vector<StructButton> sceneMembers;
-    std::string vertexShaderPath;
-    std::string fragmentShaderPath;
-    GLfloat backgroundColor[4];
-    int posSize, colorSize, texSize;
-
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(StructScene, sceneMembers, vertexShaderPath, fragmentShaderPath, backgroundColor, posSize, colorSize, texSize);
-};
-
-typedef struct StructScenes{
-    std::vector<StructScene> scenes;
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(StructScenes, scenes);
-};
-
 typedef struct StructAppearance{
     GLfloat posX, posY;
     GLfloat width, height;
@@ -43,6 +27,22 @@ typedef struct StructButton{
     StructAppearance appearance;
     Shapes shape;
     NLOHMANN_DEFINE_TYPE_INTRUSIVE(StructButton, name, events, appearance, shape);
+};
+
+typedef struct StructScene {
+    std::string name;
+    std::vector<StructButton> sceneMembers;
+    std::string vertexShaderPath;
+    std::string fragmentShaderPath;
+    GLfloat backgroundColor[4];
+    int posSize, colorSize, texSize;
+
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE(StructScene, sceneMembers, vertexShaderPath, fragmentShaderPath, backgroundColor, posSize, colorSize, texSize);
+};
+
+typedef struct StructScenes{
+    std::vector<StructScene> scenes;
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE(StructScenes, scenes);
 };
 
 #endif

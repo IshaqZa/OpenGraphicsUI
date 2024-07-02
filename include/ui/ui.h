@@ -32,7 +32,7 @@ class MenuElement {
         GLuint index;
         std::string text;
         Shapes shapeValue;
-        std::unique_ptr<Shape> shape;
+        std::shared_ptr<Shape> shape;
         std::shared_ptr<Appearance2D> appearance;
         std::shared_ptr<std::vector<GLuint>> indices;
         std::shared_ptr<EBO> ebo;

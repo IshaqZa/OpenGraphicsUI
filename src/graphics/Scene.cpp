@@ -67,8 +67,8 @@ void Scene2D::render(GLuint texBool){
     }
 }
 
-void Scene2D::update(GLFWwindow* window){
-    events->processInputs(window);
+void Scene2D::update(GLFWwindow* window, SceneManager& manager){
+    events->processInputs(window, manager);
     glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, backgroundColor.w);
     glClear(GL_COLOR_BUFFER_BIT);
     shader->Activate();
@@ -85,7 +85,7 @@ unsigned int* Scene::currentIndex(){
 
 }
 
-void Scene2D::addEventListener(EventType eventType, std::string elementName, std::function<void()> action){
+void Scene2D::addEventListener(EventType eventType, std::string elementName, std::function<void(SceneManager&)> action){
     if(!events) throw std::runtime_error("Event Handler has not been created for this scene");
     if(!elementArray[elementName]) throw std::runtime_error("No such element");
 
@@ -94,4 +94,8 @@ void Scene2D::addEventListener(EventType eventType, std::string elementName, std
             events->addOnClickElement(elementArray[elementName], action);
         break;
     }
+}
+
+std::shared_ptr<Shader> Scene::getShaderProgram(){
+    return shader;
 }

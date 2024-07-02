@@ -3,6 +3,9 @@
 
 #include "Scene/Scene.h"
 
+class Scene;
+class EventHandler;
+
 class SceneManager {
 
     private:
@@ -12,6 +15,7 @@ class SceneManager {
     public:
         void addScene(std::string name, std::shared_ptr<Scene> scene);
         void switchCurrentScene(std::string name);
+        std::shared_ptr<Shader> getCurrentSceneShader();
         void update(GLFWwindow* window);
         void render(GLuint texBool);
 };

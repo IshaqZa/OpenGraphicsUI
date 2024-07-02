@@ -2,8 +2,6 @@
 #define ACTIONS_CLASS_H
 #include <Scene/SceneManager.h>
 
-void settingsOnClick(SceneManager& manager){
-    manager.switchCurrentScene("Settings");
-}
+void settingsOnClick(SceneManager& manager);
 
 #endif

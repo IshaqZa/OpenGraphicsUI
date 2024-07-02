@@ -17,10 +17,14 @@ void SceneManager::switchCurrentScene(std::string name){
 
 void SceneManager::update(GLFWwindow* window){
     if(currScene.empty()) throw std::runtime_error("No scenes added to Scene Manager");
-    scenes[currScene]->update(window);
+    scenes[currScene]->update(window, (*this));
 }
 
 void SceneManager::render(GLuint texBool){
     if(currScene.empty()) throw std::runtime_error("No scenes added to Scene Manager");
     scenes[currScene]->render(texBool);
+}
+
+std::shared_ptr<Shader> SceneManager::getCurrentSceneShader(){
+    return scenes[currScene]->getShaderProgram();
 }
