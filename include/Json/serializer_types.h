@@ -9,7 +9,14 @@
 #include <Json/json.hpp>
 #include <ui/ui.h>
 
-typedef struct StructAppearance{
+struct StructEvent {
+    EventType event;
+    std::string action;
+
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE(StructEvent, event, action);
+};
+
+struct StructAppearance{
     GLfloat posX, posY;
     GLfloat width, height;
     GLfloat color[4];
@@ -17,19 +24,19 @@ typedef struct StructAppearance{
     std::string textureImagePath;
     int renderType;
 
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(StructAppearance, posX, posY, width, height, color, texturePosX, texturePosY, renderType);
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE(StructAppearance, posX, posY, width, height, color, texturePosX, texturePosY, textureImagePath, renderType);
 };
 
-typedef struct StructButton{
+struct StructButton{
 
     std::string name;
-    std::vector<std::pair<EventType, std::string>> events;
+    std::vector<StructEvent> events;
     StructAppearance appearance;
     Shapes shape;
     NLOHMANN_DEFINE_TYPE_INTRUSIVE(StructButton, name, events, appearance, shape);
 };
 
-typedef struct StructScene {
+struct StructScene {
     std::string name;
     std::vector<StructButton> sceneMembers;
     std::string vertexShaderPath;
@@ -37,10 +44,10 @@ typedef struct StructScene {
     GLfloat backgroundColor[4];
     int posSize, colorSize, texSize;
 
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(StructScene, sceneMembers, vertexShaderPath, fragmentShaderPath, backgroundColor, posSize, colorSize, texSize);
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE(StructScene, name, sceneMembers, vertexShaderPath, fragmentShaderPath, backgroundColor, posSize, colorSize, texSize);
 };
 
-typedef struct StructScenes{
+struct StructScenes{
     std::vector<StructScene> scenes;
     NLOHMANN_DEFINE_TYPE_INTRUSIVE(StructScenes, scenes);
 };
