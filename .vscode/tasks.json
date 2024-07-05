@@ -4,7 +4,7 @@
         {
             "type": "cppbuild",
             "label": "C/C++: g++.exe build active file",
-            "command": "C:/msys64/ucrt64/bin/g++.exe",
+            "command": "C:/msys64/ucrt64/bin/gcc.exe",
             "args": [
                 "-std=c++17",
                 "-I${workspaceFolder}/include",
@@ -14,7 +14,8 @@
                 "${workspaceFolder}/src/external/stb_image.cpp",
                 "${workspaceFolder}/libglfw3.a",
                 "-o",
-                "${workspaceFolder}/build/output.exe",
+                "${workspaceFolder}/build/Sci Hunt.exe",
+                "-lstdc++",
                 "-lgdi32"
             ],
             "options": {

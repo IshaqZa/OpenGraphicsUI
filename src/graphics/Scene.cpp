@@ -63,12 +63,14 @@ void Scene::activate(){
 void Scene2D::render(GLuint texBool){
     for(const auto& x : elementArray){
         if(!x.second) std::cout << "Error: Element is empty" << std::endl;
+        // std::cout << "rendering: " << x.first << std::endl;
         x.second->draw(texBool);
     }
 }
 
 void Scene2D::update(GLFWwindow* window, SceneManager& manager){
     events->processInputs(window, manager);
+    // std::cout << "update insdie 2D scene" << std::endl;
     glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, backgroundColor.w);
     glClear(GL_COLOR_BUFFER_BIT);
     shader->Activate();

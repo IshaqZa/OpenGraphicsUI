@@ -42,6 +42,7 @@ void Square::generateIndices(GLuint index){
 }
 
 void Square::draw() {
+    // std::cout << "calling draw elements" << std::endl;
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 

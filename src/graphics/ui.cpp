@@ -24,7 +24,7 @@ void MenuElement::updateColor(std::shared_ptr<std::vector<GLfloat>> vertices, in
 void MenuElement::setRenderType(int renderType){
     if(!appearance) std::cout << "Appearance is null" << std::endl;
     else appearance->renderType = renderType;
-    std::cout << "Set render type for appearance attribute" << std::endl;
+    // std::cout << "Set render type for appearance attribute" << std::endl;
 }
 
 void MenuElement::printData(std::shared_ptr<std::vector<GLfloat>> vertices){
@@ -64,36 +64,46 @@ Button::Button(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalInd
     switch(shapeValue){
         case RECTANGLE_SHAPE:
             this->shape = std::make_unique<Square>(vertices, indices);
-            std::cout << "Created shape object shared pointer" << std::endl;
+            // std::cout << "Created shape object shared pointer" << std::endl;
             this->shape->generateVertices(appearance);
-            std::cout << "Generated vertices" << std::endl;
+            // std::cout << "Generated vertices" << std::endl;
             this->shape->generateIndices(eboIndex);
-            std::cout << "Generated indices" << std::endl;
+            // std::cout << "Generated indices" << std::endl;
         break;
     }
 
-    std::cout << "Created Shape" << std::endl;
+    // std::cout << "Created Shape" << std::endl;
     ebo = std::make_shared<EBO>(indices->data(), indices->size() * sizeof(indices));
     *globalIndex += 36;
-    std::cout << "Created ebo and updated global index" << std::endl;
+    // std::cout << "Created ebo and updated global index" << std::endl;
 };
 
 void Button::setTexture(Texture texture, Shader& shader, const char* texLocation, GLuint unit) { 
     appearance->texture = texture;
     appearance->texture.texUnit(shader, texLocation, unit);
-    std::cout << "Set texture for button" << std::endl;
+    // std::cout << "Set texture for button" << std::endl;
 }
 
 void Button::draw(GLuint texBool) {
+    // std::cout << "Binding texture" << std::endl;
     appearance->texture.Bind();
+    // std::cout << "Setting render type" << std::endl;
     glUniform1i(texBool, appearance->renderType);
     try{
+        // std::cout << "Binding EBO" << std::endl;
         ebo->Bind();
+    } catch(std::runtime_error& e){
+
+        std::cerr << "Error: " << e.what() << std::endl;
+
     } catch(std::exception& e){
         std::cerr << "Error: " << e.what() << std::endl;
     }
+    // std::cout << "calling draw from shape object" << std::endl;
     shape->draw();
 
+    // std::cout << "Unbinding textuer and ebo" << std::endl;
     appearance->texture.Unbind();
     ebo->Unbind();
+    // std::cout << "Unbinding done" << std::endl;
 }

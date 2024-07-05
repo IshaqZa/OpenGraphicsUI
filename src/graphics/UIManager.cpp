@@ -22,6 +22,9 @@ void UIManager::loadUiConfig(SceneManager& sceneManager){
         std::cerr << e.what() << std::endl;
         exit(EXIT_FAILURE);
     }
+    uiFile.close();
+
+    std::cout << uiConfig.dump(4) << std::endl;
 
     StructScenes scenesData;
     try{
@@ -37,8 +40,16 @@ void UIManager::loadUiConfig(SceneManager& sceneManager){
         exit(EXIT_FAILURE);
     }
     
-    std::cout << "Start loading scenes array" << std::endl;
     for(auto& sceneData: scenesData.scenes){
+
+        std::cout << "Current Scene Data:" << std::endl;
+        std::cout << "Scene Name: " << sceneData.name << std::endl;
+        std::cout << "Scene vertex shader: " << sceneData.vertexShaderPath << std::endl;
+        std::cout << "Scene fragment shader: " << sceneData.fragmentShaderPath << std::endl;
+        std::cout << "Background color data: " << sceneData.backgroundColor[0] << ", " << sceneData.backgroundColor[1] << ", " << sceneData.backgroundColor[2] << ", " << sceneData.backgroundColor[3] << std::endl;
+        std::cout << "vertex data position offset: " << sceneData.posSize << ", " << "vertex data color offset: " << sceneData.colorSize << ", " << "vertex data texture offset: " << sceneData.texSize << std::endl;
+
+        std::cout << "Creation of scene: " << sceneData.name << std::endl;
         Scene2D newScene;
         newScene.createVertexData();
         newScene.createShader(sceneData.vertexShaderPath.c_str(), sceneData.fragmentShaderPath.c_str());
@@ -56,6 +67,9 @@ void UIManager::loadUiConfig(SceneManager& sceneManager){
 
         std::shared_ptr<std::vector<GLfloat>> vertices = newScene.getVertices();
         for(auto& button: sceneData.sceneMembers){
+            std::cout << "current button data:" << std::endl;
+            std::cout << "Button name: " << button.name << std::endl;
+            std::cout << "Button shape: " << button.shape << std::endl;
             StructAppearance currApp = button.appearance;
             Texture texture(currApp.textureImagePath.c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
             Appearance2D newApp(
@@ -68,7 +82,9 @@ void UIManager::loadUiConfig(SceneManager& sceneManager){
             );
 
             Button newButton(vertices, newScene.currentIndex(), button.name, std::make_shared<Appearance2D>(newApp), button.shape);
-            newScene.addElement(button.name, std::make_shared<Button>(newButton));
+            std::shared_ptr<Button> btnPtr = std::make_shared<Button>(newButton);
+            if(btnPtr == nullptr) std::cerr << "Error making button pointer" << std::endl;
+            newScene.addElement(button.name, btnPtr);
             if(!button.events.empty()){
                 for(auto& event : button.events){
                     newScene.addEventListener(event.event, button.name, triggerAction(event.action));

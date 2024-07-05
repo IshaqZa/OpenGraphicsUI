@@ -18,6 +18,7 @@ class SceneManager {
         std::shared_ptr<Shader> getCurrentSceneShader();
         void update(GLFWwindow* window);
         void render(GLuint texBool);
+        void printAllScenes();
 };
 
 #endif

@@ -67,15 +67,32 @@ int main(){
     SceneManager sceneManager;
     UIManager uimanager;
 
+    // std::cout << "Loading UI configuration" << std::endl;
     uimanager.loadUiConfig(sceneManager);
+    // std::cout << "Done loading UI configuration" << std::endl;
     std::shared_ptr<Shader> shader = sceneManager.getCurrentSceneShader();
 
-    GLuint texBool = glGetUniformLocation(shader->ID, "isTex");
+    sceneManager.printAllScenes();
     
+
+    GLuint texBool = glGetUniformLocation(shader->ID, "isTex");
+
+    GLenum error = glGetError();
+    std::cout << error << std::endl;
+
     while(!glfwWindowShouldClose(window)){
         glClear(GL_COLOR_BUFFER_BIT);
-        sceneManager.update(window);
-        sceneManager.render(texBool);
+        // std::cout << "starting scene update using scene manager" << std::endl;
+        try {
+            sceneManager.update(window);
+            // std::cout << "starting current active scene rendering using tex bool" << std::endl;
+            sceneManager.render(texBool);
+        } catch(std::runtime_error& e){
+            std::cerr << e.what() << std::endl;
+        } catch(std::exception& e){
+            std::cerr << e.what() << std::endl;
+        }
+        
         glfwPollEvents();
     }
     glfwDestroyWindow(window);
