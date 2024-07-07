@@ -17,7 +17,7 @@ class SceneManager {
         void switchCurrentScene(std::string name);
         std::shared_ptr<Shader> getCurrentSceneShader();
         void update(GLFWwindow* window);
-        void render(GLuint texBool);
+        void render();
         void printAllScenes();
 };
 

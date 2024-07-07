@@ -39,7 +39,7 @@ class Scene {
         std::shared_ptr<Shader> getShaderProgram();
         virtual void update(GLFWwindow* window, SceneManager& manager) = 0;
         virtual void render(){};
-        virtual void render(GLuint texBool) = 0;
+        virtual void render() = 0;
 };
 
 class Scene2D : public Scene{
@@ -52,7 +52,7 @@ class Scene2D : public Scene{
         void createEventHandler();
         void addEventListener(EventType eventType, std::string elementName, std::function<void(SceneManager&)> action);
         void addElement(std::string name, std::shared_ptr<MenuElement> element);
-        void render(GLuint texBool) override;
+        void render() override;
         void update(GLFWwindow* window, SceneManager& manager) override;
 };
 

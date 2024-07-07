@@ -60,7 +60,8 @@ void Scene::activate(){
     vbo->Bind();
 }
 
-void Scene2D::render(GLuint texBool){
+void Scene2D::render(){
+    GLuint texBool = glGetUniformLocation(shader->ID, "isTex");
     for(const auto& x : elementArray){
         if(!x.second) std::cout << "Error: Element is empty" << std::endl;
         // std::cout << "rendering: " << x.first << std::endl;

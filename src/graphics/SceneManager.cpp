@@ -21,9 +21,10 @@ void SceneManager::update(GLFWwindow* window){
     // std::cout << "Done updating cycle" << std::endl;
 }
 
-void SceneManager::render(GLuint texBool){
+void SceneManager::render(){
     if(currScene.empty()) throw std::runtime_error("No scenes added to Scene Manager");
-    scenes[currScene]->render(texBool);
+    
+    scenes[currScene]->render();
     // std::cout << "Done rendering cycle" << std::endl;
 }
 

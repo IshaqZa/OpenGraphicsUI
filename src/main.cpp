@@ -24,6 +24,10 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height){
 
 }
 
+void errorCallback(int error, const char* description) {
+    fprintf(stderr, "GLFW Error %d: %s\n", error, description);
+}
+
 // void exitInput(GLFWwindow *window)
 // {
 //     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -42,7 +46,7 @@ int main(){
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    GLFWwindow* window = glfwCreateWindow(1920, 1080, "PlaceHolderTitle", glfwGetPrimaryMonitor(), NULL);
+    GLFWwindow* window = glfwCreateWindow(1920, 1080, "Sci Hunt", glfwGetPrimaryMonitor(), NULL);
     if(window == NULL){
         cout << "An Error occured creating the window: " << endl;
         glfwTerminate();
@@ -63,19 +67,13 @@ int main(){
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-
+    glfwSetErrorCallback(errorCallback);
     SceneManager sceneManager;
     UIManager uimanager;
 
     // std::cout << "Loading UI configuration" << std::endl;
     uimanager.loadUiConfig(sceneManager);
     // std::cout << "Done loading UI configuration" << std::endl;
-    std::shared_ptr<Shader> shader = sceneManager.getCurrentSceneShader();
-
-    sceneManager.printAllScenes();
-    
-
-    GLuint texBool = glGetUniformLocation(shader->ID, "isTex");
 
     GLenum error = glGetError();
     std::cout << error << std::endl;
@@ -86,7 +84,7 @@ int main(){
         try {
             sceneManager.update(window);
             // std::cout << "starting current active scene rendering using tex bool" << std::endl;
-            sceneManager.render(texBool);
+            sceneManager.render();
         } catch(std::runtime_error& e){
             std::cerr << e.what() << std::endl;
         } catch(std::exception& e){

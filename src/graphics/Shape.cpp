@@ -28,8 +28,14 @@ void Square::generateVertices(std::shared_ptr<Appearance2D> appearance){
             }
         );
     } catch(const std::exception& e){
-        std::cout << e.what() << std::endl;
+        std::cerr << e.what() << std::endl;
     }
+
+    // for(int i = 0; i < vertices->size(); i++){
+    //     std::cout << (*vertices)[i] << ", ";
+    //     if(i%8 == 0 && i !=0) std::cout << std::endl;
+    // }
+
     std::cout << "Added vertices" << std::endl;
 }
 
@@ -38,6 +44,11 @@ void Square::generateIndices(GLuint index){
        index + 0, index + 1, index + 3,
        index + 1, index + 2, index + 3
     });
+
+    // for(int i = 0; i < indices->size(); i++){
+    //     std::cout << (*indices)[i] << ", ";
+    //     if(i%2 == 0 && i!=0) std::cout << std::endl;
+    // }
 
 }
 
