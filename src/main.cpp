@@ -94,15 +94,15 @@ int main(){
 
     std::vector<GLfloat> vertices = (*sceneManager->getCurrSceneVertexData());
 
-    // for(GLfloat vertex: vertices){
-    //     std::cout << vertex << std::endl;
-    // }
+    for(int i = 0; i < vertices.size(); i++){
+        if(i%9 == 0 && i !=0) std::cout << std::endl;
+        std::cout << vertices[i] << ", ";
+        
+    }
 
-    long long i = 0;
+    
     while(!glfwWindowShouldClose(window)){
-        std::cout << "iteration number: " << i+1 << std::endl;
-        i++;
-        // glClear(GL_COLOR_BUFFER_BIT);
+        
         std::cout << "starting scene update using scene manager" << std::endl;
         try {
             sceneManager->update(window);
@@ -114,6 +114,10 @@ int main(){
             std::cerr << e.what() << std::endl;
         }
 
+        
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        glfwSwapBuffers(window);
         glfwPollEvents();
         // GLenum error = glGetError();
         // if(error) std::cout << "OpenGL Error Number:" << error << std::endl;

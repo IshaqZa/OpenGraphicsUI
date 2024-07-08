@@ -56,24 +56,26 @@ void Scene::activate(){
     glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, backgroundColor.w);
     if(vao == nullptr) throw std::runtime_error("VAO not initialised");
     if(vbo == nullptr) throw std::runtime_error("VBO not initialised");
-    vao->Bind();
     vbo->Bind();
+    vao->Bind();
 }
 
 void Scene2D::render(){
-    GLuint texBool = glGetUniformLocation(shader->ID, "isTex");
-    if(texBool < 0) {
-        std::cout << "Error retrieving tex bool" << std::endl;
-        exit(EXIT_FAILURE);
-    }
+
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    shader->Activate();
+    vao->Bind();
+    
     try{
         for(const auto& x : elementArray){
             if(!x.second){
                 throw std::runtime_error("Empty element pointer");
             }
             std::cout << "rendering: " << x.first << std::endl;
-            x.second->draw(texBool);
+            x.second->draw(isTex);
         }
+        vao->Unbind();
     }catch(std::runtime_error& e){
         std::cerr << e.what() << std::endl;
         std::cout << e.what() << std::endl;
@@ -84,10 +86,7 @@ void Scene2D::render(){
 void Scene2D::update(GLFWwindow* window){
     events->processInputs(window);
     // std::cout << "update insdie 2D scene" << std::endl;
-    glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, backgroundColor.w);
-    glClear(GL_COLOR_BUFFER_BIT);
-    shader->Activate();
-    vao->Bind();
+    
 }
 
 std::shared_ptr<std::vector<GLfloat>> Scene::getVertices(){

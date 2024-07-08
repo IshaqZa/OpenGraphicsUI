@@ -104,6 +104,13 @@ void Button::setTexture(Texture texture, Shader& shader, const char* texLocation
 }
 
 void Button::draw(GLuint texBool) {
+
+    if(!appearance || !shape || !ebo) {
+        std::cerr << "Error drawing button due to initialised data" << std::endl;
+        std::cout << "Error drawing button due to initialised data" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
     std::cout << "Binding texture" << std::endl;
     appearance->texture.Bind();
     std::cout << "Setting render type" << std::endl;

@@ -95,7 +95,7 @@ void UIManager::loadUiConfig(){
             );
             if (!appearancePtr) {
                 std::cerr << "Failed to create Button object." << std::endl;
-                continue; // Skip processing if Button creation fails
+                exit(EXIT_FAILURE); // Skip processing if Button creation fails
             }
 
             std::cout << "Created appearance from data retrieved from json file" << std::endl;

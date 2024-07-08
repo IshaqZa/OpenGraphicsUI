@@ -16,6 +16,7 @@ class Scene {
 
     protected:
         unsigned int index = 0;
+        GLuint isTex;
         std::shared_ptr<VBO> vbo;
         std::shared_ptr<VAO> vao;
         std::shared_ptr<Shader> shader;
@@ -46,6 +47,13 @@ class Scene2D : public Scene{
         std::unordered_map<std::string, std::shared_ptr<MenuElement>> elementArray;
 
     public:
+        Scene2D(){
+            isTex = glGetUniformLocation(shader->ID, "isTex");
+            if(isTex < 0) {
+                std::cout << "Error retrieving tex bool" << std::endl;
+                exit(EXIT_FAILURE);
+            }
+        }
         void createEventHandler();
         void addEventListener(EventType eventType, std::string elementName, std::function<void()> action);
         void addElement(std::string name, std::shared_ptr<MenuElement> element);
