@@ -10,11 +10,12 @@
 
 class UIManager {
     private:
-        std::unordered_map<std::string, std::function<void(SceneManager&)>> actionMap;
+        std::unordered_map<std::string, std::function<void()>> actionMap;
+        SceneManager* sceneManager = SceneManager::getInstance();
     public:
         UIManager();
-        void loadUiConfig(SceneManager& sceneManager);
-        std::function<void(SceneManager&)> triggerAction(std::string action);
+        void loadUiConfig();
+        std::function<void()> triggerAction(std::string action);
         // void saveUiConfig(std::shared_ptr<Scene> scene);
 };
 

@@ -58,39 +58,42 @@ Button::Button(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalInd
 
     this->appearance = appearance;
     GLuint eboIndex = *globalIndex / 9;
+    std:: cout << "assigned appearance and normalized global index to fit eboIndex" << std::endl;
 
     indices = std::make_shared<std::vector<GLuint>>();
+    std::cout << "Made indcies shared ptr" << std::endl;
     shapeValue = shape;
     switch(shapeValue){
         case RECTANGLE_SHAPE:
             this->shape = std::make_unique<Square>(vertices, indices);
-            // std::cout << "Created shape object shared pointer" << std::endl;
+            std::cout << "Created shape object shared pointer" << std::endl;
             this->shape->generateVertices(appearance);
-            // std::cout << "Generated vertices" << std::endl;
+            std::cout << "Generated vertices" << std::endl;
             this->shape->generateIndices(eboIndex);
-            // std::cout << "Generated indices" << std::endl;
+            std::cout << "Generated indices" << std::endl;
         break;
     }
 
-    // std::cout << "Created Shape" << std::endl;
+    std::cout << "Created Shape" << std::endl;
     ebo = std::make_shared<EBO>(indices->data(), indices->size() * sizeof(indices));
+    if(ebo==nullptr) std::cout << "Error creating EBO shared_ptr" << std::endl;
     *globalIndex += 36;
-    // std::cout << "Created ebo and updated global index" << std::endl;
+    std::cout << "Created ebo and updated global index" << std::endl;
 };
 
 void Button::setTexture(Texture texture, Shader& shader, const char* texLocation, GLuint unit) { 
     appearance->texture = texture;
     appearance->texture.texUnit(shader, texLocation, unit);
-    // std::cout << "Set texture for button" << std::endl;
+    std::cout << "Set texture for button" << std::endl;
 }
 
 void Button::draw(GLuint texBool) {
-    // std::cout << "Binding texture" << std::endl;
+    std::cout << "Binding texture" << std::endl;
     appearance->texture.Bind();
-    // std::cout << "Setting render type" << std::endl;
+    std::cout << "Setting render type" << std::endl;
     glUniform1i(texBool, appearance->renderType);
     try{
-        // std::cout << "Binding EBO" << std::endl;
+        std::cout << "Binding EBO" << std::endl;
         ebo->Bind();
     } catch(std::runtime_error& e){
 
@@ -99,11 +102,11 @@ void Button::draw(GLuint texBool) {
     } catch(std::exception& e){
         std::cerr << "Error: " << e.what() << std::endl;
     }
-    // std::cout << "calling draw from shape object" << std::endl;
+    std::cout << "calling draw from shape object" << std::endl;
     shape->draw();
 
-    // std::cout << "Unbinding textuer and ebo" << std::endl;
+    std::cout << "Unbinding textuer and ebo" << std::endl;
     appearance->texture.Unbind();
     ebo->Unbind();
-    // std::cout << "Unbinding done" << std::endl;
+    std::cout << "Unbinding done" << std::endl;
 }

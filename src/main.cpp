@@ -50,6 +50,7 @@ int main(){
     if(window == NULL){
         cout << "An Error occured creating the window: " << endl;
         glfwTerminate();
+        return EXIT_FAILURE;
     }
 
     glfwMakeContextCurrent(window);
@@ -68,33 +69,49 @@ int main(){
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetErrorCallback(errorCallback);
-    SceneManager sceneManager;
     UIManager uimanager;
+    SceneManager* sceneManager = SceneManager::getInstance();
+    if(!sceneManager) {
+        std::cout << "Scene Manager failed to initialise" << std::endl;
+        return EXIT_FAILURE;
+    }
 
     // std::cout << "Loading UI configuration" << std::endl;
-    uimanager.loadUiConfig(sceneManager);
-    // std::cout << "Done loading UI configuration" << std::endl;
+    uimanager.loadUiConfig();
+    std::cout << "Done loading UI configuration" << std::endl;
 
-    GLenum error = glGetError();
-    std::cout << error << std::endl;
+    std::vector<GLfloat> vertices = (*sceneManager->getCurrSceneVertexData());
 
+    // for(GLfloat vertex: vertices){
+    //     std::cout << vertex << std::endl;
+    // }
+
+    long long i = 0;
     while(!glfwWindowShouldClose(window)){
+        // std::cout << "iteration number: " << i+1 << std::endl;
+        i++;
         glClear(GL_COLOR_BUFFER_BIT);
         // std::cout << "starting scene update using scene manager" << std::endl;
         try {
-            sceneManager.update(window);
-            // std::cout << "starting current active scene rendering using tex bool" << std::endl;
-            sceneManager.render();
+            // sceneManager->update(window);
+        //  std::cout << "starting current active scene rendering using tex bool" << std::endl;
+            sceneManager->render();
         } catch(std::runtime_error& e){
             std::cerr << e.what() << std::endl;
         } catch(std::exception& e){
             std::cerr << e.what() << std::endl;
         }
-        
+
         glfwPollEvents();
+        // GLenum error = glGetError();
+        // if(error) std::cout << "OpenGL Error Number:" << error << std::endl;
+        // break;
     }
+
     glfwDestroyWindow(window);
+    std::cout << "destroyed window" << std::endl;
     glfwTerminate();
+    std::cout << "Terminated glfw" << std::endl;
     return EXIT_SUCCESS;
     
 }

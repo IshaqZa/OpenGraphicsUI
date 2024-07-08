@@ -40,15 +40,16 @@ void Square::generateVertices(std::shared_ptr<Appearance2D> appearance){
 }
 
 void Square::generateIndices(GLuint index){
+    std::cout << "Current Global Index: " <<  index << std::endl;
     indices->insert(indices->end(), {
        index + 0, index + 1, index + 3,
        index + 1, index + 2, index + 3
     });
 
-    // for(int i = 0; i < indices->size(); i++){
-    //     std::cout << (*indices)[i] << ", ";
-    //     if(i%2 == 0 && i!=0) std::cout << std::endl;
-    // }
+    for(int i = 0; i < indices->size(); i++){
+        std::cout << (*indices)[i] << ", ";
+        if(i%2 == 0 && i!=0) std::cout << std::endl;
+    }
 
 }
 

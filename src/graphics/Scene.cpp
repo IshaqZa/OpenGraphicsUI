@@ -69,8 +69,8 @@ void Scene2D::render(){
     }
 }
 
-void Scene2D::update(GLFWwindow* window, SceneManager& manager){
-    events->processInputs(window, manager);
+void Scene2D::update(GLFWwindow* window){
+    events->processInputs(window);
     // std::cout << "update insdie 2D scene" << std::endl;
     glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, backgroundColor.w);
     glClear(GL_COLOR_BUFFER_BIT);
@@ -88,7 +88,7 @@ unsigned int* Scene::currentIndex(){
 
 }
 
-void Scene2D::addEventListener(EventType eventType, std::string elementName, std::function<void(SceneManager&)> action){
+void Scene2D::addEventListener(EventType eventType, std::string elementName, std::function<void()> action){
     if(!events) throw std::runtime_error("Event Handler has not been created for this scene");
     if(!elementArray[elementName]) throw std::runtime_error("No such element");
 

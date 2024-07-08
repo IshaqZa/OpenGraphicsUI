@@ -3,3 +3,4 @@
 *.txt
 !copying.txt
 !CMakeLists.txt
+*.lnk

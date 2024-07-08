@@ -2,6 +2,8 @@
 #define ACTIONS_CLASS_H
 #include <Scene/SceneManager.h>
 
-void settingsOnClick(SceneManager& manager);
+extern SceneManager* sceneManager;
+
+void settingsOnClick();
 
 #endif

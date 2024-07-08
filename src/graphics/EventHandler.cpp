@@ -1,6 +1,6 @@
 #include "EventHandler/EventHandler.h"
 
-void EventHandler::addOnClickElement(std::shared_ptr<MenuElement> element, std::function<void(SceneManager&)> action){
+void EventHandler::addOnClickElement(std::shared_ptr<MenuElement> element, std::function<void()> action){
 
     onClickElements.push_back({element, action});
 
@@ -13,7 +13,7 @@ GLfloat EventHandler::normalizeY(GLfloat value, GLfloat height){
     return 1.0f - 2.0f * value / height;
 }
 
-void EventHandler::processOnClick(GLFWwindow* window, SceneManager& manager){
+void EventHandler::processOnClick(GLFWwindow* window){
 
     static int previousMouseButtonState = GLFW_RELEASE;
     
@@ -33,7 +33,7 @@ void EventHandler::processOnClick(GLFWwindow* window, SceneManager& manager){
         
         for(const auto& clickable : onClickElements){
             if(clickable.element->contains(pos)){
-                clickable.action(manager);
+                clickable.action();
                 break;
             }
         }
@@ -43,6 +43,6 @@ void EventHandler::processOnClick(GLFWwindow* window, SceneManager& manager){
     if(currentMouseButtonState == GLFW_RELEASE) previousMouseButtonState = GLFW_RELEASE;
 }
 
-void EventHandler::processInputs(GLFWwindow* window, SceneManager& manager){
-    processOnClick(window, manager);
+void EventHandler::processInputs(GLFWwindow* window){
+    processOnClick(window);
 }

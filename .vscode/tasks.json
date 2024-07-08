@@ -4,7 +4,7 @@
         {
             "type": "cppbuild",
             "label": "C/C++: g++.exe build active file",
-            "command": "C:/msys64/ucrt64/bin/gcc.exe",
+            "command": "C:/msys64/ucrt64/bin/g++.exe",
             "args": [
                 "-std=c++17",
                 "-I${workspaceFolder}/include",
@@ -16,8 +16,6 @@
                 "-o",
                 "${workspaceFolder}/build/Sci Hunt.exe",
                 "-g",
-                "-O0",
-                "-lstdc++",
                 "-lgdi32"
             ],
             "options": {

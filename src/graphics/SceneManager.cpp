@@ -1,5 +1,7 @@
 #include "Scene/SceneManager.h"
 
+SceneManager* SceneManager::instancePtr = nullptr;
+
 void SceneManager::addScene(std::string name, std::shared_ptr<Scene> scene){
     if(scenes.count(name) > 0) throw std::runtime_error("Scene already exists");
     if(currScene.empty()) currScene = name;
@@ -17,7 +19,7 @@ void SceneManager::switchCurrentScene(std::string name){
 
 void SceneManager::update(GLFWwindow* window){
     if(currScene.empty()) throw std::runtime_error("No scenes added to Scene Manager");
-    scenes[currScene]->update(window, (*this));
+    scenes[currScene]->update(window);
     // std::cout << "Done updating cycle" << std::endl;
 }
 
@@ -37,4 +39,16 @@ void SceneManager::printAllScenes(){
         if(scene.second == nullptr) std::cout << "Scene is empty!" << std::endl;
         std::cout << scene.first << std::endl;
     }
+}
+
+SceneManager* SceneManager::getInstance(){
+    if(instancePtr == nullptr){
+        instancePtr = new SceneManager();
+        return instancePtr;
+    }
+    else return instancePtr;
+}
+
+std::shared_ptr<std::vector<GLfloat>> SceneManager::getCurrSceneVertexData(){
+    return scenes[currScene]->getVertices();
 }

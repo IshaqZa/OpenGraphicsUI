@@ -7,11 +7,9 @@
 #include <shader/shader.h>
 #include <EventHandler/EventHandler.h>
 #include <EventHandler/EventType.h>
-#include <Scene/SceneManager.h>
 
 using json = nlohmann::json;
 
-class SceneManager;
 class EventHandler;
 
 class Scene {
@@ -37,8 +35,7 @@ class Scene {
         void createVAO(int posSize, int colorSize, int texSize, GLenum type);
         std::shared_ptr<Shader> createShader(const char* vertexFile, const char* fragmentFile);
         std::shared_ptr<Shader> getShaderProgram();
-        virtual void update(GLFWwindow* window, SceneManager& manager) = 0;
-        virtual void render(){};
+        virtual void update(GLFWwindow* window) = 0;
         virtual void render() = 0;
 };
 
@@ -50,10 +47,10 @@ class Scene2D : public Scene{
 
     public:
         void createEventHandler();
-        void addEventListener(EventType eventType, std::string elementName, std::function<void(SceneManager&)> action);
+        void addEventListener(EventType eventType, std::string elementName, std::function<void()> action);
         void addElement(std::string name, std::shared_ptr<MenuElement> element);
         void render() override;
-        void update(GLFWwindow* window, SceneManager& manager) override;
+        void update(GLFWwindow* window) override;
 };
 
 
