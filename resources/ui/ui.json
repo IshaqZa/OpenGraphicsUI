@@ -28,7 +28,7 @@
       "vertexShaderPath": "..\\resources\\Shaders\\default.vert",
       "fragmentShaderPath": "..\\resources\\Shaders\\default.frag",
       "backgroundColor": [1.0, 1.0, 1.0, 1.0],
-      "posSize": 2,
+      "posSize": 3,
       "colorSize": 4,
       "texSize": 2
     },
@@ -60,7 +60,7 @@
       "vertexShaderPath": "..\\resources\\Shaders\\default.vert",
       "fragmentShaderPath": "..\\resources\\Shaders\\default.frag",
       "backgroundColor": [1.0, 1.0, 1.0, 1.0],
-      "posSize": 2,
+      "posSize": 3,
       "colorSize": 4,
       "texSize": 2
     }

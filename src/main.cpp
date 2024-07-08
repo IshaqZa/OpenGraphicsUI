@@ -80,6 +80,18 @@ int main(){
     uimanager.loadUiConfig();
     std::cout << "Done loading UI configuration" << std::endl;
 
+    std::shared_ptr<Scene2D> currentScenePtr = sceneManager->getCurrentScene();
+
+    if(!currentScenePtr){
+        std::cerr << "Current scene is empty" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+    if(!currentScenePtr->getShaderProgram()){
+        std::cerr << "Current scene shader is empty" <<std::endl;
+        exit(EXIT_FAILURE);
+    }
+
+
     std::vector<GLfloat> vertices = (*sceneManager->getCurrSceneVertexData());
 
     // for(GLfloat vertex: vertices){
@@ -88,13 +100,13 @@ int main(){
 
     long long i = 0;
     while(!glfwWindowShouldClose(window)){
-        // std::cout << "iteration number: " << i+1 << std::endl;
+        std::cout << "iteration number: " << i+1 << std::endl;
         i++;
-        glClear(GL_COLOR_BUFFER_BIT);
-        // std::cout << "starting scene update using scene manager" << std::endl;
+        // glClear(GL_COLOR_BUFFER_BIT);
+        std::cout << "starting scene update using scene manager" << std::endl;
         try {
-            // sceneManager->update(window);
-        //  std::cout << "starting current active scene rendering using tex bool" << std::endl;
+            sceneManager->update(window);
+         std::cout << "starting current active scene rendering using tex bool" << std::endl;
             sceneManager->render();
         } catch(std::runtime_error& e){
             std::cerr << e.what() << std::endl;

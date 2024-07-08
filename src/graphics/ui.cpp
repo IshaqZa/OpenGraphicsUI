@@ -56,16 +56,32 @@ void MenuElement::setText(std::string text){ this->text = text; }
 
 Button::Button(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalIndex, std::string text, std::shared_ptr<Appearance2D> appearance, Shapes shape) {
 
+    if(!vertices){
+        std::cout << "vertices passed to Button constructor is empty" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
     this->appearance = appearance;
+    if(!this->appearance) {
+        std::cout << "Error assigning appearance shared_ptr" << std::endl;
+        exit(EXIT_FAILURE);
+    }
     GLuint eboIndex = *globalIndex / 9;
     std:: cout << "assigned appearance and normalized global index to fit eboIndex" << std::endl;
 
     indices = std::make_shared<std::vector<GLuint>>();
+    if(!indices){
+        std::cout << "Error creating shared_ptr for indices" << std::endl;
+        exit(EXIT_FAILURE);
+    }
     std::cout << "Made indcies shared ptr" << std::endl;
     shapeValue = shape;
     switch(shapeValue){
         case RECTANGLE_SHAPE:
             this->shape = std::make_unique<Square>(vertices, indices);
+            if(!this->shape){
+                std::cout << "Error making shape unique pointer in Button constructor" << std::endl;
+            }
             std::cout << "Created shape object shared pointer" << std::endl;
             this->shape->generateVertices(appearance);
             std::cout << "Generated vertices" << std::endl;
@@ -105,7 +121,7 @@ void Button::draw(GLuint texBool) {
     std::cout << "calling draw from shape object" << std::endl;
     shape->draw();
 
-    std::cout << "Unbinding textuer and ebo" << std::endl;
+    std::cout << "Unbinding texture and ebo" << std::endl;
     appearance->texture.Unbind();
     ebo->Unbind();
     std::cout << "Unbinding done" << std::endl;

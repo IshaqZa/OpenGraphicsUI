@@ -62,10 +62,22 @@ void Scene::activate(){
 
 void Scene2D::render(){
     GLuint texBool = glGetUniformLocation(shader->ID, "isTex");
-    for(const auto& x : elementArray){
-        if(!x.second) std::cout << "Error: Element is empty" << std::endl;
-        // std::cout << "rendering: " << x.first << std::endl;
-        x.second->draw(texBool);
+    if(texBool < 0) {
+        std::cout << "Error retrieving tex bool" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+    try{
+        for(const auto& x : elementArray){
+            if(!x.second){
+                throw std::runtime_error("Empty element pointer");
+            }
+            std::cout << "rendering: " << x.first << std::endl;
+            x.second->draw(texBool);
+        }
+    }catch(std::runtime_error& e){
+        std::cerr << e.what() << std::endl;
+        std::cout << e.what() << std::endl;
+        exit(EXIT_FAILURE);
     }
 }
 
