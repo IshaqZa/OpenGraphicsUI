@@ -3,6 +3,7 @@
 UIManager::UIManager(){
     actionMap["settings"] = &actions::settingsOnClick;
     actionMap["quit"] = &actions::quitOnClick;
+    actionMap["empty"] = &actions::empty;
 }
 
 std::function<void()> UIManager::triggerAction(std::string action){

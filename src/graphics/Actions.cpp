@@ -9,3 +9,5 @@ void actions::settingsOnClick(){
 void actions::quitOnClick(){
     exit(EXIT_SUCCESS);
 }
+
+void actions::empty(){}

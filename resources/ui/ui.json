@@ -12,14 +12,35 @@
             }
           ],
           "appearance": {
-            "posX": -0.9,
-            "posY": 0.1,
-            "width": 0.4,
+            "posX": -0.91,
+            "posY": 0.2,
+            "width": 0.7,
             "height": 0.3,
             "color": [0, 0, 0, 0],
             "texturePosX": 0,
             "texturePosY": 0,
             "textureImagePath": "..\\resources\\textures\\play.png",
+            "renderType": 1
+          },
+          "shape": "rectangle"
+        },
+        {
+          "name": "options",
+          "events": [
+            {
+              "event": "onclick",
+              "action": "settings"
+            }
+          ],
+          "appearance": {
+            "posX": -0.9,
+            "posY": -0.1,
+            "width": 0.7,
+            "height": 0.3,
+            "color": [0, 0, 0, 0],
+            "texturePosX": 0,
+            "texturePosY": 0,
+            "textureImagePath": "..\\resources\\textures\\options.png",
             "renderType": 1
           },
           "shape": "rectangle"
@@ -34,7 +55,7 @@
           ],
           "appearance": {
             "posX": -0.9,
-            "posY": -0.2,
+            "posY": -0.4,
             "width": 0.4,
             "height": 0.3,
             "color": [0, 0, 0, 0],
@@ -48,7 +69,7 @@
       ],
       "vertexShaderPath": "..\\resources\\Shaders\\default.vert",
       "fragmentShaderPath": "..\\resources\\Shaders\\default.frag",
-      "backgroundColor": [1.0, 1.0, 1.0, 1.0],
+      "backgroundColor": [-0.47, 0.56, -0.81, 1.0],
       "posSize": 3,
       "colorSize": 4,
       "texSize": 2
@@ -61,7 +82,7 @@
           "events": [
             {
               "event": "onclick",
-              "action": "settings"
+              "action": "empty"
             }
           ],
           "appearance": {
@@ -80,7 +101,7 @@
       ],
       "vertexShaderPath": "..\\resources\\Shaders\\default.vert",
       "fragmentShaderPath": "..\\resources\\Shaders\\default.frag",
-      "backgroundColor": [1.0, 1.0, 1.0, 1.0],
+      "backgroundColor": [-0.47, 0.56, -0.81, 1.0],
       "posSize": 3,
       "colorSize": 4,
       "texSize": 2
