@@ -3,7 +3,8 @@
 #include <Scene/SceneManager.h>
 
 extern SceneManager* sceneManager;
-
-void settingsOnClick();
-
+namespace actions{
+    void settingsOnClick();
+    void quitOnClick();
+}
 #endif

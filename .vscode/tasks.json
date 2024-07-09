@@ -12,6 +12,7 @@
                 "${workspaceFolder}/src/main.cpp",
                 "${workspaceFolder}/src/graphics/*.cpp",
                 "${workspaceFolder}/src/external/stb_image.cpp",
+                "${workspaceFolder}/resources/icon/resource.o",
                 "${workspaceFolder}/libglfw3.a",
                 "-o",
                 "${workspaceFolder}/build/Sci Hunt.exe",

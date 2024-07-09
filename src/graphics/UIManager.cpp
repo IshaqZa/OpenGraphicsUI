@@ -1,7 +1,8 @@
 #include <UIManager/UIManager.h>
 
 UIManager::UIManager(){
-    // actionMap["settings"] = &settingsOnClick;
+    actionMap["settings"] = &actions::settingsOnClick;
+    actionMap["quit"] = &actions::quitOnClick;
 }
 
 std::function<void()> UIManager::triggerAction(std::string action){
@@ -105,7 +106,7 @@ void UIManager::loadUiConfig(){
             newScene->addElement(button.name, newButton);
             if(!button.events.empty()){
                 for(auto& event : button.events){
-                    newScene->addEventListener(event.event, button.name, [](){ std::cout << "Some random function";});
+                    newScene->addEventListener(event.event, button.name, triggerAction(event.action));
                 }
             }
             std::cout << "added all events related to current button" << std::endl;

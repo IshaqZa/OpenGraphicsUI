@@ -2,6 +2,10 @@
 
 SceneManager* sceneManager = SceneManager::getInstance();
 
-void settingsOnClick(){
+void actions::settingsOnClick(){
     sceneManager->switchCurrentScene("Settings");
+}
+
+void actions::quitOnClick(){
+    exit(EXIT_SUCCESS);
 }

@@ -7,6 +7,7 @@ void SceneManager::addScene(std::string name, std::shared_ptr<Scene2D> scene){
     if(scenes.count(name) > 0) throw std::runtime_error("Scene already exists");
     if(currScene.empty()) currScene = name;
     scenes[name] = scene;
+    scenes[name]->activate();
 }
 
 void SceneManager::switchCurrentScene(std::string name){

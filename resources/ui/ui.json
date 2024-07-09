@@ -23,6 +23,27 @@
             "renderType": 1
           },
           "shape": "rectangle"
+        },
+        {
+          "name": "Quit",
+          "events": [
+            {
+              "event": "onclick",
+              "action": "quit"
+            }
+          ],
+          "appearance": {
+            "posX": -0.9,
+            "posY": -0.2,
+            "width": 0.4,
+            "height": 0.3,
+            "color": [0, 0, 0, 0],
+            "texturePosX": 0,
+            "texturePosY": 0,
+            "textureImagePath": "..\\resources\\textures\\quit.png",
+            "renderType": 1
+          },
+          "shape": "rectangle"
         }
       ],
       "vertexShaderPath": "..\\resources\\Shaders\\default.vert",
