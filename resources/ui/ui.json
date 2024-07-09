@@ -1,0 +1,68 @@
+{
+  "scenes": [
+    {
+      "name": "Main Menu",
+      "sceneMembers": [
+        {
+          "name": "Play",
+          "events": [
+            {
+              "event": "onclick",
+              "action": "settings"
+            }
+          ],
+          "appearance": {
+            "posX": -0.9,
+            "posY": 0.1,
+            "width": 0.4,
+            "height": 0.3,
+            "color": [0, 0, 0, 0],
+            "texturePosX": 0,
+            "texturePosY": 0,
+            "textureImagePath": "..\\resources\\textures\\play.png",
+            "renderType": 1
+          },
+          "shape": "rectangle"
+        }
+      ],
+      "vertexShaderPath": "..\\resources\\Shaders\\default.vert",
+      "fragmentShaderPath": "..\\resources\\Shaders\\default.frag",
+      "backgroundColor": [1.0, 1.0, 1.0, 1.0],
+      "posSize": 3,
+      "colorSize": 4,
+      "texSize": 2
+    },
+    {
+      "name": "Settings",
+      "sceneMembers": [
+        {
+          "name": "Play",
+          "events": [
+            {
+              "event": "onclick",
+              "action": "settings"
+            }
+          ],
+          "appearance": {
+            "posX": -0.9,
+            "posY": 0.1,
+            "width": 0.4,
+            "height": 0.3,
+            "color": [0, 0, 0, 0],
+            "texturePosX": 0,
+            "texturePosY": 0,
+            "textureImagePath": "..\\resources\\textures\\play.png",
+            "renderType": 1
+          },
+          "shape": "rectangle"
+        }
+      ],
+      "vertexShaderPath": "..\\resources\\Shaders\\default.vert",
+      "fragmentShaderPath": "..\\resources\\Shaders\\default.frag",
+      "backgroundColor": [1.0, 1.0, 1.0, 1.0],
+      "posSize": 3,
+      "colorSize": 4,
+      "texSize": 2
+    }
+  ]
+}

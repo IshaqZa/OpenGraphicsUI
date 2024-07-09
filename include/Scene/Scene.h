@@ -5,33 +5,64 @@
 #include <Buffer/VBO.h>
 #include <Buffer/VAO.h>
 #include <shader/shader.h>
+#include <EventHandler/EventHandler.h>
+#include <EventHandler/EventType.h>
 
-class Scene2D {
+using json = nlohmann::json;
 
-    private:
+class EventHandler;
+
+class Scene {
+
+    protected:
         unsigned int index = 0;
-        VBO *vbo;
-        VAO *vao;
-        Shader *shader;
-        GLfloat backgroundColor[4];
-        std::vector<GLfloat> vertices;
-        std::vector<MenuElement*> elementArray;
-
+        GLuint isTex = 0;
+        std::shared_ptr<VBO> vbo;
+        std::shared_ptr<VAO> vao;
+        std::shared_ptr<Shader> shader;
+        std::shared_ptr<std::vector<GLfloat>> vertices;
+        glm::vec4 backgroundColor;
+    
     public:
+        unsigned int* currentIndex();
         void activate();
-        void linkVBO(VBO *vbo);
-        void linkVAO(VAO *vao);
-        void linkShader(Shader *shader);
-        void setBackgroundColor(GLfloat r, GLfloat g, GLfloat b, GLfloat alpha);
-        std::vector<GLfloat>* getVertices();
+        void createVertexData();
+        void linkVBO(std::shared_ptr<VBO> vbo);
+        void linkVAO(std::shared_ptr<VAO> vao);
+        void linkShader(std::shared_ptr<Shader> shader);
+        void setBackgroundColor(glm::vec4 backgroundColor);
+        std::shared_ptr<std::vector<GLfloat>> getVertices();
         void createVBO();
         void createVAO(int posSize, int colorSize, int texSize, GLenum type);
-        Shader* createShader(const char* vertexFile, const char* fragmentFile);
-        void addElement(MenuElement* element);
-        void render(GLuint texBool);
-        void deleteResources();
-        unsigned int* currentIndex();
-
+        std::shared_ptr<Shader> createShader(const char* vertexFile, const char* fragmentFile);
+        std::shared_ptr<Shader> getShaderProgram();
+        virtual void update(GLFWwindow* window) = 0;
+        virtual void render() = 0;
 };
+
+class Scene2D : public Scene{
+
+    private:
+        std::shared_ptr<EventHandler> events;
+        std::unordered_map<std::string, std::shared_ptr<MenuElement>> elementArray;
+
+    public:
+        Scene2D(){
+            
+            std::cout << "isTex loaded" << std::endl;
+            if(isTex < 0) {
+                std::cout << "Error retrieving tex bool" << std::endl;
+                exit(EXIT_FAILURE);
+            }
+        }
+        void createEventHandler();
+        void addEventListener(EventType eventType, std::string elementName, std::function<void()> action);
+        void addElement(std::string name, std::shared_ptr<MenuElement> element);
+        void render() override;
+        void update(GLFWwindow* window) override;
+};
+
+
+
 
 #endif //SCENE_CLASS_H

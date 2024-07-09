@@ -2,142 +2,69 @@
 #define UI_CLASS_H
 
 #include <glad/glad.h>
-#include <string>
 #include <vector>
 #include <functional>
-#include <glad/glad.h>
 #include <Buffer/texture.h>
 #include <Buffer/EBO.h>
+#include <memory>
+#include "glm/glm.hpp"
+#include "Shape.h"
+#include "Json/json.hpp"
 
-#define RGBA_TYPE 0
-#define IMAGE_TYPE 1
+using json = nlohmann::json;
+
+
+enum Shapes{
+    TRIANGLE_SHAPE,
+    RECTANGLE_SHAPE,
+    CIRCLE_SHAPE
+};
+
+NLOHMANN_JSON_SERIALIZE_ENUM(Shapes,{
+    {TRIANGLE_SHAPE, "triangle"},
+    {RECTANGLE_SHAPE, "rectangle"},
+    {CIRCLE_SHAPE, "circle"}
+});
 
 class MenuElement {
 
     protected:
         GLuint index;
         std::string text;
-        int renderType = RGBA_TYPE;
-        GLfloat xCoor, yCoor;
-        GLfloat width, height;
-        GLfloat rColor = 0.0f, gColor = 0.0f, bColor = 0.0f, alpha=1.0f;
-        std::vector<GLuint> indices;
-        EBO *ebo;
-        Texture menuTexture = Texture("../resources/textures/placeholder.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+        Shapes shapeValue;
+        std::shared_ptr<Shape> shape;
+        std::shared_ptr<Appearance2D> appearance;
+        std::shared_ptr<std::vector<GLuint>> indices;
+        std::shared_ptr<EBO> ebo;
+
     public:
-
-        MenuElement(std::vector<GLfloat> &vertices, GLuint* globalIndex, std::string text, GLfloat xCoor, GLfloat yCoor, GLfloat width, GLfloat height):
-            index(*globalIndex),  text(text), xCoor(xCoor), yCoor(yCoor), width(width), height(height){};
-
-        void setPos(GLfloat xCoor, GLfloat yCoor){
-            this->xCoor = xCoor;
-            this->yCoor = yCoor;
-        }
-        void setSize(GLfloat xCoor, GLfloat yCoor){
-            this->width = width;
-            this->height = height;
-        }
-        
-        void setColor(GLfloat rColor, GLfloat gColor, GLfloat bColor, GLfloat alpha){
-            this->rColor = rColor;
-            this->gColor = gColor;
-            this->bColor = bColor;
-            this->alpha = alpha;
-        }
-
-        void updateColor(std::vector<GLfloat> &vertices, int colorOffSet){
-            for(int i = 0; i < 4; i++){
-                vertices[index + i * 9 + colorOffSet] = rColor;
-                vertices[index + i * 9 + colorOffSet + 1] = gColor;
-                vertices[index + i * 9 + colorOffSet + 2] = bColor;
-                vertices[index + i * 9 + colorOffSet + 3] = alpha;
-            }
-        }
-
-        void setRenderType(int renderType){
-            this->renderType = renderType;
-        }
-
+        void setPos(glm::vec2 pos);
+        void setSize(glm::vec2 size);
+        void setColor(glm::vec4 color);
+        void updateColor(std::shared_ptr<std::vector<GLfloat>> vertices, int colorOffSet);
+        void setRenderType(int renderType);
+        bool contains(glm::vec2 pos);
         //this function has been made for debugging purposes
-        void printData(std::vector<GLfloat> vertices){
-            std::cout << "Vertex Data: " << std::endl;
-            for(int i = index; i < index + 9 * 4; i++){
-                std::cout << vertices[i] << ",\t";
-                if(i != 0 && (i+1)%9 == 0) std::cout << std::endl;
-            }
-            std::cout << "Index Data: " << std::endl;
-            for(int i = 0; i < 6; i ++){
+        void printData(std::shared_ptr<std::vector<GLfloat>> vertices);
 
-                std::cout << indices[i] << ",\t";
-                if(i!=0 && (i+1)%3 == 0) std::cout << std::endl;
+        void setText(std::string text);
+        virtual void draw(GLuint texBool)=0;
+        virtual void setTexture(Texture texture, Shader& shader, const char* uniform, GLuint unit)=0;
 
-            }
-
-        }
-
-        void setText(std::string text){ this->text = text; }
-        virtual void draw(GLuint texBool) {};
-        virtual void setTexture(Texture texture, Shader& shader, const char* uniform, GLuint unit) {};
 };
 
-template<typename returnValue, typename... Args>
 class Button : public MenuElement{
 
     private:
-        std::function<returnValue(Args...)> onClickAction;
+        
 
     public:
-        Button(std::vector<GLfloat> &vertices, GLuint* globalIndex, std::string text, GLfloat xCoor, GLfloat yCoor, GLfloat width, GLfloat height):
-            MenuElement(vertices, globalIndex, text, xCoor, yCoor, width, height){
+        Button(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalIndex, std::string text, std::shared_ptr<Appearance2D> appearance, Shapes shape);
 
-            vertices.insert(vertices.end(), {
+        void setTexture(Texture texture, Shader& shader, const char* texLocation, GLuint unit) override;
 
-                // top left
-                xCoor, yCoor, 0.0f, rColor, gColor, bColor, alpha, 0.0f, 1.0f,
-                
-                // top right
-                xCoor + width, yCoor, 0.0f, rColor, gColor, bColor, alpha, 1.0f, 1.0f,
-                
-                // bottom right
-                xCoor + width, yCoor - height, 0.0f, rColor, gColor, bColor, alpha, 1.0f, 0.0f,
-                
-                // bottom left
-                xCoor, yCoor - height, 0.0f, rColor, gColor, bColor, alpha, 0.0f, 0.0f
-
-            });
-            GLuint eboIndex = *globalIndex / 9;
-            indices.insert(indices.end(), {
-
-                eboIndex + 0, eboIndex + 1, eboIndex + 3,
-                eboIndex + 1, eboIndex + 2, eboIndex + 3
-
-            });
-            ebo = new EBO(indices.data(), indices.size() * sizeof(indices));
-            *globalIndex += 36;
-        };
-
-        void onClick(returnValue (*action)(Args...)){ onClickAction = action; }
-
-        void setTexture(Texture texture, Shader& shader, const char* texLocation, GLuint unit) override{
-            menuTexture = texture;
-            menuTexture.texUnit(shader, texLocation, unit);
-        }
-
-        void draw(GLuint texBool) override{
-            menuTexture.Bind();
-            glUniform1i(texBool, renderType);
-            try{
-                ebo->Bind();
-            } catch(std::exception& e){
-                std::cerr << "Error: " << e.what() << std::endl;
-            }
-            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
-            menuTexture.Unbind();
-            ebo->Unbind();
-        }
-
-        returnValue invoke(Args... args){ return onClickAction(args...); }
+        void draw(GLuint texBool) override;
+        
 };
 
 #endif //UI_CLASS_H

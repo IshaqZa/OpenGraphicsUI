@@ -14,7 +14,8 @@
                 "${workspaceFolder}/src/external/stb_image.cpp",
                 "${workspaceFolder}/libglfw3.a",
                 "-o",
-                "${workspaceFolder}/build/output.exe",
+                "${workspaceFolder}/build/Sci Hunt.exe",
+                "-g",
                 "-lgdi32"
             ],
             "options": {
