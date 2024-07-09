@@ -59,11 +59,10 @@ void UIManager::loadUiConfig(){
         std::cout << "Creation of scene: " << sceneData.name << std::endl;
         std::cout << "Creating shared_ptr for new scene" << std::endl;
         std::shared_ptr<Scene2D> newScene = std::make_shared<Scene2D>();
+        std::cout << "Created 2D scene shared pointer in UI configuration loading" << std::endl;
         newScene->createVertexData();
         std::cout << "Finished creating vertex data" << std::endl;
         newScene->createShader(sceneData.vertexShaderPath.c_str(), sceneData.fragmentShaderPath.c_str());
-        newScene->createVBO();
-        newScene->createVAO(sceneData.posSize, sceneData.colorSize, sceneData.texSize, GL_FLOAT);
         newScene->createEventHandler();
         newScene->setBackgroundColor(
             glm::vec4(
@@ -112,6 +111,8 @@ void UIManager::loadUiConfig(){
             std::cout << "added all events related to current button" << std::endl;
         }
 
+        newScene->createVBO();
+        newScene->createVAO(sceneData.posSize, sceneData.colorSize, sceneData.texSize, GL_FLOAT);
         sceneManager->addScene(sceneData.name, newScene);
         std::cout << "Added current scene to scene manager to be handled later" << std::endl;
     }

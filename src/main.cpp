@@ -92,13 +92,13 @@ int main(){
     }
 
 
-    std::vector<GLfloat> vertices = (*sceneManager->getCurrSceneVertexData());
+    // std::vector<GLfloat> vertices = (*sceneManager->getCurrSceneVertexData());
 
-    for(int i = 0; i < vertices.size(); i++){
-        if(i%9 == 0 && i !=0) std::cout << std::endl;
-        std::cout << vertices[i] << ", ";
+    // for(int i = 0; i < vertices.size(); i++){
+    //     if(i%9 == 0 && i !=0) std::cout << std::endl;
+    //     std::cout << vertices[i] << ", ";
         
-    }
+    // }
 
     
     while(!glfwWindowShouldClose(window)){
@@ -106,16 +106,13 @@ int main(){
         std::cout << "starting scene update using scene manager" << std::endl;
         try {
             sceneManager->update(window);
-         std::cout << "starting current active scene rendering using tex bool" << std::endl;
+            std::cout << "starting current active scene rendering" << std::endl;
             sceneManager->render();
         } catch(std::runtime_error& e){
             std::cerr << e.what() << std::endl;
         } catch(std::exception& e){
             std::cerr << e.what() << std::endl;
         }
-
-        
-        glClear(GL_COLOR_BUFFER_BIT);
 
         glfwSwapBuffers(window);
         glfwPollEvents();

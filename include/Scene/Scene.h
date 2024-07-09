@@ -16,7 +16,7 @@ class Scene {
 
     protected:
         unsigned int index = 0;
-        GLuint isTex;
+        GLuint isTex = 0;
         std::shared_ptr<VBO> vbo;
         std::shared_ptr<VAO> vao;
         std::shared_ptr<Shader> shader;
@@ -48,7 +48,8 @@ class Scene2D : public Scene{
 
     public:
         Scene2D(){
-            isTex = glGetUniformLocation(shader->ID, "isTex");
+            
+            std::cout << "isTex loaded" << std::endl;
             if(isTex < 0) {
                 std::cout << "Error retrieving tex bool" << std::endl;
                 exit(EXIT_FAILURE);

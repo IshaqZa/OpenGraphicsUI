@@ -14,6 +14,7 @@ void Scene::linkVAO(std::shared_ptr<VAO> vao){
 
 void Scene::linkShader(std::shared_ptr<Shader> shader){
     this->shader = shader;
+    isTex = glGetUniformLocation(shader->ID, "isTex");
 }
 
 void Scene2D::createEventHandler(){
@@ -23,6 +24,7 @@ void Scene2D::createEventHandler(){
 
 std::shared_ptr<Shader> Scene::createShader(const char* vertexFile, const char* fragmentFile){
     shader = std::make_shared<Shader>(vertexFile, fragmentFile);
+    isTex = glGetUniformLocation(shader->ID, "isTex");
     return shader;
 }
 
@@ -61,11 +63,12 @@ void Scene::activate(){
 }
 
 void Scene2D::render(){
-
     glClear(GL_COLOR_BUFFER_BIT);
-
+    std::cout << "background color cleared" << std::endl;
     shader->Activate();
+    std::cout << "Shader activated" << std::endl;
     vao->Bind();
+    std::cout << "VAO bound" << std::endl;
     
     try{
         for(const auto& x : elementArray){
