@@ -14,7 +14,7 @@ public:
     virtual void generateVertices(std::shared_ptr<Appearance2D> appearance) = 0;
     virtual void generateIndices(GLuint index) = 0;
     virtual void draw() = 0;
-
+    
 };
 
 class Square : public Shape{
@@ -23,8 +23,4 @@ class Square : public Shape{
         void generateVertices(std::shared_ptr<Appearance2D> appearance) override;
         void generateIndices(GLuint index) override;
         void draw() override;
-
-        
-            
-
 };

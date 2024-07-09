@@ -7,6 +7,9 @@
 #include <sstream>
 #include <iostream>
 #include <cerrno>
+#include <json/json.hpp>
+
+using json = nlohmann::json;
 
 std::string get_file_contents(const char* filename);
 
@@ -14,6 +17,7 @@ class Shader{
 
     public:
         GLuint ID;
+        std::string vertexPath, fragmentPath;
         Shader(const char* vertexFile, const char* fragmentFile);
         void Activate();
         void Delete();

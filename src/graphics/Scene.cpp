@@ -14,6 +14,7 @@ void Scene::linkVAO(std::shared_ptr<VAO> vao){
 
 void Scene::linkShader(std::shared_ptr<Shader> shader){
     this->shader = shader;
+    isTex = glGetUniformLocation(shader->ID, "isTex");
 }
 
 void Scene2D::createEventHandler(){
@@ -23,6 +24,7 @@ void Scene2D::createEventHandler(){
 
 std::shared_ptr<Shader> Scene::createShader(const char* vertexFile, const char* fragmentFile){
     shader = std::make_shared<Shader>(vertexFile, fragmentFile);
+    isTex = glGetUniformLocation(shader->ID, "isTex");
     return shader;
 }
 
@@ -56,23 +58,38 @@ void Scene::activate(){
     glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, backgroundColor.w);
     if(vao == nullptr) throw std::runtime_error("VAO not initialised");
     if(vbo == nullptr) throw std::runtime_error("VBO not initialised");
-    vao->Bind();
     vbo->Bind();
+    vao->Bind();
 }
 
-void Scene2D::render(GLuint texBool){
-    for(const auto& x : elementArray){
-        if(!x.second) std::cout << "Error: Element is empty" << std::endl;
-        x.second->draw(texBool);
+void Scene2D::render(){
+    glClear(GL_COLOR_BUFFER_BIT);
+    std::cout << "background color cleared" << std::endl;
+    shader->Activate();
+    std::cout << "Shader activated" << std::endl;
+    vao->Bind();
+    std::cout << "VAO bound" << std::endl;
+    
+    try{
+        for(const auto& x : elementArray){
+            if(!x.second){
+                throw std::runtime_error("Empty element pointer");
+            }
+            std::cout << "rendering: " << x.first << std::endl;
+            x.second->draw(isTex);
+        }
+        vao->Unbind();
+    }catch(std::runtime_error& e){
+        std::cerr << e.what() << std::endl;
+        std::cout << e.what() << std::endl;
+        exit(EXIT_FAILURE);
     }
 }
 
 void Scene2D::update(GLFWwindow* window){
     events->processInputs(window);
-    glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, backgroundColor.w);
-    glClear(GL_COLOR_BUFFER_BIT);
-    shader->Activate();
-    vao->Bind();
+    // std::cout << "update insdie 2D scene" << std::endl;
+    
 }
 
 std::shared_ptr<std::vector<GLfloat>> Scene::getVertices(){
@@ -94,4 +111,8 @@ void Scene2D::addEventListener(EventType eventType, std::string elementName, std
             events->addOnClickElement(elementArray[elementName], action);
         break;
     }
+}
+
+std::shared_ptr<Shader> Scene::getShaderProgram(){
+    return shader;
 }

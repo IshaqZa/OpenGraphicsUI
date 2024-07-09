@@ -27,17 +27,40 @@ void Square::generateVertices(std::shared_ptr<Appearance2D> appearance){
 
             }
         );
+    }catch(std::runtime_error& e){
+        std::cerr << e.what() << std::endl;
+        exit(EXIT_FAILURE);
     } catch(const std::exception& e){
-        std::cout << e.what() << std::endl;
+        std::cerr << e.what() << std::endl;
+        exit(EXIT_FAILURE);
     }
+
+    for(int i = 0; i < vertices->size(); i++){
+        if(i%9 == 0 && i !=0) std::cout << std::endl;
+        std::cout << (*vertices)[i] << ", ";
+        
+    }
+
     std::cout << "Added vertices" << std::endl;
 }
 
 void Square::generateIndices(GLuint index){
+    std::cout << "Current Global Index: " <<  index << std::endl;
     indices->insert(indices->end(), {
        index + 0, index + 1, index + 3,
        index + 1, index + 2, index + 3
     });
 
+    for(int i = 0; i < indices->size(); i++){
+        if(i%3 == 0 && i!=0) std::cout << std::endl;
+        std::cout << (*indices)[i] << ", ";
+    }
+
 }
-void Square::draw() {}
+
+void Square::draw() {
+    std::cout << "calling draw elements" << std::endl;
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+}
+
+

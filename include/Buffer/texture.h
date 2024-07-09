@@ -3,14 +3,18 @@
 
 #include<glad/glad.h>
 #include<stb/stb_image.h>
+#include<json/json.hpp>
 
 #include "shader/shader.h"
+
+using json = nlohmann::json;
 
 class Texture
 {
 public:
 	GLuint ID;
 	GLenum type;
+	std::string path;
 	Texture(const char* image, GLenum texType, GLenum slot, GLenum format, GLenum pixelType);
 
 	// Assigns a texture unit to a texture
@@ -22,4 +26,5 @@ public:
 	// Deletes a texture
 	void Delete();
 };
+
 #endif

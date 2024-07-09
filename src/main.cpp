@@ -15,13 +15,17 @@
 #include <Buffer/texture.h>
 #include <ui/ui.h>
 #include <EventHandler/EventHandler.h>
-
+#include <UIManager/UIManager.h>
 using namespace std;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height){
 
     glViewport(0, 0, width, height);
 
+}
+
+void errorCallback(int error, const char* description) {
+    fprintf(stderr, "GLFW Error %d: %s\n", error, description);
 }
 
 // void exitInput(GLFWwindow *window)
@@ -42,10 +46,11 @@ int main(){
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    GLFWwindow* window = glfwCreateWindow(1920, 1080, "PlaceHolderTitle", glfwGetPrimaryMonitor(), NULL);
+    GLFWwindow* window = glfwCreateWindow(1920, 1080, "Sci Hunt", glfwGetPrimaryMonitor(), NULL);
     if(window == NULL){
         cout << "An Error occured creating the window: " << endl;
         glfwTerminate();
+        return EXIT_FAILURE;
     }
 
     glfwMakeContextCurrent(window);
@@ -63,82 +68,63 @@ int main(){
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    glfwSetErrorCallback(errorCallback);
+    UIManager uimanager;
+    SceneManager* sceneManager = SceneManager::getInstance();
+    if(!sceneManager) {
+        std::cout << "Scene Manager failed to initialise" << std::endl;
+        return EXIT_FAILURE;
+    }
 
-    SceneManager sceneManager;
+    // std::cout << "Loading UI configuration" << std::endl;
+    uimanager.loadUiConfig();
+    std::cout << "Done loading UI configuration" << std::endl;
 
-    std::shared_ptr<Scene2D> mainMenu = std::make_shared<Scene2D>();
-    mainMenu->createVertexData();
-    mainMenu->createEventHandler();
-    std::shared_ptr<std::vector<GLfloat>> vertices = mainMenu->getVertices();
+    std::shared_ptr<Scene2D> currentScenePtr = sceneManager->getCurrentScene();
 
-    if(!vertices) std::cout << "Vertices null in main" << std::endl;
+    if(!currentScenePtr){
+        std::cerr << "Current scene is empty" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+    if(!currentScenePtr->getShaderProgram()){
+        std::cerr << "Current scene shader is empty" <<std::endl;
+        exit(EXIT_FAILURE);
+    }
 
-    std::shared_ptr<Shader> sceneShader = mainMenu->createShader("../resources/Shaders/default.vert", "../resources/Shaders/default.frag");
 
-    Texture play_button("../resources/textures/play.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+    // std::vector<GLfloat> vertices = (*sceneManager->getCurrSceneVertexData());
 
-    std::shared_ptr<Appearance2D> playDisplay = std::make_shared<Appearance2D>(glm::vec2(-0.9f, 0.1f), glm::vec2(0.4f, 0.3f), glm::vec4(0.0f, 0.0f, 0.0f, 0.0f), glm::vec2(0.0f, 0.0f));
-
-    std::shared_ptr<Button> play = std::make_shared<Button>(vertices, mainMenu->currentIndex(), "Play Button", playDisplay, RECTANGLE_SHAPE);
-    play->setRenderType(IMAGE_TYPE);
-    play->setTexture(play_button, *sceneShader, "tex", 0);
-    // play.printData(vertices); don't use, needs fixing
-
-    Texture exit_button("../resources/textures/quit.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
-
-    std::shared_ptr<Appearance2D> exitDisplay = std::make_shared<Appearance2D>(glm::vec2(-0.9f, -0.4f), glm::vec2(0.4f, 0.3f), glm::vec4(0.0f, 0.0f, 0.0f, 0.0f), glm::vec2(0.0f, 0.0f));
-
-    std::shared_ptr<Button> exit = std::make_shared<Button>(vertices, mainMenu->currentIndex(), "Play Button", exitDisplay, RECTANGLE_SHAPE);
-    exit->setTexture(exit_button, *sceneShader, "tex", 0);
-    exit->setRenderType(IMAGE_TYPE);
-    // exit.printData(vertices); don't use, needs fixing
-
-    mainMenu->addElement("play", play);
-    mainMenu->addElement("exit", exit);
-
-    mainMenu->addEventListener(EVENT_ON_CLICK, "play", [&sceneManager](){ sceneManager.switchCurrentScene("settings"); });
-    mainMenu->addEventListener(EVENT_ON_CLICK, "exit", [](){ std::exit(EXIT_SUCCESS); });
-    mainMenu->createVBO();
-    mainMenu->createVAO(3, 4, 2, GL_FLOAT);
-
-    glm::vec4 background(0.1f, 0.1f, 0.1f, 1.0f);
-
-    mainMenu->setBackgroundColor(background);
-    
-    sceneManager.addScene("main menu", mainMenu);
-
-    std::shared_ptr<Scene2D> settings = std::make_shared<Scene2D>();
-
-    sceneManager.addScene("settings", settings);
-    settings->createVertexData();
-    std::shared_ptr<std::vector<GLfloat>> settingsVertices = settings->getVertices();
-
-    std::shared_ptr<Button> settingsButton = std::make_shared<Button>(settingsVertices, settings->currentIndex(), "Play Button", playDisplay, RECTANGLE_SHAPE);
-    settingsButton->setRenderType(IMAGE_TYPE);
-    
-    settingsButton->setTexture(play_button, *sceneShader, "tex", 0);
-
-    settings->addElement("settings", settingsButton);
-    settings->createEventHandler();
-    settings->linkShader(sceneShader);
-    settings->createVBO();
-    settings->createVAO(3, 4, 2, GL_FLOAT);
-    settings->addEventListener(EVENT_ON_CLICK, "settings", [&sceneManager](){ sceneManager.switchCurrentScene("main menu"); });
-    settings->setBackgroundColor(background);
-
-    GLuint isTex = glGetUniformLocation(sceneShader->ID, "isTex");
-    int i = 0;
-    while(!glfwWindowShouldClose(window)){
-        glClear(GL_COLOR_BUFFER_BIT);
+    // for(int i = 0; i < vertices.size(); i++){
+    //     if(i%9 == 0 && i !=0) std::cout << std::endl;
+    //     std::cout << vertices[i] << ", ";
         
-        sceneManager.update(window);
-        sceneManager.render(isTex);
+    // }
+
+    
+    while(!glfwWindowShouldClose(window)){
+        
+        std::cout << "starting scene update using scene manager" << std::endl;
+        try {
+            sceneManager->update(window);
+            std::cout << "starting current active scene rendering" << std::endl;
+            sceneManager->render();
+        } catch(std::runtime_error& e){
+            std::cerr << e.what() << std::endl;
+        } catch(std::exception& e){
+            std::cerr << e.what() << std::endl;
+        }
+
         glfwSwapBuffers(window);
         glfwPollEvents();
-
+        // GLenum error = glGetError();
+        // if(error) std::cout << "OpenGL Error Number:" << error << std::endl;
+        // break;
     }
+
     glfwDestroyWindow(window);
+    std::cout << "destroyed window" << std::endl;
     glfwTerminate();
+    std::cout << "Terminated glfw" << std::endl;
     return EXIT_SUCCESS;
     
 }

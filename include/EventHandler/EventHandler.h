@@ -5,7 +5,6 @@
 #include <functional>
 #include "ui/ui.h"
 #include <GLFW/glfw3.h>
-
 class EventHandler{
 
 private:

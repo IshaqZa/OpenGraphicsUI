@@ -8,10 +8,15 @@
 #include <EventHandler/EventHandler.h>
 #include <EventHandler/EventType.h>
 
+using json = nlohmann::json;
+
+class EventHandler;
+
 class Scene {
 
     protected:
         unsigned int index = 0;
+        GLuint isTex = 0;
         std::shared_ptr<VBO> vbo;
         std::shared_ptr<VAO> vao;
         std::shared_ptr<Shader> shader;
@@ -30,23 +35,34 @@ class Scene {
         void createVBO();
         void createVAO(int posSize, int colorSize, int texSize, GLenum type);
         std::shared_ptr<Shader> createShader(const char* vertexFile, const char* fragmentFile);
+        std::shared_ptr<Shader> getShaderProgram();
         virtual void update(GLFWwindow* window) = 0;
-        virtual void render(){};
-        virtual void render(GLuint texBool) = 0;
+        virtual void render() = 0;
 };
 
 class Scene2D : public Scene{
 
     private:
-        std::unique_ptr<EventHandler> events;
+        std::shared_ptr<EventHandler> events;
         std::unordered_map<std::string, std::shared_ptr<MenuElement>> elementArray;
 
     public:
+        Scene2D(){
+            
+            std::cout << "isTex loaded" << std::endl;
+            if(isTex < 0) {
+                std::cout << "Error retrieving tex bool" << std::endl;
+                exit(EXIT_FAILURE);
+            }
+        }
         void createEventHandler();
         void addEventListener(EventType eventType, std::string elementName, std::function<void()> action);
         void addElement(std::string name, std::shared_ptr<MenuElement> element);
-        void render(GLuint texBool) override;
+        void render() override;
         void update(GLFWwindow* window) override;
 };
+
+
+
 
 #endif //SCENE_CLASS_H

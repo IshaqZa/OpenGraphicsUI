@@ -1,2 +1,2 @@
 @echo off
-output.exe > log.txt
+"Sci Hunt.exe"> log.txt
