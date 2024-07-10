@@ -10,4 +10,8 @@ void actions::quitOnClick(){
     exit(EXIT_SUCCESS);
 }
 
+void actions::playOnHover(){
+    std::cout << "Mouse within bounds of play" << std::endl;
+}
+
 void actions::empty(){}

@@ -4,6 +4,7 @@ UIManager::UIManager(){
     actionMap["settings"] = &actions::settingsOnClick;
     actionMap["quit"] = &actions::quitOnClick;
     actionMap["empty"] = &actions::empty;
+    actionMap["onhoverPlay"] = &actions::playOnHover;
 }
 
 std::function<void()> UIManager::triggerAction(std::string action){

@@ -6,6 +6,10 @@ void EventHandler::addOnClickElement(std::shared_ptr<MenuElement> element, std::
 
 }
 
+void EventHandler::addOnHoverElement(std::shared_ptr<MenuElement> element, std::function<void()> action){
+    OnHoverElements.push_back({element, action});
+}
+
 GLfloat EventHandler::normalizeX(GLfloat value, GLfloat width){
     return -1.0f + 2.0f * value / width;
 }
@@ -43,6 +47,27 @@ void EventHandler::processOnClick(GLFWwindow* window){
     if(currentMouseButtonState == GLFW_RELEASE) previousMouseButtonState = GLFW_RELEASE;
 }
 
+void EventHandler::processOnHover(GLFWwindow* window){
+    double x, y;
+    glfwGetCursorPos(window, &x, &y);
+
+    int width, height;
+    glfwGetWindowSize(window, &width, &height);
+
+    GLfloat normalizedX = normalizeX(x, width);
+    GLfloat normalizedY = normalizeY(y, height);
+
+    glm::vec2 pos(normalizedX, normalizedY);
+
+    for(const auto& hoverable : OnHoverElements){
+        if(hoverable.element->contains(pos)){
+            hoverable.action();
+            break;
+        }
+    }
+}
+
 void EventHandler::processInputs(GLFWwindow* window){
     processOnClick(window);
+    processOnHover(window);
 }

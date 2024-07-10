@@ -30,6 +30,10 @@
             {
               "event": "onclick",
               "action": "settings"
+            },
+            {
+              "event": "onhover",
+              "action": "onhoverPlay"
             }
           ],
           "appearance": {
@@ -95,6 +99,7 @@
       "colorSize": 4,
       "texSize": 2
     },
+    
     {
       "name": "Settings",
       "sceneMembers": [

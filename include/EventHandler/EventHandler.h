@@ -8,17 +8,20 @@
 class EventHandler{
 
 private:
-    struct ClickableElement {
+    struct ActionElement {
         std::shared_ptr<MenuElement> element;
         std::function<void()> action;
     };
-    std::vector<ClickableElement> onClickElements;
+    std::vector<ActionElement> onClickElements;
+    std::vector<ActionElement> OnHoverElements;
 
     GLfloat normalizeX(GLfloat value, GLfloat width);
     GLfloat normalizeY(GLfloat value, GLfloat height);
     void processOnClick(GLFWwindow* window);
+    void processOnHover(GLFWwindow* window);
 public:
     void addOnClickElement(std::shared_ptr<MenuElement> element, std::function<void()> action);
+    void addOnHoverElement(std::shared_ptr<MenuElement> element, std::function<void()> action);
     void processInputs(GLFWwindow* window);
 
 };

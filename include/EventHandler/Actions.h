@@ -6,6 +6,7 @@ extern SceneManager* sceneManager;
 namespace actions{
     void settingsOnClick();
     void quitOnClick();
+    void playOnHover();
     void empty();
 }
 #endif
