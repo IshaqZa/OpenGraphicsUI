@@ -4,6 +4,48 @@
       "name": "Main Menu",
       "sceneMembers": [
         {
+          "name": "logo",
+          "events": [
+            {
+              "event": "onclick",
+              "action": "empty"
+            }
+          ],
+          "appearance": {
+            "posX": -0.89,
+            "posY": 0.9,
+            "width": 0.5,
+            "height": 0.75,
+            "color": [0, 0, 0, 0],
+            "texturePosX": 0,
+            "texturePosY": 0,
+            "textureImagePath": "..\\resources\\textures\\logo.png",
+            "renderType": 1
+          },
+          "shape": "rectangle"
+        },
+        {
+          "name": "options",
+          "events": [
+            {
+              "event": "onclick",
+              "action": "settings"
+            }
+          ],
+          "appearance": {
+            "posX": -0.9,
+            "posY": 0.0,
+            "width": 0.7,
+            "height": 0.3,
+            "color": [0, 0, 0, 0],
+            "texturePosX": 0,
+            "texturePosY": 0,
+            "textureImagePath": "..\\resources\\textures\\options.png",
+            "renderType": 1
+          },
+          "shape": "rectangle"
+        },
+        {
           "name": "Play",
           "events": [
             {
@@ -13,7 +55,7 @@
           ],
           "appearance": {
             "posX": -0.91,
-            "posY": 0.2,
+            "posY": 0.1,
             "width": 0.7,
             "height": 0.3,
             "color": [0, 0, 0, 0],
@@ -34,7 +76,7 @@
           ],
           "appearance": {
             "posX": -0.9,
-            "posY": -0.1,
+            "posY": -0.2,
             "width": 0.7,
             "height": 0.3,
             "color": [0, 0, 0, 0],
@@ -55,7 +97,7 @@
           ],
           "appearance": {
             "posX": -0.9,
-            "posY": -0.4,
+            "posY": -0.5,
             "width": 0.4,
             "height": 0.3,
             "color": [0, 0, 0, 0],
