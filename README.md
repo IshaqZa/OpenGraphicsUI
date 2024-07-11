@@ -68,4 +68,25 @@
             - `Scene.cpp`: The basic building unit for the game, splits into 2D and 3D scenes
             - `SceneManager.cpp`: A class that helps to manage scenes(example: Scene switching and keeping track of current active scene, can handle 2D and 3D scenes)
             - `shader.cpp`: Implementation for loading and activating shaders
-            - `Shape.cpp`: 
+            - `Shape.cpp`: Defines the different shapes the UI elements can come and and accordingly filles the needed vertex data
+            - `texture.cpp`: Implementation for loading and using textures
+            - `ui.cpp`: Defines the different 2D UI elements that can be displayed in a scene
+            - `UIManager.cpp`: Responsible for loading ui.json data and creating the relevant scene and ui elements' objects
+            - `VAO.cpp`: Implementation for the VAO
+            - `VBO.cpp`: Implementation for the VBO
+        - `main.cpp`: Where everything is wrapped together
+    - `build/`:
+        - `Dr. Memory`: This is a debugging tool to check for any memory related issues
+        - `launch.bat & Sci Hunt.exe`: the .bat file launches the .exe file and saves the log.txt file
+        - `log.txt`: A file that displays the logs of what happens in the game, useful for debugging
+    - `Include/`:
+        - `glad/, GLFW/, glm/, Json/, KHR/, stb/`: contains header files for all the external libraries needed for the project
+        - `Buffer/, EventHandler/, Scene/, shader/, ui/, UIManager/`: Contains header files for the different .cpp files in the `src/grpahics/` directory
+    
+    - `resources/`:
+        - `icon`:
+            - `resource.o, resource.rc & scihunt.ico`: Resource script and its compiled object file, used to load `scihunt.ico` as an icon for `SciHunt.exe`
+            - `Shaders/`: Contains `default.vert` and `default.frag` which are shaders written in GLSL(Graphics Library Shader Language)
+            - `textures`: contains .png files that are used for the different ui elements displayed in the menus
+            - `ui`: contains `ui.json` which ui configuration data
+            
