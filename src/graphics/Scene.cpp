@@ -119,3 +119,5 @@ void Scene2D::addEventListener(EventType eventType, std::string elementName, std
 std::shared_ptr<Shader> Scene::getShaderProgram(){
     return shader;
 }
+
+std::shared_ptr<MenuElement> Scene2D::getElementByName(std::string name){ return elementArray[name]; }

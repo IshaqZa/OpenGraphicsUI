@@ -57,6 +57,7 @@ class Scene2D : public Scene{
         }
         void createEventHandler();
         void addEventListener(EventType eventType, std::string elementName, std::function<void()> action);
+        std::shared_ptr<MenuElement> getElementByName(std::string name);
         void addElement(std::string name, std::shared_ptr<MenuElement> element);
         void render() override;
         void update(GLFWwindow* window) override;
