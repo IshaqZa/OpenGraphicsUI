@@ -6,7 +6,7 @@ VAO::VAO(){
 
 }
 
-void VAO::linkAttrib(VBO VBO, GLuint layout, GLuint numComponents, GLenum type, GLsizeiptr stride, void* offset){
+void VAO::linkAttrib(VBO& VBO, GLuint layout, GLuint numComponents, GLenum type, GLsizeiptr stride, void* offset){
 
     VBO.Bind();
 
