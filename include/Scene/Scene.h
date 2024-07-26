@@ -7,6 +7,7 @@
 #include <shader/shader.h>
 #include <EventHandler/EventHandler.h>
 #include <EventHandler/EventType.h>
+#include <3DObject/GameObject.h>
 
 using json = nlohmann::json;
 
@@ -65,8 +66,16 @@ class Scene2D : public Scene{
 
 class Scene3D : public Scene{
 
-    
+    private:
+        Camera camera;
+        std::vector<std::shared_ptr<GameObject>> objects;
 
+    public:
+        Scene3D(int width, int height);
+        void addObject(std::string name, std::shared_ptr<GameObject> object);
+        void getObjectByName(std::string name);
+        void render() override;
+        void update(GLFWwindow* window) override;
 };
 
 

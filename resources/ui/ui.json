@@ -92,8 +92,8 @@
           "shape": "rectangle"
         }
       ],
-      "vertexShaderPath": "..\\resources\\Shaders\\default.vert",
-      "fragmentShaderPath": "..\\resources\\Shaders\\default.frag",
+      "vertexShaderPath": "..\\resources\\Shaders\\menu\\default.vert",
+      "fragmentShaderPath": "..\\resources\\Shaders\\menu\\default.frag",
       "backgroundColor": [-0.47, 0.56, -0.81, 1.0],
       "posSize": 3,
       "colorSize": 4,
@@ -125,8 +125,8 @@
           "shape": "rectangle"
         }
       ],
-      "vertexShaderPath": "..\\resources\\Shaders\\default.vert",
-      "fragmentShaderPath": "..\\resources\\Shaders\\default.frag",
+      "vertexShaderPath": "..\\resources\\Shaders\\menu\\default.vert",
+      "fragmentShaderPath": "..\\resources\\Shaders\\menu\\default.frag",
       "backgroundColor": [-0.47, 0.56, -0.81, 1.0],
       "posSize": 3,
       "colorSize": 4,

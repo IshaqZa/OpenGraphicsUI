@@ -16,6 +16,7 @@
 #include <ui/ui.h>
 #include <EventHandler/EventHandler.h>
 #include <UIManager/UIManager.h>
+#include <assimp/Importer.hpp>
 using namespace std;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height){

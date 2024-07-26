@@ -106,8 +106,8 @@ void Button::setTexture(Texture texture, Shader& shader, const char* texLocation
 void Button::draw(GLuint texBool) {
 
     if(!appearance || !shape || !ebo) {
-        std::cerr << "Error drawing button due to initialised data" << std::endl;
-        std::cout << "Error drawing button due to initialised data" << std::endl;
+        std::cerr << "Error drawing button due to uninitialised data" << std::endl;
+        std::cout << "Error drawing button due to uninitialised data" << std::endl;
         exit(EXIT_FAILURE);
     }
 

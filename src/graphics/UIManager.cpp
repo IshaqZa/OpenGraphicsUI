@@ -113,7 +113,6 @@ void UIManager::loadUiConfig(){
             }
             std::cout << "added all events related to current button" << std::endl;
         }
-
         newScene->createVBO();
         newScene->createVAO(sceneData.posSize, sceneData.colorSize, sceneData.texSize, GL_FLOAT);
         sceneManager->addScene(sceneData.name, newScene);
