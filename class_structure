@@ -1,0 +1,39 @@
+@startuml
+
+
+class SceneManager
+class Scene
+class Scene2D
+class Scene3D
+class MenuElement
+class Button
+class GameObject
+class Shape
+class Texture
+class UIManager
+class shader
+class EventHandler
+class Appearance
+class EBO
+class VBO
+class VAO
+
+SceneManager o-- Scene
+
+Scene <|-- Scene2D
+Scene <|-- Scene3D
+MenuElement <|-- Button
+
+Scene o-- VBO : uses
+Scene o-- VAO : uses
+Scene o-- EventHandler : uses
+Scene o-- shader : uses
+Scene2D o-- MenuElement
+
+MenuElement o-- EBO : uses
+MenuElement o-- Texture : uses
+MenuElement o-- Shape : uses
+MenuElement o-- Appearance : uses
+
+
+@enduml
