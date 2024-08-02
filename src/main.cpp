@@ -113,7 +113,7 @@ int main(){
             std::cerr << e.what() << std::endl;
         } catch(std::exception& e){
             std::cerr << e.what() << std::endl;
-        }
+        } 
 
         glfwSwapBuffers(window);
         glfwPollEvents();
