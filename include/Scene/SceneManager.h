@@ -27,6 +27,7 @@ class SceneManager {
         void render();
         void printAllScenes();
         std::shared_ptr<Scene2D> getCurrentScene();
+        std::unordered_map<std::string, std::shared_ptr<Scene2D>> getAllScenes();
 };
 
 #endif

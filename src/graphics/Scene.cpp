@@ -88,6 +88,7 @@ void Scene2D::render(){
 
 void Scene2D::update(GLFWwindow* window){
     events->processInputs(window);
+    std::cout << "Processed user inputs" << std::endl;
     // std::cout << "update insdie 2D scene" << std::endl;
     
 }
@@ -110,9 +111,11 @@ void Scene2D::addEventListener(EventType eventType, std::string elementName, std
         case EVENT_ON_CLICK:
             events->addOnClickElement(elementArray[elementName], action);
         break;
-        case EVENT_ON_HOVER:
-            events->addOnHoverElement(elementArray[elementName], action);
+        case EVENT_ON_HOVER_ENTER:
+            events->addOnHoverEnterElement(elementArray[elementName], action);
         break;
+        case EVENT_ON_HOVER_LEAVE:
+            events->addOnHoverLeaveElement(elementArray[elementName], action);
     }
 }
 
