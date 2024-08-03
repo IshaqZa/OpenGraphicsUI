@@ -3,12 +3,14 @@
 
 enum EventType{
     EVENT_ON_CLICK,
-    EVENT_ON_HOVER
+    EVENT_ON_HOVER_ENTER,
+    EVENT_ON_HOVER_LEAVE
 };
 
 NLOHMANN_JSON_SERIALIZE_ENUM(EventType,{
     {EVENT_ON_CLICK, "onclick"},
-    {EVENT_ON_HOVER, "onhover"}
+    {EVENT_ON_HOVER_ENTER, "onhoverenter"},
+    {EVENT_ON_HOVER_LEAVE, "onhoverleave"}
 });
 
 #endif

@@ -26,6 +26,7 @@ void SceneManager::update(GLFWwindow* window){
         if(currScene.empty()) throw std::runtime_error("No scenes added to Scene Manager");
         if(!scenes[currScene]) throw std::runtime_error("Empty scene pointer");
         scenes[currScene]->update(window);
+        std::cout << "Updated current scene" << std::endl;
 
     }catch(std::runtime_error& e){
         std::cerr << e.what() << std::endl;
@@ -80,4 +81,12 @@ std::shared_ptr<std::vector<GLfloat>> SceneManager::getCurrSceneVertexData(){
 
 std::shared_ptr<Scene2D> SceneManager::getCurrentScene(){
     return scenes[currScene];
+}
+
+std::unordered_map<std::string, std::shared_ptr<Scene2D>> SceneManager::getAllScenes(){
+    if(scenes.empty()){
+        std::cout << "scenes are empty" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+    return scenes;
 }

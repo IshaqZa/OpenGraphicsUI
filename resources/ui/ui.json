@@ -32,8 +32,12 @@
               "action": "settings"
             },
             {
-              "event": "onhover",
-              "action": "onhoverPlay"
+              "event": "onhoverenter",
+              "action": "onhoverPlayHighlight"
+            },
+            {
+              "event":"onhoverleave",
+              "action": "onhoverPlayUnhighlight"
             }
           ],
           "appearance": {
@@ -44,7 +48,7 @@
             "color": [0, 0, 0, 0],
             "texturePosX": 0,
             "texturePosY": 0,
-            "textureImagePath": "..\\resources\\textures\\play.png",
+            "textureImagePath": "..\\resources\\textures\\START purple.png",
             "renderType": 1
           },
           "shape": "rectangle"
@@ -55,6 +59,14 @@
             {
               "event": "onclick",
               "action": "settings"
+            },
+            {
+              "event": "onhoverenter",
+              "action": "onhoverOptionsHighlight"
+            },
+            {
+              "event": "onhoverleave",
+              "action": "onhoverOptionsUnhighlight"
             }
           ],
           "appearance": {
@@ -65,7 +77,7 @@
             "color": [0, 0, 0, 0],
             "texturePosX": 0,
             "texturePosY": 0,
-            "textureImagePath": "..\\resources\\textures\\options.png",
+            "textureImagePath": "..\\resources\\textures\\OPTIONS purple.png",
             "renderType": 1
           },
           "shape": "rectangle"
@@ -76,6 +88,14 @@
             {
               "event": "onclick",
               "action": "quit"
+            },
+            {
+              "event": "onhoverenter",
+              "action": "onhoverQuitHighlight"
+            },
+            {
+              "event": "onhoverleave",
+              "action": "onhoverQuitUnhighlight"
             }
           ],
           "appearance": {
@@ -86,7 +106,7 @@
             "color": [0, 0, 0, 0],
             "texturePosX": 0,
             "texturePosY": 0,
-            "textureImagePath": "..\\resources\\textures\\quit.png",
+            "textureImagePath": "..\\resources\\textures\\QUIT purple.png",
             "renderType": 1
           },
           "shape": "rectangle"
@@ -119,7 +139,7 @@
             "color": [0, 0, 0, 0],
             "texturePosX": 0,
             "texturePosY": 0,
-            "textureImagePath": "..\\resources\\textures\\play.png",
+            "textureImagePath": "..\\resources\\textures\\PLAY blue.png",
             "renderType": 1
           },
           "shape": "rectangle"
