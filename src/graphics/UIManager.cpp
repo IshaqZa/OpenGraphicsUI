@@ -6,6 +6,10 @@ UIManager::UIManager(){
     actionMap["empty"] = &actions::empty;
     actionMap["onhoverPlayHighlight"] = &actions::playOnHoverEnter;
     actionMap["onhoverPlayUnhighlight"] = &actions::playOnHoverLeave;
+    actionMap["onhoverOptionsHighlight"] = &actions::optionsOnHoverEnter;
+    actionMap["onhoverOptionsUnhighlight"] = &actions::optionsOnHoverLeave;
+    actionMap["onhoverQuitHighlight"] = &actions::quitOnHoverEnter;
+    actionMap["onhoverQuitUnhighlight"] = &actions::quitOnHoverLeave;
 }
 
 std::function<void()> UIManager::triggerAction(std::string action){

@@ -59,6 +59,14 @@
             {
               "event": "onclick",
               "action": "settings"
+            },
+            {
+              "event": "onhoverenter",
+              "action": "onhoverOptionsHighlight"
+            },
+            {
+              "event": "onhoverleave",
+              "action": "onhoverOptionsUnhighlight"
             }
           ],
           "appearance": {
@@ -80,6 +88,14 @@
             {
               "event": "onclick",
               "action": "quit"
+            },
+            {
+              "event": "onhoverenter",
+              "action": "onhoverQuitHighlight"
+            },
+            {
+              "event": "onhoverleave",
+              "action": "onhoverQuitUnhighlight"
             }
           ],
           "appearance": {

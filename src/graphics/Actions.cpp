@@ -40,4 +40,58 @@ void actions::playOnHoverLeave(){
     std::cout << "set texture" << std::endl;
 }
 
+
+void actions::optionsOnHoverEnter(){
+    std::unordered_map<std::string, std::shared_ptr<Scene2D>> scenes = sceneManager->getAllScenes();
+    std::cout << "Hovered Over button" << std::endl;
+    if(scenes.empty()) std::cout << "Scenes is empty" << std::endl;
+    std::shared_ptr<Scene2D> scene = scenes["Main Menu"];
+    std::cout << "Returned Main Menu Scene" << std::endl;
+    std::shared_ptr<Shader> currShader = scene->getShaderProgram();
+    std::cout << "Returned active shader" << std::endl;
+    std::shared_ptr<MenuElement> btn = scene->getElementByName("options");
+    std::cout << "Returned Play Button" << std::endl;
+    Texture tex("../resources/textures/OPTIONS blue.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+    btn->setTexture(tex, (*currShader), "tex", 0);
+}
+void actions::optionsOnHoverLeave(){
+    std::unordered_map<std::string, std::shared_ptr<Scene2D>> scenes = sceneManager->getAllScenes();
+    std::cout << "Hovered Over button" << std::endl;
+    if(scenes.empty()) std::cout << "Scenes is empty" << std::endl;
+    std::shared_ptr<Scene2D> scene = scenes["Main Menu"];
+    std::cout << "Returned Main Menu Scene" << std::endl;
+    std::shared_ptr<Shader> currShader = scene->getShaderProgram();
+    std::cout << "Returned active shader" << std::endl;
+    std::shared_ptr<MenuElement> btn = scene->getElementByName("options");
+    std::cout << "Returned Play Button" << std::endl;
+    Texture tex("../resources/textures/OPTIONS purple.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+    btn->setTexture(tex, (*currShader), "tex", 0);
+}
+void actions::quitOnHoverEnter(){
+    std::unordered_map<std::string, std::shared_ptr<Scene2D>> scenes = sceneManager->getAllScenes();
+    std::cout << "Hovered Over button" << std::endl;
+    if(scenes.empty()) std::cout << "Scenes is empty" << std::endl;
+    std::shared_ptr<Scene2D> scene = scenes["Main Menu"];
+    std::cout << "Returned Main Menu Scene" << std::endl;
+    std::shared_ptr<Shader> currShader = scene->getShaderProgram();
+    std::cout << "Returned active shader" << std::endl;
+    std::shared_ptr<MenuElement> btn = scene->getElementByName("Quit");
+    std::cout << "Returned Play Button" << std::endl;
+    Texture tex("../resources/textures/QUIT blue.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+    btn->setTexture(tex, (*currShader), "tex", 0);
+}
+void actions::quitOnHoverLeave(){
+    std::unordered_map<std::string, std::shared_ptr<Scene2D>> scenes = sceneManager->getAllScenes();
+    std::cout << "Hovered Over button" << std::endl;
+    if(scenes.empty()) std::cout << "Scenes is empty" << std::endl;
+    std::shared_ptr<Scene2D> scene = scenes["Main Menu"];
+    std::cout << "Returned Main Menu Scene" << std::endl;
+    std::shared_ptr<Shader> currShader = scene->getShaderProgram();
+    std::cout << "Returned active shader" << std::endl;
+    std::shared_ptr<MenuElement> btn = scene->getElementByName("Quit");
+    std::cout << "Returned Play Button" << std::endl;
+    Texture tex("../resources/textures/QUIT purple.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+    btn->setTexture(tex, (*currShader), "tex", 0);
+}
+
 void actions::empty(){}

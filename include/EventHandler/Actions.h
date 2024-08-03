@@ -10,6 +10,10 @@ namespace actions{
     void quitOnClick();
     void playOnHoverEnter();
     void playOnHoverLeave();
+    void optionsOnHoverEnter();
+    void optionsOnHoverLeave();
+    void quitOnHoverEnter();
+    void quitOnHoverLeave();
     void empty();
 }
 #endif
