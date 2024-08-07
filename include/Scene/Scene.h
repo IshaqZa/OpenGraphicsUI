@@ -25,9 +25,9 @@ class Scene {
         glm::vec4 backgroundColor;
     
     public:
+        Scene();
         unsigned int* currentIndex();
-        void activate();
-        void createVertexData();
+        virtual void activate();
         void linkVBO(std::shared_ptr<VBO> vbo);
         void linkVAO(std::shared_ptr<VAO> vao);
         void linkShader(std::shared_ptr<Shader> shader);
@@ -48,15 +48,7 @@ class Scene2D : public Scene{
         std::unordered_map<std::string, std::shared_ptr<MenuElement>> elementArray;
 
     public:
-        Scene2D(){
-            
-            std::cout << "isTex loaded" << std::endl;
-            if(isTex < 0) {
-                std::cout << "Error retrieving tex bool" << std::endl;
-                exit(EXIT_FAILURE);
-            }
-        }
-        void createEventHandler();
+        Scene2D();
         void addEventListener(EventType eventType, std::string elementName, std::function<void()> action);
         std::shared_ptr<MenuElement> getElementByName(std::string name);
         void addElement(std::string name, std::shared_ptr<MenuElement> element);
@@ -68,7 +60,7 @@ class Scene3D : public Scene{
 
     private:
         Camera camera;
-        std::vector<std::shared_ptr<GameObject>> objects;
+        std::unordered_map<std::string, std::shared_ptr<GameObject>> objects;
 
     public:
         Scene3D(int width, int height);

@@ -12,12 +12,15 @@
 class GameObject {
     private:
         glm::mat4 model = glm::mat4(1.0f);
+        std::vector<GLuint> indices;
+        EBO ebo;
 
     public:
         GameObject(std::shared_ptr<std::vector<GLfloat>> vertices);
         void translate(glm::vec3 translate);
         void rotate(GLfloat angle, glm::vec3 axis);
         void scale(glm::vec3 axis);
+        void draw();
 };
 
 class Camera{

@@ -63,10 +63,8 @@ void UIManager::loadUiConfig(){
         std::cout << "Creating shared_ptr for new scene" << std::endl;
         std::shared_ptr<Scene2D> newScene = std::make_shared<Scene2D>();
         std::cout << "Created 2D scene shared pointer in UI configuration loading" << std::endl;
-        newScene->createVertexData();
         std::cout << "Finished creating vertex data" << std::endl;
         newScene->createShader(sceneData.vertexShaderPath.c_str(), sceneData.fragmentShaderPath.c_str());
-        newScene->createEventHandler();
         newScene->setBackgroundColor(
             glm::vec4(
                 sceneData.backgroundColor[0],
