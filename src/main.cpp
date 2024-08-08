@@ -9,7 +9,7 @@
 #include <Buffer/VBO.h>
 #include <Buffer/VAO.h>
 #include <Buffer/EBO.h>
-#include <Scene/Scene.h>
+#include <Scene/Scene3D.h>
 #include <Scene/SceneManager.h>
 #include <shader/shader.h>
 #include <Buffer/texture.h>
