@@ -8,12 +8,13 @@
 #include <Json/serializer_types.h>
 #include <EventHandler/Actions.h>
 
-class UIManager {
+class UILoader {
     private:
         std::unordered_map<std::string, std::function<void()>> actionMap;
         SceneManager* sceneManager = SceneManager::getInstance();
     public:
-        UIManager();
+        UILoader();
+        json loadJsonFile();
         void loadUiConfig();
         std::function<void()> triggerAction(std::string action);
         // void saveUiConfig(std::shared_ptr<Scene> scene);

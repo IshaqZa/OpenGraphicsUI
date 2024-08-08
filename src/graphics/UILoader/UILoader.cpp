@@ -1,17 +1,18 @@
-#include <UIManager/UIManager.h>
+#include <UILoader/UILoader.h>
 
-UIManager::UIManager(){
+UILoader::UILoader(){
     actionMap["settings"] = &actions::settingsOnClick;
     actionMap["quit"] = &actions::quitOnClick;
     actionMap["empty"] = &actions::empty;
     actionMap["onhoverPlay"] = &actions::playOnHover;
 }
 
-std::function<void()> UIManager::triggerAction(std::string action){
+std::function<void()> UILoader::triggerAction(std::string action){
     return actionMap[action];
 }
 
-void UIManager::loadUiConfig(){
+json UILoader::loadJsonFile(){
+
     std::cout << "preparing to load ui config file" << std::endl;
     std::ifstream uiFile("..\\resources\\ui\\ui.json");
     if(!uiFile.is_open()){
@@ -30,6 +31,15 @@ void UIManager::loadUiConfig(){
     }
     uiFile.close();
     std::cout << "Finished loading parsing data and closed ui configuration file" << std::endl;
+
+    return uiConfig;
+
+}
+
+void UILoader::loadUiConfig(){
+    
+
+    json uiConfig = loadJsonFile();
 
     // std::cout << uiConfig.dump(4) << std::endl;
 
