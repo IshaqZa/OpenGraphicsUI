@@ -1,7 +1,7 @@
 #ifndef SCENE_MANAGER_CLASS_H
 #define SCENE_MANAGER_CLASS_H
 
-#include "Scene/Scene.h"
+#include "Scene/Scene2D.h"
 
 class Scene;
 class EventHandler;
