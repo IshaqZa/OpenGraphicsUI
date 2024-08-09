@@ -10,6 +10,7 @@ class Scene3D : public Scene{
 
     public:
         Scene3D(int width, int height);
+        void activate() override;
         void addObject(std::string name, std::shared_ptr<GameObject> object);
         void getObjectByName(std::string name);
         void render() override;

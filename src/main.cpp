@@ -15,7 +15,7 @@
 #include <Buffer/texture.h>
 #include <ui/ui.h>
 #include <EventHandler/EventHandler.h>
-#include <UIManager/UIManager.h>
+#include <UILoader/UILoader.h>
 #include <assimp/Importer.hpp>
 using namespace std;
 
@@ -70,6 +70,7 @@ int main(){
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_DEPTH_TEST);
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetErrorCallback(errorCallback);
@@ -105,13 +106,25 @@ int main(){
     // }
 
     Scene3D scene(WINDOW_WIDTH, WINDOW_HEIGHT);
-    scene.createShader("../resources/Shaders/3D/default.vert", "../resources/Shaders/3D/default.frag");
-    scene.setBackgroundColor(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+    std::cout << "Created 3D scene object" << std::endl;
+    scene.createShader("../resources/Shaders/menu/3D/default.vert", "../resources/Shaders/menu/3D/default.frag");
+    std::cout << "Created shader object for scene" << std::endl;
+    scene.setBackgroundColor(glm::vec4(0.25f, 0.52f, 0.7f, 1.0f));
+    std::cout << "Set background color for scene" << std::endl;
     std::shared_ptr<std::vector<GLfloat>> vertices = scene.getVertices();
+    std::cout << "retrieved vertex data from object" << std::endl;
 
     GameObject obj(vertices);
+    std::cout << "Created game object" << std::endl;
     scene.addObject("cube", std::make_shared<GameObject>(obj));
-    
+    std::cout << "Added game object to scene" << std::endl;
+    scene.createVBO();
+    std::cout << "Created VBO" << std::endl;
+    scene.createVAO(3, 4, 0, GL_FLOAT);
+    std::cout << "Created VAO object" << std::endl;
+
+    scene.activate();
+    std::cout << "Activated scene" << std::endl;
     while(!glfwWindowShouldClose(window)){
         
         // std::cout << "starting scene update using scene manager" << std::endl;
@@ -124,6 +137,9 @@ int main(){
         // } catch(std::exception& e){
         //     std::cerr << e.what() << std::endl;
         // } 
+
+        scene.update(window);
+        scene.render();
 
         glfwSwapBuffers(window);
         glfwPollEvents();

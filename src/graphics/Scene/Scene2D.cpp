@@ -1,4 +1,4 @@
-#include <Scene/Scene.h>
+#include <Scene/Scene2D.h>
 
 Scene2D::Scene2D() : Scene() {
     events = std::make_unique<EventHandler>();
