@@ -62,11 +62,11 @@
             },
             {
               "event": "onhoverenter",
-              "action": "onhoverOptionsHighlight"
+              "action": "onhoversettingsHighlight"
             },
             {
               "event": "onhoverleave",
-              "action": "onhoverOptionsUnhighlight"
+              "action": "onhoversettingsUnhighlight"
             }
           ],
           "appearance": {

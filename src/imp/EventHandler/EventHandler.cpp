@@ -24,9 +24,10 @@ GLfloat EventHandler::normalizeY(GLfloat value, GLfloat height){
 
 void EventHandler::processOnMouseDown(GLFWwindow* window){
     
-    int currentMouseButtonState = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
+    int MouseButtonState = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
 
-    if(currentMouseButtonState == GLFW_PRESS){
+    if(MouseButtonState == GLFW_PRESS){
+        isClicked = true;
         double x, y;
         glfwGetCursorPos(window, &x, &y);
 
@@ -49,9 +50,10 @@ void EventHandler::processOnMouseDown(GLFWwindow* window){
 
 void EventHandler::processOnMouseUp(GLFWwindow* window){
     
-    int currentMouseButtonState = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
+    int MouseButtonState = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
 
-    if(currentMouseButtonState == GLFW_RELEASE){
+    if(MouseButtonState == GLFW_RELEASE && isClicked){
+        isClicked = false;
         double x, y;
         glfwGetCursorPos(window, &x, &y);
 

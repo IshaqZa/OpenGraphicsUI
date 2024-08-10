@@ -2,11 +2,11 @@
 
 SceneManager* sceneManager = SceneManager::getInstance();
 
-void actions::settingsOnClick(){
+void actions::settingsOnMouseUp(){
     sceneManager->switchCurrentScene("Settings");
 }
 
-void actions::quitOnClick(){
+void actions::quitOnMouseUp(){
     exit(EXIT_SUCCESS);
 }
 
@@ -41,7 +41,7 @@ void actions::playOnHoverLeave(){
 }
 
 
-void actions::optionsOnHoverEnter(){
+void actions::settingsOnHoverEnter(){
     std::unordered_map<std::string, std::shared_ptr<Scene2D>> scenes = sceneManager->getAllScenes();
     std::cout << "Hovered Over button" << std::endl;
     if(scenes.empty()) std::cout << "Scenes is empty" << std::endl;
@@ -54,7 +54,7 @@ void actions::optionsOnHoverEnter(){
     Texture tex("../resources/textures/OPTIONS blue.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
     btn->setTexture(tex, (*currShader), "tex", 0);
 }
-void actions::optionsOnHoverLeave(){
+void actions::settingsOnHoverLeave(){
     std::unordered_map<std::string, std::shared_ptr<Scene2D>> scenes = sceneManager->getAllScenes();
     std::cout << "Hovered Over button" << std::endl;
     if(scenes.empty()) std::cout << "Scenes is empty" << std::endl;

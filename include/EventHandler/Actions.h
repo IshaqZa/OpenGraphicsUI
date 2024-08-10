@@ -6,12 +6,14 @@
 extern SceneManager* sceneManager;
 
 namespace actions{
-    void settingsOnClick();
-    void quitOnClick();
+    void settingsOnMouseDown();
+    void settingsOnMouseUp();
+    void quitOnMouseDown();
+    void quitOnMouseUp();
     void playOnHoverEnter();
     void playOnHoverLeave();
-    void optionsOnHoverEnter();
-    void optionsOnHoverLeave();
+    void settingsOnHoverEnter();
+    void settingsOnHoverLeave();
     void quitOnHoverEnter();
     void quitOnHoverLeave();
     void empty();

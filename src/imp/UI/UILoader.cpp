@@ -1,13 +1,13 @@
 #include <UILoader/UILoader.h>
 
 UILoader::UILoader(){
-    actionMap["settings"] = &actions::settingsOnClick;
-    actionMap["quit"] = &actions::quitOnClick;
+    actionMap["settings"] = &actions::settingsOnMouseUp;
+    actionMap["quit"] = &actions::quitOnMouseUp;
     actionMap["empty"] = &actions::empty;
     actionMap["onhoverPlayHighlight"] = &actions::playOnHoverEnter;
     actionMap["onhoverPlayUnhighlight"] = &actions::playOnHoverLeave;
-    actionMap["onhoverOptionsHighlight"] = &actions::optionsOnHoverEnter;
-    actionMap["onhoverOptionsUnhighlight"] = &actions::optionsOnHoverLeave;
+    actionMap["onhoversettingsHighlight"] = &actions::settingsOnHoverEnter;
+    actionMap["onhoversettingsUnhighlight"] = &actions::settingsOnHoverLeave;
     actionMap["onhoverQuitHighlight"] = &actions::quitOnHoverEnter;
     actionMap["onhoverQuitUnhighlight"] = &actions::quitOnHoverLeave;
 }

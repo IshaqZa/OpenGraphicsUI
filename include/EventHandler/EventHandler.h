@@ -18,6 +18,7 @@ private:
     std::vector<ActionElement> OnHoverEnterElements;
     std::vector<ActionElement> OnHoverLeaveElements;
     bool isHovered = false;
+    bool isClicked = false;
     ActionElement* currentlyHovered = nullptr;
     
 

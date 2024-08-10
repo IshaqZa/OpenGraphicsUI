@@ -108,8 +108,8 @@ void Scene2D::addEventListener(EventType eventType, std::string elementName, std
     if(!elementArray[elementName]) throw std::runtime_error("No such element");
 
     switch(eventType){
-        case EVENT_ON_CLICK:
-            events->addOnClickElement(elementArray[elementName], action);
+        case EVENT_ON_CLICK_UP:
+            events->addOnClickUpElement(elementArray[elementName], action);
         break;
         case EVENT_ON_HOVER_ENTER:
             events->addOnHoverEnterElement(elementArray[elementName], action);
