@@ -1,6 +1,6 @@
-#include <UIManager/UIManager.h>
+#include <UILoader/UILoader.h>
 
-UIManager::UIManager(){
+UILoader::UILoader(){
     actionMap["settings"] = &actions::settingsOnClick;
     actionMap["quit"] = &actions::quitOnClick;
     actionMap["empty"] = &actions::empty;
@@ -12,11 +12,11 @@ UIManager::UIManager(){
     actionMap["onhoverQuitUnhighlight"] = &actions::quitOnHoverLeave;
 }
 
-std::function<void()> UIManager::triggerAction(std::string action){
+std::function<void()> UILoader::triggerAction(std::string action){
     return actionMap[action];
 }
 
-void UIManager::loadUiConfig(){
+void UILoader::loadUiConfig(){
     std::cout << "preparing to load ui config file" << std::endl;
     std::ifstream uiFile("..\\resources\\ui\\ui.json");
     if(!uiFile.is_open()){
