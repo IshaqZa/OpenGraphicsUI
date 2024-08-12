@@ -28,8 +28,17 @@ std::shared_ptr<Shader> Scene::createShader(const char* vertexFile, const char* 
     return shader;
 }
 
-void Scene::setBackgroundColor(glm::vec4 backgroundColor){
+void Scene::setBackground(glm::vec4 backgroundColor){
     this->backgroundColor = backgroundColor;
+}
+
+void Scene::setBackground(Texture texture, const char* texLocation, GLuint unit){
+    backgroundImage = std::make_shared<Texture>(texture);
+    backgroundImage->texUnit((*shader), texLocation, unit);
+}
+
+void Scene::setBackgroundImage(bool isImage){
+    isBackgroundImage = isImage;
 }
 
 void Scene2D::addElement(std::string name, std::shared_ptr<MenuElement> element) {
@@ -51,11 +60,21 @@ void Scene::createVAO(int posSize, int colorSize, int texSize, GLenum type){
 }
 
 void Scene::createVBO(){
+
+    if(isBackgroundImage){
+        vertices->insert(vertices->begin(), {
+            -1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+            -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+            1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 
+             1.0f,  1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f
+        });
+    }
     vbo = std::make_shared<VBO>(vertices->data(), vertices->size() * sizeof(vertices));
 }
 
 void Scene::activate(){
     glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, backgroundColor.w);
+
     if(vao == nullptr) throw std::runtime_error("VAO not initialised");
     if(vbo == nullptr) throw std::runtime_error("VBO not initialised");
     vbo->Bind();
@@ -69,6 +88,13 @@ void Scene2D::render(){
     std::cout << "Shader activated" << std::endl;
     vao->Bind();
     std::cout << "VAO bound" << std::endl;
+
+    if(isBackgroundImage){
+        backgroundImage->Bind();
+        gl
+        glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+        backgroundImage->Unbind();
+    }
     
     try{
         for(const auto& x : elementArray){
