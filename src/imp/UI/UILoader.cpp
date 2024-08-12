@@ -73,7 +73,7 @@ void UILoader::loadUiConfig(){
         std::cout << "Finished creating vertex data" << std::endl;
         newScene->createShader(sceneData.vertexShaderPath.c_str(), sceneData.fragmentShaderPath.c_str());
         newScene->createEventHandler();
-        newScene->setBackgroundColor(
+        newScene->setBackground(
             glm::vec4(
                 sceneData.backgroundColor[0],
                 sceneData.backgroundColor[1],
@@ -81,6 +81,12 @@ void UILoader::loadUiConfig(){
                 sceneData.backgroundColor[3]
             )
         );
+        if(!sceneData.backgroundImagePath.empty()){
+            Texture background(sceneData.backgroundImagePath.c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+            std::cout << "Made a texture object for background image" << std::endl;
+            newScene->setBackground(background, "tex", GL_TEXTURE0);
+        }
+        newScene->setBackgroundImage(sceneData.isBackgroundImage);
         std::cout << "Finished creating all needed data" << std::endl;
 
         std::shared_ptr<std::vector<GLfloat>> vertices = newScene->getVertices();

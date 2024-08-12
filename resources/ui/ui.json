@@ -116,6 +116,8 @@
           "shape": "rectangle"
         }
       ],
+      "backgroundImagePath": "..\\resources\\textures\\background.png",
+      "isBackgroundImage": true,
       "vertexShaderPath": "..\\resources\\Shaders\\default.vert",
       "fragmentShaderPath": "..\\resources\\Shaders\\default.frag",
       "backgroundColor": [-0.47, 0.56, -0.81, 1.0],
@@ -149,6 +151,8 @@
           "shape": "rectangle"
         }
       ],
+      "backgroundImagePath": "",
+      "isBackgroundImage": false,
       "vertexShaderPath": "..\\resources\\Shaders\\default.vert",
       "fragmentShaderPath": "..\\resources\\Shaders\\default.frag",
       "backgroundColor": [-0.47, 0.56, -0.81, 1.0],

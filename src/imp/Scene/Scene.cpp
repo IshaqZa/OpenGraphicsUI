@@ -91,7 +91,7 @@ void Scene2D::render(){
 
     if(isBackgroundImage){
         backgroundImage->Bind();
-        gl
+        glUniform1i(isTex, 1);
         glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
         backgroundImage->Unbind();
     }
