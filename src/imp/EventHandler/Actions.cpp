@@ -94,4 +94,15 @@ void actions::quitOnHoverLeave(){
     btn->setTexture(tex, (*currShader), "tex", 0);
 }
 
+void actions::settingsOnMouseDown(){
+    std::unordered_map<std::string, std::shared_ptr<Scene2D>> scenes = sceneManager->getAllScenes();
+    if(scenes.empty()) std::cout << "scenes is empty" << std::endl;
+    std::shared_ptr<Scene2D> currScene = scenes["Main Menu"];
+    std::shared_ptr<Shader>  currShader = currScene->getShaderProgram();
+    std::shared_ptr<MenuElement> btn = currScene->getElementByName("options");
+    Texture tex("../resources/textures/OPTIONS red.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+    btn->setTexture(tex, (*currShader), "tex", 0);
+    std::cout << "texture set" << std::endl;
+}
+
 void actions::empty(){}

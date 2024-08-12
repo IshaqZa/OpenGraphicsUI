@@ -53,6 +53,9 @@ void EventHandler::processOnMouseUp(GLFWwindow* window){
     int MouseButtonState = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
 
     if(MouseButtonState == GLFW_RELEASE && isClicked){
+
+        std::cout << "Mouse released" << std::endl;
+
         isClicked = false;
         double x, y;
         glfwGetCursorPos(window, &x, &y);

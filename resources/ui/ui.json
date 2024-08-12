@@ -61,6 +61,10 @@
               "action": "settings"
             },
             {
+              "event": "onclickdown",
+              "action": "settingsDown"
+            },
+            {
               "event": "onhoverenter",
               "action": "onhoversettingsHighlight"
             },

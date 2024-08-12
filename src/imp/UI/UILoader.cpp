@@ -4,6 +4,7 @@ UILoader::UILoader(){
     actionMap["settings"] = &actions::settingsOnMouseUp;
     actionMap["quit"] = &actions::quitOnMouseUp;
     actionMap["empty"] = &actions::empty;
+    actionMap["settingsDown"] = &actions::settingsOnMouseDown;
     actionMap["onhoverPlayHighlight"] = &actions::playOnHoverEnter;
     actionMap["onhoverPlayUnhighlight"] = &actions::playOnHoverLeave;
     actionMap["onhoversettingsHighlight"] = &actions::settingsOnHoverEnter;

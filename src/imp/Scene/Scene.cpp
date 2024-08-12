@@ -111,6 +111,9 @@ void Scene2D::addEventListener(EventType eventType, std::string elementName, std
         case EVENT_ON_CLICK_UP:
             events->addOnClickUpElement(elementArray[elementName], action);
         break;
+        case EVENT_ON_CLICK_DOWN:
+            events->addOnClickDownElement(elementArray[elementName], action);
+        break;
         case EVENT_ON_HOVER_ENTER:
             events->addOnHoverEnterElement(elementArray[elementName], action);
         break;

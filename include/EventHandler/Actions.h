@@ -10,6 +10,7 @@ namespace actions{
     void settingsOnMouseUp();
     void quitOnMouseDown();
     void quitOnMouseUp();
+    void playOnMouseDown();
     void playOnHoverEnter();
     void playOnHoverLeave();
     void settingsOnHoverEnter();
