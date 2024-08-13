@@ -96,10 +96,14 @@ void actions::quitOnHoverLeave(){
 
 void actions::settingsOnMouseDown(){
     std::unordered_map<std::string, std::shared_ptr<Scene2D>> scenes = sceneManager->getAllScenes();
+    std::cout << "All scenes retrieved" << std::endl;
     if(scenes.empty()) std::cout << "scenes is empty" << std::endl;
     std::shared_ptr<Scene2D> currScene = scenes["Main Menu"];
-    std::shared_ptr<Shader>  currShader = currScene->getShaderProgram();
+    std::cout << "Main Menu scene retrieved" << std::endl;
+    std::shared_ptr<Shader> currShader = currScene->getShaderProgram();
+    std::cout << "Shader retrieved" << std::endl;
     std::shared_ptr<MenuElement> btn = currScene->getElementByName("options");
+    std::cout << "Options button retrieved" << std::endl;
     Texture tex("../resources/textures/OPTIONS red.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
     btn->setTexture(tex, (*currShader), "tex", 0);
     std::cout << "texture set" << std::endl;

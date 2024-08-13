@@ -16,7 +16,6 @@ Texture::Texture(const char* image, GLenum texType, GLenum slot, GLenum format, 
 
 	if(bytes == NULL){
 		std::cerr << "Texture Error: " << stbi_failure_reason() << std::endl;
-		bytes = stbi_load("../resources/textures/placeholder.png", &widthImg, &heightImg, &numColCh, 0);
 	}
 
 	// Generates an OpenGL texture object
@@ -52,6 +51,14 @@ Texture::Texture(const char* image, GLenum texType, GLenum slot, GLenum format, 
 	stbi_image_free(bytes);
 	// Unbinds the OpenGL Texture object so that it can't accidentally be modified
 	glBindTexture(texType, 0);
+
+	GLenum err = glGetError();
+
+	if(err != GL_NO_ERROR){
+
+		std::cerr << "OpenGL error in Texture: " << err << std::endl;
+		
+	}
 
 	std::cout << "Texture created successfully" << std::endl;
 }

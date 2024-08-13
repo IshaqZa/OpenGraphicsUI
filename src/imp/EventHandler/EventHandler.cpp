@@ -27,6 +27,7 @@ void EventHandler::processOnMouseDown(GLFWwindow* window){
     int MouseButtonState = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
 
     if(MouseButtonState == GLFW_PRESS){
+        std::cout << "Mouse is down" << std::endl;
         isClicked = true;
         double x, y;
         glfwGetCursorPos(window, &x, &y);
@@ -41,6 +42,7 @@ void EventHandler::processOnMouseDown(GLFWwindow* window){
         
         for(const auto& clickable : onClickDownElements){
             if(clickable.element->contains(pos)){
+                std::cout << "mouse down click detected" << std::endl;
                 clickable.action();
                 break;
             }
