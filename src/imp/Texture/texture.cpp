@@ -1,6 +1,6 @@
 #include "Buffer/texture.h"
 
-Texture::Texture(const char* image, GLenum texType, GLenum slot, GLenum format, GLenum pixelType)
+Texture::Texture(const char* image, GLenum texType, GLenum slot, GLenum pixelType)
 {
 	std::cout << image << std::endl;
 	path = image;
@@ -13,6 +13,12 @@ Texture::Texture(const char* image, GLenum texType, GLenum slot, GLenum format, 
 	stbi_set_flip_vertically_on_load(true);
 	// Reads the image from a file and stores it in bytes
 	unsigned char* bytes = stbi_load(image, &widthImg, &heightImg, &numColCh, 0);
+
+	std::cout << "Image specs:" << std::endl;
+	std::cout << "width, height: " << widthImg << ", " << heightImg << std::endl;
+	std::cout << "Number of color channels: " << numColCh << std::endl;
+	std::cout << "Size of image bytes" << sizeof(bytes) << std::endl;
+
 
 	if(bytes == NULL){
 		std::cerr << "Texture Error: " << stbi_failure_reason() << std::endl;
@@ -40,7 +46,16 @@ Texture::Texture(const char* image, GLenum texType, GLenum slot, GLenum format, 
 	// glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, flatColor);
 
 	// Assigns the image to the OpenGL Texture object
-	glTexImage2D(texType, 0, GL_RGBA, widthImg, heightImg, 0, format, pixelType, bytes);
+	if(numColCh == 3){
+		glTexImage2D(texType, 0, GL_RGB, widthImg, heightImg, 0, GL_RGB, pixelType, bytes);
+	}
+	else if(numColCh == 4){
+		glTexImage2D(texType, 0, GL_RGBA, widthImg, heightImg, 0, GL_RGBA, pixelType, bytes);
+	}
+	else {
+		std::cerr << "Image type unsupported" << std::endl;
+		exit(EXIT_FAILURE);
+	}
 	std::cout << "Generated 2D Image Texture" << std::endl;
 	// Generates MipMaps
 	glGenerateMipmap(texType);

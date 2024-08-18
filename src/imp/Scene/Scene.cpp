@@ -35,6 +35,22 @@ void Scene::setBackground(glm::vec4 backgroundColor){
 void Scene::setBackground(Texture texture, const char* texLocation, GLuint unit){
     backgroundImage = std::make_shared<Texture>(texture);
     backgroundImage->texUnit((*shader), texLocation, unit);
+    vertices->insert(vertices->begin(), {
+            -1.0f, 1.0f, 0.0f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, // top left
+            -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom left
+            1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.5f, 1.0f, 1.0f, 0.0f, // bottom right
+             1.0f,  1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f // top right
+        });
+    backgroundIndex = index;
+    GLuint normBackgroundIndex = backgroundIndex/9;
+    std::vector<GLuint> indices = {
+        normBackgroundIndex + 0, normBackgroundIndex + 3, normBackgroundIndex + 1,
+        normBackgroundIndex + 3, normBackgroundIndex + 1, normBackgroundIndex + 2
+    };
+
+    backgroundEBO = std::make_shared<EBO>(indices.data(), indices.size() * sizeof(indices));
+
+    index += 36;
 }
 
 void Scene::setBackgroundImage(bool isImage){
@@ -60,15 +76,6 @@ void Scene::createVAO(int posSize, int colorSize, int texSize, GLenum type){
 }
 
 void Scene::createVBO(){
-
-    if(isBackgroundImage){
-        vertices->insert(vertices->begin(), {
-            -1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-            -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-            1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 
-             1.0f,  1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f
-        });
-    }
     vbo = std::make_shared<VBO>(vertices->data(), vertices->size() * sizeof(vertices));
 }
 
@@ -90,10 +97,13 @@ void Scene2D::render(){
     std::cout << "VAO bound" << std::endl;
 
     if(isBackgroundImage){
+        backgroundEBO->Bind();
         backgroundImage->Bind();
         glUniform1i(isTex, 1);
-        glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+        GLuint normIndex = backgroundIndex / 9;
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         backgroundImage->Unbind();
+        backgroundEBO->Unbind();
     }
     
     try{

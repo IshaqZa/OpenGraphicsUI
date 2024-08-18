@@ -22,7 +22,7 @@ struct Appearance2D
   int renderType;
 
   Appearance2D(glm::vec2 position, glm::vec2 size, glm::vec4 color, glm::vec2 texturePos,
-               Texture texture = Texture("../resources/textures/placeholder.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE), int renderType = RGBA_TYPE)
+               Texture texture = Texture("../resources/textures/placeholder.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_UNSIGNED_BYTE), int renderType = RGBA_TYPE)
       : position(position), color(color), texturePos(texturePos), texture(texture), renderType(renderType), size(size) {}
 
 };

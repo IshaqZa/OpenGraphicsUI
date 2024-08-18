@@ -116,7 +116,7 @@
           "shape": "rectangle"
         }
       ],
-      "backgroundImagePath": "..\\resources\\textures\\background.png",
+      "backgroundImagePath": "..\\resources\\textures\\background.jpg",
       "isBackgroundImage": true,
       "vertexShaderPath": "..\\resources\\Shaders\\default.vert",
       "fragmentShaderPath": "..\\resources\\Shaders\\default.frag",
@@ -145,7 +145,7 @@
             "color": [0, 0, 0, 0],
             "texturePosX": 0,
             "texturePosY": 0,
-            "textureImagePath": "..\\resources\\textures\\PLAY blue.png",
+            "textureImagePath": "..\\resources\\textures\\START purple.png",
             "renderType": 1
           },
           "shape": "rectangle"

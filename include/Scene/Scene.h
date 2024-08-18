@@ -15,12 +15,15 @@ class EventHandler;
 class Scene {
 
     protected:
-        unsigned int index = 0;
+        GLuint index = 0;
+        GLuint backgroundIndex = 0;
         GLuint isTex = 0;
+        std::shared_ptr<EBO> backgroundEBO;
         std::shared_ptr<VBO> vbo;
         std::shared_ptr<VAO> vao;
         std::shared_ptr<Shader> shader;
         std::shared_ptr<std::vector<GLfloat>> vertices;
+        std::shared_ptr<std::vector<GLuint>> backgroundIndices;
         glm::vec4 backgroundColor;
         std::shared_ptr<Texture> backgroundImage;
         bool isBackgroundImage = false;
