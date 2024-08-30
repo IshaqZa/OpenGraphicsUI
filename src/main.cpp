@@ -15,7 +15,7 @@
 #include <Buffer/texture.h>
 #include <ui/ui.h>
 #include <EventHandler/EventHandler.h>
-#include <UIManager/UIManager.h>
+#include <UILoader/UILoader.h>
 using namespace std;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height){
@@ -69,7 +69,7 @@ int main(){
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetErrorCallback(errorCallback);
-    UIManager uimanager;
+    UILoader UILoader;
     SceneManager* sceneManager = SceneManager::getInstance();
     if(!sceneManager) {
         std::cout << "Scene Manager failed to initialise" << std::endl;
@@ -77,7 +77,7 @@ int main(){
     }
 
     // std::cout << "Loading UI configuration" << std::endl;
-    uimanager.loadUiConfig();
+    UILoader.loadUiConfig();
     std::cout << "Done loading UI configuration" << std::endl;
 
     std::shared_ptr<Scene2D> currentScenePtr = sceneManager->getCurrentScene();

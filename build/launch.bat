@@ -1,2 +1,2 @@
 @echo off
-"Sci Hunt.exe"> log.txt
+"Sci Hunt.exe"> log.txt 2>&1

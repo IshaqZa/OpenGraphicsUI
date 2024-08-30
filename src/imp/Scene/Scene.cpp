@@ -28,8 +28,33 @@ std::shared_ptr<Shader> Scene::createShader(const char* vertexFile, const char* 
     return shader;
 }
 
-void Scene::setBackgroundColor(glm::vec4 backgroundColor){
+void Scene::setBackground(glm::vec4 backgroundColor){
     this->backgroundColor = backgroundColor;
+}
+
+void Scene::setBackground(Texture texture, const char* texLocation, GLuint unit){
+    backgroundImage = std::make_shared<Texture>(texture);
+    backgroundImage->texUnit((*shader), texLocation, unit);
+    vertices->insert(vertices->begin(), {
+            -1.0f, 1.0f, 0.0f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, // top left
+            -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom left
+            1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.5f, 1.0f, 1.0f, 0.0f, // bottom right
+             1.0f,  1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f // top right
+        });
+    backgroundIndex = index;
+    GLuint normBackgroundIndex = backgroundIndex/9;
+    std::vector<GLuint> indices = {
+        normBackgroundIndex + 0, normBackgroundIndex + 3, normBackgroundIndex + 1,
+        normBackgroundIndex + 3, normBackgroundIndex + 1, normBackgroundIndex + 2
+    };
+
+    backgroundEBO = std::make_shared<EBO>(indices.data(), indices.size() * sizeof(indices));
+
+    index += 36;
+}
+
+void Scene::setBackgroundImage(bool isImage){
+    isBackgroundImage = isImage;
 }
 
 void Scene2D::addElement(std::string name, std::shared_ptr<MenuElement> element) {
@@ -56,6 +81,7 @@ void Scene::createVBO(){
 
 void Scene::activate(){
     glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, backgroundColor.w);
+
     if(vao == nullptr) throw std::runtime_error("VAO not initialised");
     if(vbo == nullptr) throw std::runtime_error("VBO not initialised");
     vbo->Bind();
@@ -69,6 +95,16 @@ void Scene2D::render(){
     std::cout << "Shader activated" << std::endl;
     vao->Bind();
     std::cout << "VAO bound" << std::endl;
+
+    if(isBackgroundImage){
+        backgroundEBO->Bind();
+        backgroundImage->Bind();
+        glUniform1i(isTex, 1);
+        GLuint normIndex = backgroundIndex / 9;
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        backgroundImage->Unbind();
+        backgroundEBO->Unbind();
+    }
     
     try{
         for(const auto& x : elementArray){
@@ -108,8 +144,11 @@ void Scene2D::addEventListener(EventType eventType, std::string elementName, std
     if(!elementArray[elementName]) throw std::runtime_error("No such element");
 
     switch(eventType){
-        case EVENT_ON_CLICK:
-            events->addOnClickElement(elementArray[elementName], action);
+        case EVENT_ON_CLICK_UP:
+            events->addOnClickUpElement(elementArray[elementName], action);
+        break;
+        case EVENT_ON_CLICK_DOWN:
+            events->addOnClickDownElement(elementArray[elementName], action);
         break;
         case EVENT_ON_HOVER_ENTER:
             events->addOnHoverEnterElement(elementArray[elementName], action);

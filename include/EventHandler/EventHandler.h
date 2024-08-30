@@ -13,20 +13,24 @@ private:
         std::shared_ptr<MenuElement> element;
         std::function<void()> action;
     };
-    std::vector<ActionElement> onClickElements;
+    std::vector<ActionElement> onClickDownElements;
+    std::vector<ActionElement> onClickUpElements;
     std::vector<ActionElement> OnHoverEnterElements;
     std::vector<ActionElement> OnHoverLeaveElements;
     bool isHovered = false;
+    bool isClicked = false;
     ActionElement* currentlyHovered = nullptr;
     
 
     GLfloat normalizeX(GLfloat value, GLfloat width);
     GLfloat normalizeY(GLfloat value, GLfloat height);
-    void processOnClick(GLFWwindow* window);
+    void processOnMouseDown(GLFWwindow* window);
+    void processOnMouseUp(GLFWwindow* window);
     void processOnHoverEnter(GLFWwindow* window);
     void processOnHoverLeave(GLFWwindow* window);
 public:
-    void addOnClickElement(std::shared_ptr<MenuElement> element, std::function<void()> action);
+    void addOnClickDownElement(std::shared_ptr<MenuElement> element, std::function<void()> action);
+    void addOnClickUpElement(std::shared_ptr<MenuElement> element, std::function<void()> action);
     void addOnHoverEnterElement(std::shared_ptr<MenuElement> element, std::function<void()> action);
     void addOnHoverLeaveElement(std::shared_ptr<MenuElement> element, std::function<void()> action);
     void processInputs(GLFWwindow* window);

@@ -97,7 +97,7 @@ Button::Button(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalInd
     std::cout << "Created ebo and updated global index" << std::endl;
 };
 
-void Button::setTexture(Texture texture, Shader& shader, const char* texLocation, GLuint unit) { 
+void Button::setTexture(Texture texture, Shader& shader, const char* texLocation, GLuint unit) {
     appearance->texture = texture;
     appearance->texture.texUnit(shader, texLocation, unit);
     std::cout << "Set texture for button" << std::endl;
@@ -107,7 +107,6 @@ void Button::draw(GLuint texBool) {
 
     if(!appearance || !shape || !ebo) {
         std::cerr << "Error drawing button due to initialised data" << std::endl;
-        std::cout << "Error drawing button due to initialised data" << std::endl;
         exit(EXIT_FAILURE);
     }
 

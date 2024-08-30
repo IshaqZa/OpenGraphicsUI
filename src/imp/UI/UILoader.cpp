@@ -1,22 +1,23 @@
-#include <UIManager/UIManager.h>
+#include <UILoader/UILoader.h>
 
-UIManager::UIManager(){
-    actionMap["settings"] = &actions::settingsOnClick;
-    actionMap["quit"] = &actions::quitOnClick;
+UILoader::UILoader(){
+    actionMap["settings"] = &actions::settingsOnMouseUp;
+    actionMap["quit"] = &actions::quitOnMouseUp;
     actionMap["empty"] = &actions::empty;
+    actionMap["settingsDown"] = &actions::settingsOnMouseDown;
     actionMap["onhoverPlayHighlight"] = &actions::playOnHoverEnter;
     actionMap["onhoverPlayUnhighlight"] = &actions::playOnHoverLeave;
-    actionMap["onhoverOptionsHighlight"] = &actions::optionsOnHoverEnter;
-    actionMap["onhoverOptionsUnhighlight"] = &actions::optionsOnHoverLeave;
+    actionMap["onhoversettingsHighlight"] = &actions::settingsOnHoverEnter;
+    actionMap["onhoversettingsUnhighlight"] = &actions::settingsOnHoverLeave;
     actionMap["onhoverQuitHighlight"] = &actions::quitOnHoverEnter;
     actionMap["onhoverQuitUnhighlight"] = &actions::quitOnHoverLeave;
 }
 
-std::function<void()> UIManager::triggerAction(std::string action){
+std::function<void()> UILoader::triggerAction(std::string action){
     return actionMap[action];
 }
 
-void UIManager::loadUiConfig(){
+void UILoader::loadUiConfig(){
     std::cout << "preparing to load ui config file" << std::endl;
     std::ifstream uiFile("..\\resources\\ui\\ui.json");
     if(!uiFile.is_open()){
@@ -72,7 +73,7 @@ void UIManager::loadUiConfig(){
         std::cout << "Finished creating vertex data" << std::endl;
         newScene->createShader(sceneData.vertexShaderPath.c_str(), sceneData.fragmentShaderPath.c_str());
         newScene->createEventHandler();
-        newScene->setBackgroundColor(
+        newScene->setBackground(
             glm::vec4(
                 sceneData.backgroundColor[0],
                 sceneData.backgroundColor[1],
@@ -80,6 +81,12 @@ void UIManager::loadUiConfig(){
                 sceneData.backgroundColor[3]
             )
         );
+        if(!sceneData.backgroundImagePath.empty()){
+            Texture background(sceneData.backgroundImagePath.c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_UNSIGNED_BYTE);
+            std::cout << "Made a texture object for background image" << std::endl;
+            newScene->setBackground(background, "tex", GL_TEXTURE0);
+        }
+        newScene->setBackgroundImage(sceneData.isBackgroundImage);
         std::cout << "Finished creating all needed data" << std::endl;
 
         std::shared_ptr<std::vector<GLfloat>> vertices = newScene->getVertices();
@@ -90,7 +97,7 @@ void UIManager::loadUiConfig(){
             std::cout << "Button shape: " << button.shape << std::endl;
             StructAppearance currApp = button.appearance;
             std::cout << "Retrieved the current button appearance" << std::endl;
-            Texture texture(currApp.textureImagePath.c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+            Texture texture(currApp.textureImagePath.c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_UNSIGNED_BYTE);
             std::cout << "Created texture" << std::endl;
             std::shared_ptr<Appearance2D> appearancePtr = std::make_shared<Appearance2D>(
                 glm::vec2(currApp.posX, currApp.posY),

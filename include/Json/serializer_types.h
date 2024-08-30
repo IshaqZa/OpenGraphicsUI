@@ -38,13 +38,15 @@ struct StructButton{
 
 struct StructScene {
     std::string name;
+    bool isBackgroundImage;
     std::vector<StructButton> sceneMembers;
     std::string vertexShaderPath;
     std::string fragmentShaderPath;
     GLfloat backgroundColor[4];
+    std::string backgroundImagePath;
     int posSize, colorSize, texSize;
 
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(StructScene, name, sceneMembers, vertexShaderPath, fragmentShaderPath, backgroundColor, posSize, colorSize, texSize);
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE(StructScene, name, isBackgroundImage, sceneMembers, vertexShaderPath, fragmentShaderPath, backgroundColor, backgroundImagePath, posSize, colorSize, texSize);
 };
 
 struct StructScenes{

@@ -7,7 +7,7 @@
           "name": "logo",
           "events": [
             {
-              "event": "onclick",
+              "event": "onclickup",
               "action": "empty"
             }
           ],
@@ -28,7 +28,7 @@
           "name": "Play",
           "events": [
             {
-              "event": "onclick",
+              "event": "onclickup",
               "action": "settings"
             },
             {
@@ -57,16 +57,20 @@
           "name": "options",
           "events": [
             {
-              "event": "onclick",
+              "event": "onclickup",
               "action": "settings"
             },
             {
+              "event": "onclickdown",
+              "action": "settingsDown"
+            },
+            {
               "event": "onhoverenter",
-              "action": "onhoverOptionsHighlight"
+              "action": "onhoversettingsHighlight"
             },
             {
               "event": "onhoverleave",
-              "action": "onhoverOptionsUnhighlight"
+              "action": "onhoversettingsUnhighlight"
             }
           ],
           "appearance": {
@@ -86,7 +90,7 @@
           "name": "Quit",
           "events": [
             {
-              "event": "onclick",
+              "event": "onclickup",
               "action": "quit"
             },
             {
@@ -112,6 +116,8 @@
           "shape": "rectangle"
         }
       ],
+      "backgroundImagePath": "..\\resources\\textures\\background.jpg",
+      "isBackgroundImage": true,
       "vertexShaderPath": "..\\resources\\Shaders\\default.vert",
       "fragmentShaderPath": "..\\resources\\Shaders\\default.frag",
       "backgroundColor": [-0.47, 0.56, -0.81, 1.0],
@@ -127,7 +133,7 @@
           "name": "Play",
           "events": [
             {
-              "event": "onclick",
+              "event": "onclickup",
               "action": "empty"
             }
           ],
@@ -139,12 +145,14 @@
             "color": [0, 0, 0, 0],
             "texturePosX": 0,
             "texturePosY": 0,
-            "textureImagePath": "..\\resources\\textures\\PLAY blue.png",
+            "textureImagePath": "..\\resources\\textures\\START purple.png",
             "renderType": 1
           },
           "shape": "rectangle"
         }
       ],
+      "backgroundImagePath": "",
+      "isBackgroundImage": false,
       "vertexShaderPath": "..\\resources\\Shaders\\default.vert",
       "fragmentShaderPath": "..\\resources\\Shaders\\default.frag",
       "backgroundColor": [-0.47, 0.56, -0.81, 1.0],

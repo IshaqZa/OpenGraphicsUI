@@ -15,13 +15,18 @@ class EventHandler;
 class Scene {
 
     protected:
-        unsigned int index = 0;
+        GLuint index = 0;
+        GLuint backgroundIndex = 0;
         GLuint isTex = 0;
+        std::shared_ptr<EBO> backgroundEBO;
         std::shared_ptr<VBO> vbo;
         std::shared_ptr<VAO> vao;
         std::shared_ptr<Shader> shader;
         std::shared_ptr<std::vector<GLfloat>> vertices;
+        std::shared_ptr<std::vector<GLuint>> backgroundIndices;
         glm::vec4 backgroundColor;
+        std::shared_ptr<Texture> backgroundImage;
+        bool isBackgroundImage = false;
     
     public:
         unsigned int* currentIndex();
@@ -30,7 +35,9 @@ class Scene {
         void linkVBO(std::shared_ptr<VBO> vbo);
         void linkVAO(std::shared_ptr<VAO> vao);
         void linkShader(std::shared_ptr<Shader> shader);
-        void setBackgroundColor(glm::vec4 backgroundColor);
+        void setBackground(glm::vec4 backgroundColor);
+        void setBackground(Texture texture, const char* texLocation, GLuint unit);
+        void setBackgroundImage(bool isImage);
         std::shared_ptr<std::vector<GLfloat>> getVertices();
         void createVBO();
         void createVAO(int posSize, int colorSize, int texSize, GLenum type);
