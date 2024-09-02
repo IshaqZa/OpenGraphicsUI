@@ -1,8 +1,8 @@
-# Sci Hunt
+# OpenUI
 
 ## Overview:
-- **Description**: Sci Hunt is a game built upon a dynamic and expandable yet minimalistic game engine, and serves to demonstrate the core concepts of making a 3D game from scratch
-- **Features**: The features in this project range from a scene system that allows the developer a simpler way of switching between menus and game levels, to dynamic configuration using .json files
+- **Description**: **OpenUI** is a simple light weight UI library made for OpenGL, GLFW and glad environment, designed to readuce the workload on a developer
+- **Features**: The features in this project range from a scene system that allows the developer a simpler way of switching between menus, to dynamic configuration using .json files
 - **Technologies used**:
     - **Programming Language**: C++
     - **Graphics Library**: OpenGL
@@ -13,10 +13,9 @@
 2. Click on Sci Hunt.exe and the game will launch
 
 ### Compiling the project
-- The program can be run using gcc/g++ using the following command:
-    `g++ -std=c++17 -I./include ./src/external/glad.c ./src/main.cpp ./src/graphics/*.cpp ./src/external/stb_image.cpp ./resources/icon/resources.o ./libglfw3.a -o ./build/"Sci Hunt.exe" -g -lgdi32`
+- The program can be compiled by running CMake in the root folder, and then make in ./build/build directory
 ### Configuration
-- The 2D part of the engine can be modified in `./resources/ui/ui.json`, the file has the following format:
+- The UI can be set by modifying `./resources/ui/ui.json`, the file has the following format:
 ```json
 {
   "scenes": [
