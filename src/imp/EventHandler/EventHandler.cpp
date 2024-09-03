@@ -1,17 +1,17 @@
 #include "EventHandler/EventHandler.h"
 void EventHandler::addElementEvent(EventType type, std::shared_ptr<MenuElement> element, std::function<void()> action){
     switch(type){
-        case EVENT_ON_CLICK_UP:
-            onClickDownElements.push_back({element, action});
+        case EVENT_ON_CLICK:
+            onClickElements.push_back({element, action});
         break;
-        case EVENT_ON_CLICK_DOWN:
-            onClickUpElements.push_back({element, action});
-        break;
+
         case EVENT_ON_HOVER_ENTER:
             OnHoverEnterElements.push_back({element, action});
         break;
+
         case EVENT_ON_HOVER_LEAVE:
             OnHoverLeaveElements.push_back({element, action});
+        break;
     }
 }
 
@@ -22,7 +22,7 @@ GLfloat EventHandler::normalizeY(GLfloat value, GLfloat height){
     return 1.0f - 2.0f * value / height;
 }
 
-void EventHandler::processOnMouseDown(GLFWwindow* window){
+void EventHandler::processOnClick(GLFWwindow* window){
     
     int MouseButtonState = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
 
@@ -40,38 +40,9 @@ void EventHandler::processOnMouseDown(GLFWwindow* window){
 
         glm::vec2 pos(normalizedX, normalizedY);
         
-        for(const auto& clickable : onClickDownElements){
+        for(const auto& clickable : onClickElements){
             if(clickable.element->contains(pos)){
                 std::cout << "mouse down click detected" << std::endl;
-                clickable.action();
-                break;
-            }
-        }
-    }
-}
-
-void EventHandler::processOnMouseUp(GLFWwindow* window){
-    
-    int MouseButtonState = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
-
-    if(MouseButtonState == GLFW_RELEASE && isClicked){
-
-        std::cout << "Mouse released" << std::endl;
-
-        isClicked = false;
-        double x, y;
-        glfwGetCursorPos(window, &x, &y);
-
-        int width, height;
-        glfwGetWindowSize(window, &width, &height);
-
-        GLfloat normalizedX = normalizeX(x, width);
-        GLfloat normalizedY = normalizeY(y, height);
-
-        glm::vec2 pos(normalizedX, normalizedY);
-        
-        for(const auto& clickable : onClickUpElements){
-            if(clickable.element->contains(pos)){
                 clickable.action();
                 break;
             }
@@ -125,8 +96,7 @@ void EventHandler::processOnHoverLeave(GLFWwindow* window){
 }
 
 void EventHandler::processInputs(GLFWwindow* window){
-    processOnMouseDown(window);
-    processOnMouseUp(window);
+    processOnClick(window);
     std::cout << "Processed user clicks" << std::endl;
     processOnHoverEnter(window);
     processOnHoverLeave(window);

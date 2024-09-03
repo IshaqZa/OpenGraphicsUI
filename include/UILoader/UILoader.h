@@ -11,10 +11,11 @@
 class UILoader {
     private:
         std::unordered_map<std::string, std::function<void()>> actionMap;
-        SceneManager* sceneManager = SceneManager::getInstance();
+        SceneManager* sceneManager;
     public:
         UILoader();
-        void loadUiConfig();
+        void loadUiConfig(std::string path);
+        void registerFunction(std::string name, std::function<void()> action);
         std::function<void()> triggerAction(std::string action);
         // void saveUiConfig(std::shared_ptr<Scene> scene);
 };

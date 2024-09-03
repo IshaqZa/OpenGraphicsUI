@@ -1,25 +1,20 @@
 #include <UILoader/UILoader.h>
 
 UILoader::UILoader(){
-    actionMap["settings"] = &actions::settingsOnMouseUp;
-    actionMap["quit"] = &actions::quitOnMouseUp;
-    actionMap["empty"] = &actions::empty;
-    actionMap["settingsDown"] = &actions::settingsOnMouseDown;
-    actionMap["onhoverPlayHighlight"] = &actions::playOnHoverEnter;
-    actionMap["onhoverPlayUnhighlight"] = &actions::playOnHoverLeave;
-    actionMap["onhoversettingsHighlight"] = &actions::settingsOnHoverEnter;
-    actionMap["onhoversettingsUnhighlight"] = &actions::settingsOnHoverLeave;
-    actionMap["onhoverQuitHighlight"] = &actions::quitOnHoverEnter;
-    actionMap["onhoverQuitUnhighlight"] = &actions::quitOnHoverLeave;
+    sceneManager = SceneManager::getInstance();
 }
 
 std::function<void()> UILoader::triggerAction(std::string action){
     return actionMap[action];
 }
 
-void UILoader::loadUiConfig(){
+void UILoader::registerFunction(std::string name, std::function<void()> action){
+    actionMap[name] = action;
+}
+
+void UILoader::loadUiConfig(std::string path){
     std::cout << "preparing to load ui config file" << std::endl;
-    std::ifstream uiFile("..\\resources\\ui\\ui.json");
+    std::ifstream uiFile(path);
     if(!uiFile.is_open()){
         std::cerr << "Failed to load ui configuration file" << std::endl;
         exit(EXIT_FAILURE);

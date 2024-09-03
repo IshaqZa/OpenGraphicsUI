@@ -86,7 +86,7 @@ std::shared_ptr<Scene2D> SceneManager::getCurrentScene(){
 std::unordered_map<std::string, std::shared_ptr<Scene2D>> SceneManager::getAllScenes(){
     if(scenes.empty()){
         std::cout << "scenes are empty" << std::endl;
-        exit(EXIT_FAILURE);
+        // exit(EXIT_FAILURE);
     }
     return scenes;
 }

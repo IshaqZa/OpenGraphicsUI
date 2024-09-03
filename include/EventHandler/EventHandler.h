@@ -14,8 +14,7 @@ class EventHandler{
             std::shared_ptr<MenuElement> element;
             std::function<void()> action;
         };
-        std::vector<ActionElement> onClickDownElements;
-        std::vector<ActionElement> onClickUpElements;
+        std::vector<ActionElement> onClickElements;
         std::vector<ActionElement> OnHoverEnterElements;
         std::vector<ActionElement> OnHoverLeaveElements;
         bool isHovered = false;
@@ -24,8 +23,7 @@ class EventHandler{
         
         GLfloat normalizeX(GLfloat value, GLfloat width);
         GLfloat normalizeY(GLfloat value, GLfloat height);
-        void processOnMouseDown(GLFWwindow* window);
-        void processOnMouseUp(GLFWwindow* window);
+        void processOnClick(GLFWwindow* window);
         void processOnHoverEnter(GLFWwindow* window);
         void processOnHoverLeave(GLFWwindow* window);
 

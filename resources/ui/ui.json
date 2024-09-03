@@ -7,7 +7,7 @@
           "name": "logo",
           "events": [
             {
-              "event": "onclickup",
+              "event": "onclick",
               "action": "empty"
             }
           ],
@@ -28,7 +28,7 @@
           "name": "Play",
           "events": [
             {
-              "event": "onclickup",
+              "event": "onclick",
               "action": "settings"
             },
             {
@@ -57,12 +57,8 @@
           "name": "options",
           "events": [
             {
-              "event": "onclickup",
+              "event": "onclick",
               "action": "settings"
-            },
-            {
-              "event": "onclickdown",
-              "action": "settingsDown"
             },
             {
               "event": "onhoverenter",
@@ -90,7 +86,7 @@
           "name": "Quit",
           "events": [
             {
-              "event": "onclickup",
+              "event": "onclick",
               "action": "quit"
             },
             {
@@ -133,7 +129,7 @@
           "name": "Play",
           "events": [
             {
-              "event": "onclickup",
+              "event": "onclick",
               "action": "empty"
             }
           ],

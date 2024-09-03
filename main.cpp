@@ -16,6 +16,7 @@
 #include <ui/ui.h>
 #include <EventHandler/EventHandler.h>
 #include <UILoader/UILoader.h>
+#include <EventHandler/Actions.h>
 using namespace std;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height){
@@ -76,8 +77,18 @@ int main(){
         return EXIT_FAILURE;
     }
 
+    UILoader.registerFunction("settings", &actions::settingsOnClick);
+    UILoader.registerFunction("quit", &actions::quitOnClick);
+    UILoader.registerFunction("empty", &actions::empty);
+    UILoader.registerFunction("onhoverPlayHighlight", &actions::playOnHoverEnter);
+    UILoader.registerFunction("onhoverPlayUnhighlight", &actions::playOnHoverLeave);
+    UILoader.registerFunction("onhoversettingsHighlight", &actions::settingsOnHoverEnter);
+    UILoader.registerFunction("onhoversettingsUnhighlight", &actions::settingsOnHoverLeave);
+    UILoader.registerFunction("onhoverQuitHighlight", &actions::quitOnHoverEnter);
+    UILoader.registerFunction("onhoverQuitUnhighlight", &actions::quitOnHoverLeave);
+
     // std::cout << "Loading UI configuration" << std::endl;
-    UILoader.loadUiConfig();
+    UILoader.loadUiConfig("../resources/ui/ui.json");
     std::cout << "Done loading UI configuration" << std::endl;
 
     std::shared_ptr<Scene2D> currentScenePtr = sceneManager->getCurrentScene();
