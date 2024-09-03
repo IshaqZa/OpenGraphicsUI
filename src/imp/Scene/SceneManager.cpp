@@ -23,8 +23,8 @@ void SceneManager::switchCurrentScene(std::string name){
 
 void SceneManager::update(GLFWwindow* window){
     try{
-        if(currScene.empty()) throw std::runtime_error("No scenes added to Scene Manager");
-        if(!scenes[currScene]) throw std::runtime_error("Empty scene pointer");
+        if(currScene.empty()) throw std::runtime_error("No scenes added to Scene Manager when trying to update scene");
+        if(!scenes[currScene]) throw std::runtime_error("Empty scene pointer in scene manager update function");
         scenes[currScene]->update(window);
         std::cout << "Updated current scene" << std::endl;
 

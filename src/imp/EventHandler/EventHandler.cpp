@@ -1,18 +1,18 @@
 #include "EventHandler/EventHandler.h"
-void EventHandler::addOnClickDownElement(std::shared_ptr<MenuElement> element, std::function<void()> action){
-    onClickDownElements.push_back({element, action});
-}
-
-void EventHandler::addOnClickUpElement(std::shared_ptr<MenuElement> element, std::function<void()> action){
-    onClickUpElements.push_back({element, action});
-}
-
-void EventHandler::addOnHoverEnterElement(std::shared_ptr<MenuElement> element, std::function<void()> action){
-    OnHoverEnterElements.push_back({element, action});
-}
-
-void EventHandler::addOnHoverLeaveElement(std::shared_ptr<MenuElement> element, std::function<void()> action){
-    OnHoverLeaveElements.push_back({element, action});
+void EventHandler::addElementEvent(EventType type, std::shared_ptr<MenuElement> element, std::function<void()> action){
+    switch(type){
+        case EVENT_ON_CLICK_UP:
+            onClickDownElements.push_back({element, action});
+        break;
+        case EVENT_ON_CLICK_DOWN:
+            onClickUpElements.push_back({element, action});
+        break;
+        case EVENT_ON_HOVER_ENTER:
+            OnHoverEnterElements.push_back({element, action});
+        break;
+        case EVENT_ON_HOVER_LEAVE:
+            OnHoverLeaveElements.push_back({element, action});
+    }
 }
 
 GLfloat EventHandler::normalizeX(GLfloat value, GLfloat width){
