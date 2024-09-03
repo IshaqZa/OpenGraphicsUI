@@ -141,21 +141,9 @@ unsigned int* Scene::currentIndex(){
 
 void Scene2D::addEventListener(EventType eventType, std::string elementName, std::function<void()> action){
     if(!events) throw std::runtime_error("Event Handler has not been created for this scene");
-    if(!elementArray[elementName]) throw std::runtime_error("No such element");
+    if(!elementArray[elementName]) throw std::runtime_error("No such element to add event listener");
 
-    switch(eventType){
-        case EVENT_ON_CLICK_UP:
-            events->addOnClickUpElement(elementArray[elementName], action);
-        break;
-        case EVENT_ON_CLICK_DOWN:
-            events->addOnClickDownElement(elementArray[elementName], action);
-        break;
-        case EVENT_ON_HOVER_ENTER:
-            events->addOnHoverEnterElement(elementArray[elementName], action);
-        break;
-        case EVENT_ON_HOVER_LEAVE:
-            events->addOnHoverLeaveElement(elementArray[elementName], action);
-    }
+    events->addElementEvent(eventType, elementArray[elementName], action);
 }
 
 std::shared_ptr<Shader> Scene::getShaderProgram(){
