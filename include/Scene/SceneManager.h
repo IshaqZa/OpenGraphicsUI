@@ -9,7 +9,7 @@ class EventHandler;
 class SceneManager {
 
     private:
-        std::unordered_map<std::string, std::shared_ptr<Scene2D>> scenes;
+        std::unordered_map<std::string, std::shared_ptr<Scene>> scenes;
         std::string currScene;
         static SceneManager* instancePtr;
 
@@ -19,15 +19,15 @@ class SceneManager {
 
         static SceneManager* getInstance();
 
-        void addScene(std::string name, std::shared_ptr<Scene2D> scene);
+        void addScene(std::string name, std::shared_ptr<Scene> scene);
         std::shared_ptr<std::vector<GLfloat>> getCurrSceneVertexData();
         void switchCurrentScene(std::string name);
         std::shared_ptr<Shader> getCurrentSceneShader();
         void update(GLFWwindow* window);
         void render();
         void printAllScenes();
-        std::shared_ptr<Scene2D> getCurrentScene();
-        std::unordered_map<std::string, std::shared_ptr<Scene2D>> getAllScenes();
+        std::shared_ptr<Scene> getCurrentScene();
+        std::unordered_map<std::string, std::shared_ptr<Scene>> getAllScenes();
 };
 
 #endif

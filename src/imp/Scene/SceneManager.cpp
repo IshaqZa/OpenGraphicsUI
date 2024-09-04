@@ -3,7 +3,7 @@
 SceneManager* SceneManager::instancePtr = nullptr;
 
 
-void SceneManager::addScene(std::string name, std::shared_ptr<Scene2D> scene){
+void SceneManager::addScene(std::string name, std::shared_ptr<Scene> scene){
     if(scenes.count(name) > 0) throw std::runtime_error("Scene already exists");
     scenes[name] = scene;
     if(currScene.empty()){ 
@@ -79,11 +79,11 @@ std::shared_ptr<std::vector<GLfloat>> SceneManager::getCurrSceneVertexData(){
     return scenes[currScene]->getVertices();
 }
 
-std::shared_ptr<Scene2D> SceneManager::getCurrentScene(){
+std::shared_ptr<Scene> SceneManager::getCurrentScene(){
     return scenes[currScene];
 }
 
-std::unordered_map<std::string, std::shared_ptr<Scene2D>> SceneManager::getAllScenes(){
+std::unordered_map<std::string, std::shared_ptr<Scene>> SceneManager::getAllScenes(){
     if(scenes.empty()){
         std::cout << "scenes are empty" << std::endl;
         // exit(EXIT_FAILURE);

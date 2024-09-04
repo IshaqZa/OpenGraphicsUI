@@ -91,7 +91,7 @@ int main(){
     UILoader.loadUiConfig("../resources/ui/ui.json");
     std::cout << "Done loading UI configuration" << std::endl;
 
-    std::shared_ptr<Scene2D> currentScenePtr = sceneManager->getCurrentScene();
+    std::shared_ptr<Scene> currentScenePtr = sceneManager->getCurrentScene();
 
     if(!currentScenePtr){
         std::cerr << "Current scene is empty" << std::endl;

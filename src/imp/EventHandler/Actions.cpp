@@ -11,10 +11,10 @@ void actions::quitOnClick(){
 }
 
 void actions::playOnHoverEnter(){
-    std::unordered_map<std::string, std::shared_ptr<Scene2D>> scenes = sceneManager->getAllScenes();
+    std::unordered_map<std::string, std::shared_ptr<Scene>> scenes = sceneManager->getAllScenes();
     std::cout << "Hovered Over button" << std::endl;
     if(scenes.empty()) std::cout << "Scenes is empty" << std::endl;
-    std::shared_ptr<Scene2D> scene = scenes["Main Menu"];
+    std::shared_ptr<Scene2D> scene = std::static_pointer_cast<Scene2D>(scenes["Main Menu"]);
     std::cout << "Returned Main Menu Scene" << std::endl;
     std::shared_ptr<Shader> currShader = scene->getShaderProgram();
     std::cout << "Returned active shader" << std::endl;
@@ -26,9 +26,9 @@ void actions::playOnHoverEnter(){
 }
 
 void actions::playOnHoverLeave(){
-    std::unordered_map<std::string, std::shared_ptr<Scene2D>> scenes = sceneManager->getAllScenes();
+    std::unordered_map<std::string, std::shared_ptr<Scene>> scenes = sceneManager->getAllScenes();
     std::cout << "Buttoned hovered left" << std::endl;
-    std::shared_ptr<Scene2D> scene = scenes["Main Menu"];
+    std::shared_ptr<Scene2D> scene = std::static_pointer_cast<Scene2D>(scenes["Main Menu"]);
     std::cout << "retrieved main menu" << std::endl;
     std::shared_ptr<Shader> currShader = scene->getShaderProgram();
     std::cout << "retrieved current active shader" << std::endl;
@@ -42,10 +42,10 @@ void actions::playOnHoverLeave(){
 
 
 void actions::settingsOnHoverEnter(){
-    std::unordered_map<std::string, std::shared_ptr<Scene2D>> scenes = sceneManager->getAllScenes();
+    std::unordered_map<std::string, std::shared_ptr<Scene>> scenes = sceneManager->getAllScenes();
     std::cout << "Hovered Over button" << std::endl;
     if(scenes.empty()) std::cout << "Scenes is empty" << std::endl;
-    std::shared_ptr<Scene2D> scene = scenes["Main Menu"];
+    std::shared_ptr<Scene2D> scene = std::static_pointer_cast<Scene2D>(scenes["Main Menu"]);
     std::cout << "Returned Main Menu Scene" << std::endl;
     std::shared_ptr<Shader> currShader = scene->getShaderProgram();
     std::cout << "Returned active shader" << std::endl;
@@ -55,10 +55,10 @@ void actions::settingsOnHoverEnter(){
     btn->setTexture(tex, (*currShader), "tex", 0);
 }
 void actions::settingsOnHoverLeave(){
-    std::unordered_map<std::string, std::shared_ptr<Scene2D>> scenes = sceneManager->getAllScenes();
+    std::unordered_map<std::string, std::shared_ptr<Scene>> scenes = sceneManager->getAllScenes();
     std::cout << "Hovered Over button" << std::endl;
     if(scenes.empty()) std::cout << "Scenes is empty" << std::endl;
-    std::shared_ptr<Scene2D> scene = scenes["Main Menu"];
+    std::shared_ptr<Scene2D> scene = std::static_pointer_cast<Scene2D>(scenes["Main Menu"]);
     std::cout << "Returned Main Menu Scene" << std::endl;
     std::shared_ptr<Shader> currShader = scene->getShaderProgram();
     std::cout << "Returned active shader" << std::endl;
@@ -68,10 +68,10 @@ void actions::settingsOnHoverLeave(){
     btn->setTexture(tex, (*currShader), "tex", 0);
 }
 void actions::quitOnHoverEnter(){
-    std::unordered_map<std::string, std::shared_ptr<Scene2D>> scenes = sceneManager->getAllScenes();
+    std::unordered_map<std::string, std::shared_ptr<Scene>> scenes = sceneManager->getAllScenes();
     std::cout << "Hovered Over button" << std::endl;
     if(scenes.empty()) std::cout << "Scenes is empty" << std::endl;
-    std::shared_ptr<Scene2D> scene = scenes["Main Menu"];
+    std::shared_ptr<Scene2D> scene = std::static_pointer_cast<Scene2D>(scenes["Main Menu"]);
     std::cout << "Returned Main Menu Scene" << std::endl;
     std::shared_ptr<Shader> currShader = scene->getShaderProgram();
     std::cout << "Returned active shader" << std::endl;
@@ -81,10 +81,10 @@ void actions::quitOnHoverEnter(){
     btn->setTexture(tex, (*currShader), "tex", 0);
 }
 void actions::quitOnHoverLeave(){
-    std::unordered_map<std::string, std::shared_ptr<Scene2D>> scenes = sceneManager->getAllScenes();
+    std::unordered_map<std::string, std::shared_ptr<Scene>> scenes = sceneManager->getAllScenes();
     std::cout << "Hovered Over button" << std::endl;
     if(scenes.empty()) std::cout << "Scenes is empty" << std::endl;
-    std::shared_ptr<Scene2D> scene = scenes["Main Menu"];
+    std::shared_ptr<Scene2D> scene = std::static_pointer_cast<Scene2D>(scenes["Main Menu"]);
     std::cout << "Returned Main Menu Scene" << std::endl;
     std::shared_ptr<Shader> currShader = scene->getShaderProgram();
     std::cout << "Returned active shader" << std::endl;
