@@ -26,7 +26,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Shapes,{
     {CIRCLE_SHAPE, "circle"}
 });
 
-class MenuElement {
+class Element{
 
     protected:
         GLuint index;
@@ -53,7 +53,7 @@ class MenuElement {
 
 };
 
-class Button : public MenuElement{
+class Button : public Element{
 
     private:
         

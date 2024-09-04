@@ -1,18 +1,18 @@
 #include "ui/ui.h"
 
-void MenuElement::setPos(glm::vec2 pos){
+void Element::setPos(glm::vec2 pos){
     appearance->position = pos;
 }
 
-void MenuElement::setSize(glm::vec2 size){
+void Element::setSize(glm::vec2 size){
     appearance->size = size;
 }
 
-void MenuElement::setColor(glm::vec4 color){
+void Element::setColor(glm::vec4 color){
     appearance->color = color;
 }
 
-void MenuElement::updateColor(std::shared_ptr<std::vector<GLfloat>> vertices, int colorOffSet){
+void Element::updateColor(std::shared_ptr<std::vector<GLfloat>> vertices, int colorOffSet){
     for(int i = 0; i < 4; i++){
         (*vertices)[index + i * 9 + colorOffSet] = appearance->color.x;
         (*vertices)[index + i * 9 + colorOffSet + 1] = appearance->color.y;
@@ -21,13 +21,13 @@ void MenuElement::updateColor(std::shared_ptr<std::vector<GLfloat>> vertices, in
     }
 }
 
-void MenuElement::setRenderType(int renderType){
+void Element::setRenderType(int renderType){
     if(!appearance) std::cout << "Appearance is null" << std::endl;
     else appearance->renderType = renderType;
     // std::cout << "Set render type for appearance attribute" << std::endl;
 }
 
-void MenuElement::printData(std::shared_ptr<std::vector<GLfloat>> vertices){
+void Element::printData(std::shared_ptr<std::vector<GLfloat>> vertices){
     std::cout << "Vertex Data: " << std::endl;
     for(int i = index; i < index + 9 * 4; i++){
         std::cout << "reach here" << std::endl;
@@ -43,7 +43,7 @@ void MenuElement::printData(std::shared_ptr<std::vector<GLfloat>> vertices){
     }
 }
 
-bool MenuElement::contains(glm::vec2 pos){
+bool Element::contains(glm::vec2 pos){
     if(pos.x > appearance->position.x && pos.x < (appearance->position.x + appearance->size.x)){
         if(pos.y < appearance->position.y && pos.y > (appearance->position.y - appearance->size.y)){
             return true;
@@ -52,7 +52,7 @@ bool MenuElement::contains(glm::vec2 pos){
     return false;
 }
 
-void MenuElement::setText(std::string text){ this->text = text; }
+void Element::setText(std::string text){ this->text = text; }
 
 Button::Button(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalIndex, std::string text, std::shared_ptr<Appearance2D> appearance, Shapes shape) {
 

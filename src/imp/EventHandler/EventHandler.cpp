@@ -1,5 +1,5 @@
 #include "EventHandler/EventHandler.h"
-void EventHandler::addElementEvent(EventType type, std::shared_ptr<MenuElement> element, std::function<void()> action){
+void EventHandler::addElementEvent(EventType type, std::shared_ptr<Element> element, std::function<void()> action){
     switch(type){
         case EVENT_ON_CLICK:
             onClickElements.push_back({element, action});

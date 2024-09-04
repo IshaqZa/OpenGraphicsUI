@@ -18,7 +18,7 @@ void actions::playOnHoverEnter(){
     std::cout << "Returned Main Menu Scene" << std::endl;
     std::shared_ptr<Shader> currShader = scene->getShaderProgram();
     std::cout << "Returned active shader" << std::endl;
-    std::shared_ptr<MenuElement> btn = scene->getElementByName("Play");
+    std::shared_ptr<Element> btn = scene->getElementByName("Play");
     std::cout << "Returned Play Button" << std::endl;
     Texture tex("../resources/textures/START blue.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_UNSIGNED_BYTE);
     btn->setTexture(tex, (*currShader), "tex", 0);
@@ -32,7 +32,7 @@ void actions::playOnHoverLeave(){
     std::cout << "retrieved main menu" << std::endl;
     std::shared_ptr<Shader> currShader = scene->getShaderProgram();
     std::cout << "retrieved current active shader" << std::endl;
-    std::shared_ptr<MenuElement> btn = scene->getElementByName("Play");
+    std::shared_ptr<Element> btn = scene->getElementByName("Play");
     std::cout << "retrieved play button" << std::endl;
     Texture tex("../resources/textures/START purple.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_UNSIGNED_BYTE);
     std::cout << "Created texture" << std::endl;
@@ -49,7 +49,7 @@ void actions::settingsOnHoverEnter(){
     std::cout << "Returned Main Menu Scene" << std::endl;
     std::shared_ptr<Shader> currShader = scene->getShaderProgram();
     std::cout << "Returned active shader" << std::endl;
-    std::shared_ptr<MenuElement> btn = scene->getElementByName("options");
+    std::shared_ptr<Element> btn = scene->getElementByName("options");
     std::cout << "Returned Play Button" << std::endl;
     Texture tex("../resources/textures/OPTIONS blue.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_UNSIGNED_BYTE);
     btn->setTexture(tex, (*currShader), "tex", 0);
@@ -62,7 +62,7 @@ void actions::settingsOnHoverLeave(){
     std::cout << "Returned Main Menu Scene" << std::endl;
     std::shared_ptr<Shader> currShader = scene->getShaderProgram();
     std::cout << "Returned active shader" << std::endl;
-    std::shared_ptr<MenuElement> btn = scene->getElementByName("options");
+    std::shared_ptr<Element> btn = scene->getElementByName("options");
     std::cout << "Returned Play Button" << std::endl;
     Texture tex("../resources/textures/OPTIONS purple.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_UNSIGNED_BYTE);
     btn->setTexture(tex, (*currShader), "tex", 0);
@@ -75,7 +75,7 @@ void actions::quitOnHoverEnter(){
     std::cout << "Returned Main Menu Scene" << std::endl;
     std::shared_ptr<Shader> currShader = scene->getShaderProgram();
     std::cout << "Returned active shader" << std::endl;
-    std::shared_ptr<MenuElement> btn = scene->getElementByName("Quit");
+    std::shared_ptr<Element> btn = scene->getElementByName("Quit");
     std::cout << "Returned Play Button" << std::endl;
     Texture tex("../resources/textures/QUIT blue.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_UNSIGNED_BYTE);
     btn->setTexture(tex, (*currShader), "tex", 0);
@@ -88,7 +88,7 @@ void actions::quitOnHoverLeave(){
     std::cout << "Returned Main Menu Scene" << std::endl;
     std::shared_ptr<Shader> currShader = scene->getShaderProgram();
     std::cout << "Returned active shader" << std::endl;
-    std::shared_ptr<MenuElement> btn = scene->getElementByName("Quit");
+    std::shared_ptr<Element> btn = scene->getElementByName("Quit");
     std::cout << "Returned Play Button" << std::endl;
     Texture tex("../resources/textures/QUIT purple.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_UNSIGNED_BYTE);
     btn->setTexture(tex, (*currShader), "tex", 0);

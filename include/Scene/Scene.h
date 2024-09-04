@@ -51,7 +51,7 @@ class Scene2D : public Scene{
 
     private:
         std::shared_ptr<EventHandler> events;
-        std::unordered_map<std::string, std::shared_ptr<MenuElement>> elementArray;
+        std::unordered_map<std::string, std::shared_ptr<Element>> elementArray;
 
     public:
         Scene2D(){
@@ -64,8 +64,8 @@ class Scene2D : public Scene{
         }
         void createEventHandler();
         void addEventListener(EventType eventType, std::string elementName, std::function<void()> action);
-        std::shared_ptr<MenuElement> getElementByName(std::string name);
-        void addElement(std::string name, std::shared_ptr<MenuElement> element);
+        std::shared_ptr<Element> getElementByName(std::string name);
+        void addElement(std::string name, std::shared_ptr<Element> element);
         void render() override;
         void update(GLFWwindow* window) override;
 };

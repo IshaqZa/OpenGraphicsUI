@@ -11,7 +11,7 @@ class EventHandler{
 
     private:
         struct ActionElement {
-            std::shared_ptr<MenuElement> element;
+            std::shared_ptr<Element> element;
             std::function<void()> action;
         };
         std::vector<ActionElement> onClickElements;
@@ -28,7 +28,7 @@ class EventHandler{
         void processOnHoverLeave(GLFWwindow* window);
 
     public:
-        void addElementEvent(EventType type, std::shared_ptr<MenuElement> element, std::function<void()> action);
+        void addElementEvent(EventType type, std::shared_ptr<Element> element, std::function<void()> action);
         void processInputs(GLFWwindow* window);
 };
 

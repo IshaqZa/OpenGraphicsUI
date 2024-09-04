@@ -57,7 +57,7 @@ void Scene::setBackgroundImage(bool isImage){
     isBackgroundImage = isImage;
 }
 
-void Scene2D::addElement(std::string name, std::shared_ptr<MenuElement> element) {
+void Scene2D::addElement(std::string name, std::shared_ptr<Element> element) {
     elementArray[name] = element;
 }
 
@@ -150,4 +150,4 @@ std::shared_ptr<Shader> Scene::getShaderProgram(){
     return shader;
 }
 
-std::shared_ptr<MenuElement> Scene2D::getElementByName(std::string name){ return elementArray[name]; }
+std::shared_ptr<Element> Scene2D::getElementByName(std::string name){ return elementArray[name]; }
