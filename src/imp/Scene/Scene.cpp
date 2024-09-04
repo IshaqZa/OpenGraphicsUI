@@ -63,16 +63,20 @@ void Scene2D::addElement(std::string name, std::shared_ptr<Element> element) {
 
 void Scene::createVAO(int posSize, int colorSize, int texSize, GLenum type){
 
-    vao = std::make_shared<VAO>();
-    vao->Bind();
+    
     if(vbo){
-        vao->linkAttrib(*vbo, 0, posSize, type, (posSize + colorSize + texSize) * sizeof(float), (void*) 0);
-        vao->linkAttrib(*vbo, 1, colorSize, type, (posSize + colorSize + texSize) * sizeof(float), (void*)(posSize * sizeof(float)));
-        vao->linkAttrib(*vbo, 2, texSize, type, (posSize + colorSize + texSize) * sizeof(float), (void*)((colorSize + posSize) * sizeof(float)));
+        vao = std::make_shared<VAO>();
+        vao->Bind();
+
+        if(posSize > 0) vao->linkAttrib(*vbo, 0, posSize, type, (posSize + colorSize + texSize) * sizeof(float), reinterpret_cast<void*>(0));
+        if(colorSize > 0) vao->linkAttrib(*vbo, 1, colorSize, type, (posSize + colorSize + texSize) * sizeof(float), reinterpret_cast<void*>(posSize * sizeof(float)));
+        if(texSize >  0) vao->linkAttrib(*vbo, 2, texSize, type, (posSize + colorSize + texSize) * sizeof(float), reinterpret_cast<void*>((colorSize + posSize) * sizeof(float)));
+        
+        vao->Unbind();
     } else {
-        throw std::runtime_error("VBO not initialised!");
+        throw std::runtime_error("VBO not initialised when creating VAO!");
     }
-    vao->Unbind();
+    
 }
 
 void Scene::createVBO(){

@@ -25,6 +25,9 @@ add_executable(OpenUI
     )
 target_include_directories(OpenUI PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include/")
 
-set(GLFW_LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/")
+find_package(GLFW3 REQUIRED)
+target_link_libraries(OpenUI PRIVATE glfw)
 
-target_link_libraries(OpenUI PRIVATE "${GLFW_LIB_DIR}/libglfw3.a")
+if(UNIX)
+    target_link_libraries(OpenUI PRIVATE X11 Xrandr Xi pthread dl m)
+endif()
