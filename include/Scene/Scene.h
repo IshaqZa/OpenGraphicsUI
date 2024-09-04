@@ -69,13 +69,4 @@ class Scene2D : public Scene{
         void render() override;
         void update(GLFWwindow* window) override;
 };
-
-class Scene3D : public Scene{
-
-    
-
-};
-
-
-
 #endif //SCENE_CLASS_H

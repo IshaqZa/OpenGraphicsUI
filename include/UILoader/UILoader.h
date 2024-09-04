@@ -12,11 +12,12 @@ class UILoader {
     private:
         std::unordered_map<std::string, std::function<void()>> actionMap;
         SceneManager* sceneManager;
+        void printSceneData(StructScene sceneData);
     public:
         UILoader();
         void loadUiConfig(std::string path);
         void registerFunction(std::string name, std::function<void()> action);
-        std::function<void()> triggerAction(std::string action);
+        json loadJsonFile(std::string path);
         // void saveUiConfig(std::shared_ptr<Scene> scene);
 };
 
