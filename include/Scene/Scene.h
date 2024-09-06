@@ -7,23 +7,20 @@
 #include <shader/shader.h>
 #include <EventHandler/EventHandler.h>
 #include <EventHandler/EventType.h>
-
-using json = nlohmann::json;
-
 class EventHandler;
 
 class Scene {
 
     protected:
         GLuint index = 0;
-        GLuint backgroundIndex = 0;
+         GLuint backgroundIndex = 0;
         GLuint isTex = 0;
-        std::shared_ptr<EBO> backgroundEBO;
         std::shared_ptr<VBO> vbo;
         std::shared_ptr<VAO> vao;
         std::shared_ptr<Shader> shader;
         std::shared_ptr<std::vector<GLfloat>> vertices;
         std::shared_ptr<std::vector<GLuint>> backgroundIndices;
+        std::shared_ptr<EBO> backgroundEBO;
         glm::vec4 backgroundColor;
         std::shared_ptr<Texture> backgroundImage;
         bool isBackgroundImage = false;

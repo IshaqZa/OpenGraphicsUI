@@ -6,13 +6,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED true)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/build")
 
-add_executable(OpenUI
+add_library(OpenUI
     src/external/glad.c
-    main.cpp
     src/imp/Buffer/EBO.cpp
     src/imp/Buffer/VAO.cpp
     src/imp/Buffer/VBO.cpp
-    src/imp/EventHandler/Actions.cpp
     src/imp/EventHandler/EventHandler.cpp
     src/imp/UI/ui.cpp
     src/imp/UI/UILoader.cpp
@@ -22,7 +20,7 @@ add_executable(OpenUI
     src/imp/Scene/SceneManager.cpp
     src/imp/Shape/Shape.cpp
     src/external/stb_image.cpp
-    )
+)
 target_include_directories(OpenUI PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include/")
 
 find_package(GLFW3 REQUIRED)

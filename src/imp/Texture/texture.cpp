@@ -46,10 +46,13 @@ Texture::Texture(const char* image, GLenum texType, GLenum slot, GLenum pixelTyp
 	// glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, flatColor);
 
 	// Assigns the image to the OpenGL Texture object
-	if(numColCh == 3){
+	if(numColCh == 1){ // gray-scale
+		glTexImage2D(texType, 0, GL_RED, widthImg, heightImg, 0, GL_RED, pixelType, bytes);
+	}
+	else if(numColCh == 3){ // RGB
 		glTexImage2D(texType, 0, GL_RGB, widthImg, heightImg, 0, GL_RGB, pixelType, bytes);
 	}
-	else if(numColCh == 4){
+	else if(numColCh == 4){ // RGBA
 		glTexImage2D(texType, 0, GL_RGBA, widthImg, heightImg, 0, GL_RGBA, pixelType, bytes);
 	}
 	else {

@@ -6,7 +6,6 @@
 #include <Json/json.hpp>
 #include <fstream>
 #include <Json/serializer_types.h>
-#include <EventHandler/Actions.h>
 
 class UILoader {
     private:
