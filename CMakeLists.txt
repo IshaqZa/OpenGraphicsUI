@@ -23,8 +23,11 @@ add_library(OpenUI
 )
 target_include_directories(OpenUI PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include/")
 
+
 find_package(GLFW3 REQUIRED)
 target_link_libraries(OpenUI PRIVATE glfw)
+
+target_link_libraries(OpenUI PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/libfreetype.a")
 
 if(UNIX)
     target_link_libraries(OpenUI PRIVATE X11 Xrandr Xi pthread dl m)
