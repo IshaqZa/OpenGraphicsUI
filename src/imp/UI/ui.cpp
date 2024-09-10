@@ -1,61 +1,6 @@
 #include "ui/ui.h"
 
-void Element::setPos(glm::vec2 pos){
-    appearance->position = pos;
-}
-
-void Element::setSize(glm::vec2 size){
-    appearance->size = size;
-}
-
-void Element::setColor(glm::vec4 color){
-    appearance->color = color;
-}
-
-void Element::updateColor(std::shared_ptr<std::vector<GLfloat>> vertices, int colorOffSet){
-    for(int i = 0; i < 4; i++){
-        (*vertices)[index + i * 9 + colorOffSet] = appearance->color.x;
-        (*vertices)[index + i * 9 + colorOffSet + 1] = appearance->color.y;
-        (*vertices)[index + i * 9 + colorOffSet + 2] = appearance->color.z;
-        (*vertices)[index + i * 9 + colorOffSet + 3] = appearance->color.w;
-    }
-}
-
-void Element::setRenderType(int renderType){
-    if(!appearance) std::cout << "Appearance is null" << std::endl;
-    else appearance->renderType = renderType;
-    // std::cout << "Set render type for appearance attribute" << std::endl;
-}
-
-void Element::printData(std::shared_ptr<std::vector<GLfloat>> vertices){
-    std::cout << "Vertex Data: " << std::endl;
-    for(int i = index; i < index + 9 * 4; i++){
-        std::cout << "reach here" << std::endl;
-        std::cout << (*vertices)[i] << ",\t";
-        if(i != 0 && (i+1)%9 == 0) std::cout << std::endl;
-    }
-    std::cout << "Index Data: " << std::endl;
-    for(int i = 0; i < 6; i ++){
-
-        std::cout << (*indices)[i] << ",\t";
-        if(i!=0 && (i+1)%3 == 0) std::cout << std::endl;
-
-    }
-}
-
-bool Element::contains(glm::vec2 pos){
-    if(pos.x > appearance->position.x && pos.x < (appearance->position.x + appearance->size.x)){
-        if(pos.y < appearance->position.y && pos.y > (appearance->position.y - appearance->size.y)){
-            return true;
-        }
-    }
-    return false;
-}
-
-void Element::setText(std::string text){ this->text = text; }
-
-Button::Button(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalIndex, std::string text, std::shared_ptr<Appearance2D> appearance, Shapes shape) {
-
+Element::Element(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalIndex, std::string text, std::shared_ptr<Appearance2D> appearance, Shapes shape){
     if(!vertices){
         std::cout << "vertices passed to Button constructor is empty" << std::endl;
         exit(EXIT_FAILURE);
@@ -95,9 +40,58 @@ Button::Button(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalInd
     if(ebo==nullptr) std::cout << "Error creating EBO shared_ptr" << std::endl;
     *globalIndex += 36;
     std::cout << "Created ebo and updated global index" << std::endl;
-};
+}
 
-void Button::setTexture(Texture texture, Shader& shader, const char* texLocation, GLuint unit) {
+void Element::setPos(glm::vec2 pos){
+    appearance->position = pos;
+}
+
+void Element::setSize(glm::vec2 size){
+    appearance->size = size;
+}
+
+void Element::setColor(glm::vec4 color){
+    appearance->color = color;
+}
+
+void Element::updateVertices(){
+    shape->update(appearance);
+}
+
+void Element::setRenderType(int renderType){
+    if(!appearance) std::cout << "Appearance is null" << std::endl;
+    else appearance->renderType = renderType;
+    // std::cout << "Set render type for appearance attribute" << std::endl;
+}
+
+void Element::printData(std::shared_ptr<std::vector<GLfloat>> vertices){
+    std::cout << "Vertex Data: " << std::endl;
+    for(int i = index; i < index + 9 * 4; i++){
+        std::cout << "reach here" << std::endl;
+        std::cout << (*vertices)[i] << ",\t";
+        if(i != 0 && (i+1)%9 == 0) std::cout << std::endl;
+    }
+    std::cout << "Index Data: " << std::endl;
+    for(int i = 0; i < 6; i ++){
+
+        std::cout << (*indices)[i] << ",\t";
+        if(i!=0 && (i+1)%3 == 0) std::cout << std::endl;
+
+    }
+}
+
+bool Element::contains(glm::vec2 pos){
+    if(pos.x > appearance->position.x && pos.x < (appearance->position.x + appearance->size.x)){
+        if(pos.y < appearance->position.y && pos.y > (appearance->position.y - appearance->size.y)){
+            return true;
+        }
+    }
+    return false;
+}
+
+void Element::setText(std::string text){ this->text = text; }
+
+void Element::setTexture(Texture texture, Shader& shader, const char* texLocation, GLuint unit) {
     appearance->texture = texture;
     appearance->texture.texUnit(shader, texLocation, unit);
     std::cout << "Set texture for button" << std::endl;

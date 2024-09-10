@@ -1,5 +1,9 @@
 #include "ui/Shape.h"
 
+void Shape::update(std::shared_ptr<Appearance2D> appearance){
+    generateVertices(appearance);
+}
+
 Square::Square(std::shared_ptr<std::vector<GLfloat>> vertices, std::shared_ptr<std::vector<GLuint>> indices){
     this->vertices=vertices;
     this->indices=indices;
@@ -11,6 +15,7 @@ void Square::generateVertices(std::shared_ptr<Appearance2D> appearance){
         if(!appearance) throw std::runtime_error("appearance null");
         if(!vertices) throw std::runtime_error("Vertices null");
 
+        vertices->clear();
         vertices->insert(vertices->end(), {
 
             // top left
@@ -46,6 +51,7 @@ void Square::generateVertices(std::shared_ptr<Appearance2D> appearance){
 
 void Square::generateIndices(GLuint index){
     std::cout << "Current Global Index: " <<  index << std::endl;
+    indices->clear();
     indices->insert(indices->end(), {
        index + 0, index + 1, index + 3,
        index + 1, index + 2, index + 3

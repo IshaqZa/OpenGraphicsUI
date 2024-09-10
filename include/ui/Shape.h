@@ -11,6 +11,8 @@ protected:
 
 public:
     
+    void update(std::shared_ptr<Appearance2D> appearance);
+
     virtual void generateVertices(std::shared_ptr<Appearance2D> appearance) = 0;
     virtual void generateIndices(GLuint index) = 0;
     virtual void draw() = 0;

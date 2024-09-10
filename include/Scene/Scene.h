@@ -7,6 +7,7 @@
 #include <shader/shader.h>
 #include <EventHandler/EventHandler.h>
 #include <EventHandler/EventType.h>
+
 class EventHandler;
 
 class Scene {
@@ -51,14 +52,6 @@ class Scene2D : public Scene{
         std::unordered_map<std::string, std::shared_ptr<Element>> elementArray;
 
     public:
-        Scene2D(){
-            
-            std::cout << "isTex loaded" << std::endl;
-            if(isTex < 0) {
-                std::cout << "Error retrieving tex bool" << std::endl;
-                exit(EXIT_FAILURE);
-            }
-        }
         void createEventHandler();
         void addEventListener(EventType eventType, std::string elementName, std::function<void()> action);
         std::shared_ptr<Element> getElementByName(std::string name);
