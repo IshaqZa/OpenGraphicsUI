@@ -6,7 +6,7 @@
 - **Technologies used**:
     - **Programming Language**: C++
     - **Graphics Library**: OpenGL
-    - **Other supporting Libraries**: GLFW, glad, GLM, Nlohmann::Json for modern c++, stb_image
+    - **Other supporting Libraries**: GLFW, glad, GLM, Nlohmann::Json for modern c++, stb_image, FreeType
 ## Getting Started
 ### Installation
 1. Open the zip file and extract all the contents
