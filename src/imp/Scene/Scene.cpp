@@ -25,6 +25,18 @@ void Scene2D::createEventHandler(){
 std::shared_ptr<Shader> Scene::createShader(const char* vertexFile, const char* fragmentFile){
     shader = std::make_shared<Shader>(vertexFile, fragmentFile);
     isTex = glGetUniformLocation(shader->ID, "isTex");
+
+    if(isTex == -1) {
+        std::cerr << "isTex does not exist in shader program in createShader()" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
+    GLenum error = glGetError();
+    if(error != GL_NO_ERROR){
+        std::cerr << "OpenGL Error in createShader(): " << error << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
     return shader;
 }
 

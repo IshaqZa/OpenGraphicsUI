@@ -19,10 +19,11 @@ add_library(OpenUI
     src/imp/Scene/Scene.cpp
     src/imp/Scene/SceneManager.cpp
     src/imp/Shape/Shape.cpp
+    src/imp/TextRenderer/FontLoader.cpp
+    src/imp/TextRenderer/TextRenderer.cpp
     src/external/stb_image.cpp
 )
 target_include_directories(OpenUI PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include/")
-
 
 find_package(GLFW3 REQUIRED)
 target_link_libraries(OpenUI PRIVATE glfw)

@@ -20,7 +20,7 @@ void TextRenderer::RenderText(std::string text, float x, float y, float scale, g
     s.Activate();
     glUniform3f(glGetUniformLocation(s.ID, "textColor"), color.x, color.y, color.z);
     glActiveTexture(GL_TEXTURE0);
-    glBindVertexArray(vao.ID);
+    vao.Bind();
 
     // iterate through all characters
     std::string::const_iterator c;
@@ -54,7 +54,7 @@ void TextRenderer::RenderText(std::string text, float x, float y, float scale, g
         // now advance cursors for next glyph (note that advance is number of 1/64 pixels)
         x += (ch.Advance >> 6) * scale; // bitshift by 6 to get value in pixels (2^6 = 64)
     }
-    glBindVertexArray(0);
+    vao.Unbind();
     glBindTexture(GL_TEXTURE_2D, 0);
 
 }

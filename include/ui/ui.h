@@ -31,7 +31,7 @@ class Element{
 
     protected:
         GLuint index;
-        std::string text;
+        Text text;
         Shapes shapeValue;
         std::shared_ptr<Shape> shape;
         std::shared_ptr<Appearance2D> appearance;
@@ -63,10 +63,10 @@ class Button : public Element{
 
 class Label : public Element {
     private:
-
+        std::shared_ptr<TextRenderer> textRenderer;
     public:
-        Label(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalIndex, std::string text, std::shared_ptr<Appearance2D> appearance, Shapes shape, TextRenderer textRenderer)
-        : Element(vertices, globalIndex, text, appearance, shape){};
+        Label(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalIndex, std::string text, std::shared_ptr<Appearance2D> appearance, Shapes shape, std::shared_ptr<TextRenderer> textRenderer)
+        : Element(vertices, globalIndex, text, appearance, shape), textRenderer(textRenderer){}
         void draw(GLuint texBool) override;
 };
 

@@ -9,7 +9,12 @@
 #include <Buffer/VAO.h>
 #include <TextRenderer/FontLoader.h>
 #include <memory>
+#include <glm/glm.hpp>
 
+struct Text {
+    std::string text;
+    glm::vec3 color;
+};
 
 class TextRenderer {
 private:

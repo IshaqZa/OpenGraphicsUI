@@ -89,7 +89,7 @@ bool Element::contains(glm::vec2 pos){
     return false;
 }
 
-void Element::setText(std::string text){ this->text = text; }
+void Element::setText(std::string text){ this->text.text = text; }
 
 void Element::setTexture(Texture texture, Shader& shader, const char* texLocation, GLuint unit) {
     appearance->texture = texture;
@@ -100,7 +100,7 @@ void Element::setTexture(Texture texture, Shader& shader, const char* texLocatio
 void Button::draw(GLuint texBool) {
 
     if(!appearance || !shape || !ebo) {
-        std::cerr << "Error drawing button due to initialised data" << std::endl;
+        std::cerr << "Error drawing button due to uninitialised data" << std::endl;
         exit(EXIT_FAILURE);
     }
 
@@ -125,4 +125,29 @@ void Button::draw(GLuint texBool) {
     appearance->texture.Unbind();
     ebo->Unbind();
     std::cout << "Unbinding done" << std::endl;
+}
+
+void Label::draw(GLuint texBool){
+    if(!appearance || !shape || !ebo){
+        std::cerr << "Error drawing button due to uninitialised data" << std::endl;
+    }
+
+    appearance->texture.Bind();
+    std::cout << "texture bound in label" << std::endl;
+
+    glUniform1i(texBool, appearance->renderType);
+
+    try{
+        ebo->Bind();
+        std::cout << "EBO Bound" << std::endl;
+    }catch(std::runtime_error& e){
+        std::cerr << "Error: " << e.what() << std::endl;
+    }catch(std::exception& e){
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
+
+    shape->draw();
+    appearance->texture.Unbind();
+
+    textRenderer->RenderText(text.text, appearance->position.x, appearance->position.y, 1.0f, text.color);
 }

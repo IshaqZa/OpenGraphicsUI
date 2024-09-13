@@ -134,6 +134,11 @@ void UILoader::loadUiConfig(std::string path){
         newScene->createVAO(sceneData.posSize, sceneData.colorSize, sceneData.texSize, GL_FLOAT);
         sceneManager->addScene(sceneData.name, newScene);
         std::cout << "Added current scene to scene manager in UI configuration loader" << std::endl;
+        GLenum error = glGetError();
+        if(error != GL_NO_ERROR) {
+            std::cout << "Scene: " << sceneData.name << std::endl;
+            std::cout << "OpenGL Error: " << error << std::endl;
+        }
     }
 
 }
