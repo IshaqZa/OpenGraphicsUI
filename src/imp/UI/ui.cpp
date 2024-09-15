@@ -100,7 +100,7 @@ void Element::setTexture(Texture texture, Shader& shader, const char* texLocatio
 void Button::draw(GLuint texBool) {
 
     if(!appearance || !shape || !ebo) {
-        std::cerr << "Error drawing button due to uninitialised data" << std::endl;
+        std::cerr << "Error drawing button due to uninitialised data in button draw" << std::endl;
         exit(EXIT_FAILURE);
     }
 
@@ -125,6 +125,7 @@ void Button::draw(GLuint texBool) {
     appearance->texture.Unbind();
     ebo->Unbind();
     std::cout << "Unbinding done" << std::endl;
+    glCheckError();
 }
 
 void Label::draw(GLuint texBool){

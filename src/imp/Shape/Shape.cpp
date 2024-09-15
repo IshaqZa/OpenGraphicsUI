@@ -61,18 +61,14 @@ void Square::generateIndices(GLuint index){
         if(i%3 == 0 && i!=0) std::cout << std::endl;
         std::cout << (*indices)[i] << ", ";
     }
+    std::cout << "\n";
 
 }
 
 void Square::draw() {
     std::cout << "calling draw elements" << std::endl;
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
-    if(GLenum error = glGetError() != GL_NO_ERROR){
-		std::cerr << "OpenGL Error drawing square shape: " << error << std::endl;
-		exit(EXIT_FAILURE);
-	}
-
+    glCheckError();
 }
 
 

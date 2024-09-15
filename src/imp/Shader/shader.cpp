@@ -18,8 +18,6 @@ std::string get_file_contents(const char* filename)
 
 Shader::Shader(const char* vertexFile, const char* fragmentFile){
     
-    GLenum error;
-
     vertexPath = vertexFile;
     fragmentPath = fragmentFile;
 
@@ -42,17 +40,8 @@ Shader::Shader(const char* vertexFile, const char* fragmentFile){
     GLuint vertexShader;
     vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
-    if(error = glGetError() != GL_NO_ERROR){
-		std::cerr << "OpenGL Error creating vertex shader: " << error << std::endl;
-		exit(EXIT_FAILURE);
-	}
     
     glShaderSource(vertexShader, 1, &vertexSource, NULL);
-
-    if(error = glGetError() != GL_NO_ERROR){
-		std::cerr << "OpenGL Error setting vertex shader source: " << error << std::endl;
-		exit(EXIT_FAILURE);
-	}
 
     glCompileShader(vertexShader);
 
@@ -67,17 +56,7 @@ Shader::Shader(const char* vertexFile, const char* fragmentFile){
     GLuint fragmentShader;
     fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 
-    if(error = glGetError() != GL_NO_ERROR){
-		std::cerr << "OpenGL Error creating fragment shader: " << error << std::endl;
-		exit(EXIT_FAILURE);
-	}
-
     glShaderSource(fragmentShader, 1, &fragmentSource, NULL);
-
-    if(error = glGetError() != GL_NO_ERROR){
-		std::cerr << "OpenGL Error setting fragment shader source: " << error << std::endl;
-		exit(EXIT_FAILURE);
-	}
 
     glCompileShader(fragmentShader);
 
@@ -90,24 +69,9 @@ Shader::Shader(const char* vertexFile, const char* fragmentFile){
 
     ID = glCreateProgram();
 
-    if(error = glGetError() != GL_NO_ERROR){
-		std::cerr << "OpenGL Error creating shader program: " << error << std::endl;
-		exit(EXIT_FAILURE);
-	}
-
     glAttachShader(ID, vertexShader);
 
-    if(error = glGetError() != GL_NO_ERROR){
-		std::cerr << "OpenGL Error attaching vertex shader to shader program: " << error << std::endl;
-		exit(EXIT_FAILURE);
-	}
-
     glAttachShader(ID, fragmentShader);
-
-    if(error = glGetError() != GL_NO_ERROR){
-		std::cerr << "OpenGL Error attaching fragment shader to shader program: " << error << std::endl;
-		exit(EXIT_FAILURE);
-	}
 
     glLinkProgram(ID);
 
@@ -120,28 +84,20 @@ Shader::Shader(const char* vertexFile, const char* fragmentFile){
 
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
+
+    glCheckError();
 }
 
 void Shader::Activate(){
 
     glUseProgram(ID);
-
-    if(GLenum error = glGetError() != GL_NO_ERROR){
-		std::cerr << "OpenGL Error activating shader: " << error << std::endl;
-		exit(EXIT_FAILURE);
-	}
-
-
+    std::cout << "Shader id(" << ID << ") has been activated" << std::endl;
+    glCheckError();
 }
 
 void Shader::Delete(){
 
     glDeleteProgram(ID);
-
-    if(GLenum error = glGetError() != GL_NO_ERROR){
-		std::cerr << "OpenGL Error deleting shader: " << error << std::endl;
-		exit(EXIT_FAILURE);
-	}
-
+    glCheckError();
 
 }

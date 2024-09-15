@@ -32,10 +32,6 @@ std::shared_ptr<Shader> Scene::createShader(const char* vertexFile, const char* 
     }
 
     GLenum error = glGetError();
-    if(error != GL_NO_ERROR){
-        std::cerr << "OpenGL Error in createShader(): " << error << std::endl;
-        exit(EXIT_FAILURE);
-    }
 
     return shader;
 }
