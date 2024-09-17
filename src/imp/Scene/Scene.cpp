@@ -117,7 +117,6 @@ void Scene2D::render(){
         vao->Unbind();
     }catch(std::runtime_error& e){
         std::cerr << e.what() << std::endl;
-        std::cout << e.what() << std::endl;
         exit(EXIT_FAILURE);
     }
 }
