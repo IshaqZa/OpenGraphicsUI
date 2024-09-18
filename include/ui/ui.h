@@ -10,6 +10,7 @@
 #include "glm/glm.hpp"
 #include "Shape.h"
 #include "Json/json.hpp"
+#include "TextRenderer/TextRenderer.h"
 
 using json = nlohmann::json;
 
@@ -38,6 +39,7 @@ class MenuElement {
         std::shared_ptr<EBO> ebo;
 
     public:
+        MenuElement(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalIndex, std::string text, std::shared_ptr<Appearance2D> appearance, Shapes shape);
         void setPos(glm::vec2 pos);
         void setSize(glm::vec2 size);
         void setColor(glm::vec4 color);
@@ -59,12 +61,21 @@ class Button : public MenuElement{
         
 
     public:
-        Button(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalIndex, std::string text, std::shared_ptr<Appearance2D> appearance, Shapes shape);
-
+        Button(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalIndex, std::string text, std::shared_ptr<Appearance2D> appearance, Shapes shape)
+            : MenuElement(vertices, globalIndex, text, appearance, shape){};
         void setTexture(Texture texture, Shader& shader, const char* texLocation, GLuint unit) override;
 
         void draw(GLuint texBool) override;
         
+};
+
+class Label : public MenuElement {
+    private:
+        std::shared_ptr<TextRenderer> textRenderer;
+    public:
+        Label(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalIndex, std::string text, std::shared_ptr<Appearance2D> appearance, Shapes shape, std::shared_ptr<TextRenderer> textRenderer)
+        : MenuElement(vertices, globalIndex, text, appearance, shape), textRenderer(textRenderer){}
+        void draw(GLuint texBool) override;
 };
 
 #endif //UI_CLASS_H

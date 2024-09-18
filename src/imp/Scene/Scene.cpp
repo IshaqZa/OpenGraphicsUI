@@ -100,7 +100,6 @@ void Scene2D::render(){
         backgroundEBO->Bind();
         backgroundImage->Bind();
         glUniform1i(isTex, 1);
-        GLuint normIndex = backgroundIndex / 9;
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         backgroundImage->Unbind();
         backgroundEBO->Unbind();

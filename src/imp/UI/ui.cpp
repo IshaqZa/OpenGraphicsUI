@@ -1,5 +1,48 @@
 #include "ui/ui.h"
 
+MenuElement::MenuElement(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalIndex, std::string text, std::shared_ptr<Appearance2D> appearance, Shapes shape) {
+
+    if(!vertices){
+        std::cout << "vertices passed to Button constructor is empty" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
+    this->appearance = appearance;
+    if(!this->appearance) {
+        std::cout << "Error assigning appearance shared_ptr" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+    GLuint eboIndex = *globalIndex / 9;
+    std:: cout << "assigned appearance and normalized global index to fit eboIndex" << std::endl;
+
+    indices = std::make_shared<std::vector<GLuint>>();
+    if(!indices){
+        std::cout << "Error creating shared_ptr for indices" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+    std::cout << "Made indcies shared ptr" << std::endl;
+    shapeValue = shape;
+    switch(shapeValue){
+        case RECTANGLE_SHAPE:
+            this->shape = std::make_unique<Square>(vertices, indices);
+            if(!this->shape){
+                std::cout << "Error making shape unique pointer in Button constructor" << std::endl;
+            }
+            std::cout << "Created shape object shared pointer" << std::endl;
+            this->shape->generateVertices(appearance);
+            std::cout << "Generated vertices" << std::endl;
+            this->shape->generateIndices(eboIndex);
+            std::cout << "Generated indices" << std::endl;
+        break;
+    }
+
+    std::cout << "Created Shape" << std::endl;
+    ebo = std::make_shared<EBO>(indices->data(), indices->size() * sizeof(indices));
+    if(ebo==nullptr) std::cout << "Error creating EBO shared_ptr" << std::endl;
+    *globalIndex += 36;
+    std::cout << "Created ebo and updated global index" << std::endl;
+};
+
 void MenuElement::setPos(glm::vec2 pos){
     appearance->position = pos;
 }
@@ -53,49 +96,6 @@ bool MenuElement::contains(glm::vec2 pos){
 }
 
 void MenuElement::setText(std::string text){ this->text = text; }
-
-Button::Button(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalIndex, std::string text, std::shared_ptr<Appearance2D> appearance, Shapes shape) {
-
-    if(!vertices){
-        std::cout << "vertices passed to Button constructor is empty" << std::endl;
-        exit(EXIT_FAILURE);
-    }
-
-    this->appearance = appearance;
-    if(!this->appearance) {
-        std::cout << "Error assigning appearance shared_ptr" << std::endl;
-        exit(EXIT_FAILURE);
-    }
-    GLuint eboIndex = *globalIndex / 9;
-    std:: cout << "assigned appearance and normalized global index to fit eboIndex" << std::endl;
-
-    indices = std::make_shared<std::vector<GLuint>>();
-    if(!indices){
-        std::cout << "Error creating shared_ptr for indices" << std::endl;
-        exit(EXIT_FAILURE);
-    }
-    std::cout << "Made indcies shared ptr" << std::endl;
-    shapeValue = shape;
-    switch(shapeValue){
-        case RECTANGLE_SHAPE:
-            this->shape = std::make_unique<Square>(vertices, indices);
-            if(!this->shape){
-                std::cout << "Error making shape unique pointer in Button constructor" << std::endl;
-            }
-            std::cout << "Created shape object shared pointer" << std::endl;
-            this->shape->generateVertices(appearance);
-            std::cout << "Generated vertices" << std::endl;
-            this->shape->generateIndices(eboIndex);
-            std::cout << "Generated indices" << std::endl;
-        break;
-    }
-
-    std::cout << "Created Shape" << std::endl;
-    ebo = std::make_shared<EBO>(indices->data(), indices->size() * sizeof(indices));
-    if(ebo==nullptr) std::cout << "Error creating EBO shared_ptr" << std::endl;
-    *globalIndex += 36;
-    std::cout << "Created ebo and updated global index" << std::endl;
-};
 
 void Button::setTexture(Texture texture, Shader& shader, const char* texLocation, GLuint unit) {
     appearance->texture = texture;
