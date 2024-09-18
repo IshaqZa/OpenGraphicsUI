@@ -86,12 +86,12 @@ void UILoader::loadUiConfig(std::string path){
 
         std::shared_ptr<std::vector<GLfloat>> vertices = newScene->getVertices();
         std::cout << "Retrieved vertex vector pointer to be used for elments appending" << std::endl;
-        for(auto& button: sceneData.sceneMembers){
-            std::cout << "current button data:" << std::endl;
-            std::cout << "Button name: " << button.name << std::endl;
-            std::cout << "Button shape: " << button.shape << std::endl;
-            StructAppearance currApp = button.appearance;
-            std::cout << "Retrieved the current button appearance" << std::endl;
+        for(auto& element: sceneData.sceneMembers){
+            std::cout << "current element data:" << std::endl;
+            std::cout << "element name: " << element.name << std::endl;
+            std::cout << "element shape: " << element.shape << std::endl;
+            StructAppearance currApp = element.appearance;
+            std::cout << "Retrieved the current element appearance" << std::endl;
             Texture texture(currApp.textureImagePath.c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_UNSIGNED_BYTE);
             std::cout << "Created texture" << std::endl;
             std::shared_ptr<Appearance2D> appearancePtr = std::make_shared<Appearance2D>(
@@ -103,22 +103,21 @@ void UILoader::loadUiConfig(std::string path){
                 currApp.renderType
             );
             if (!appearancePtr) {
-                std::cerr << "Failed to create Button object." << std::endl;
-                exit(EXIT_FAILURE); // Skip processing if Button creation fails
+                std::cerr << "Failed to create element object." << std::endl;
+                exit(EXIT_FAILURE); // Skip processing if element creation fails
             }
 
             std::cout << "Created appearance from data retrieved from json file" << std::endl;
-
-            std::shared_ptr<Button> newButton = std::make_shared<Button>(vertices, newScene->currentIndex(), button.name, appearancePtr, button.shape);
-            std::cout << "Created a shared button pointer" << std::endl;
-            if(newButton == nullptr) std::cerr << "Error making button pointer" << std::endl;
-            newScene->addElement(button.name, newButton);
-            if(!button.events.empty()){
-                for(auto& event : button.events){
-                    newScene->addEventListener(event.event, button.name, triggerAction(event.action));
+            std::shared_ptr<MenuElement> newElement = std::make_shared<MenuElement>(vertices, newScene->currentIndex(), element.name, appearancePtr, element.shape);
+            std::cout << "Created a shared element pointer" << std::endl;
+            if(newElement == nullptr) std::cerr << "Error making element pointer" << std::endl;
+            newScene->addElement(element.name, newElement);
+            if(!element.events.empty()){
+                for(auto& event : element.events){
+                    newScene->addEventListener(event.event, element.name, triggerAction(event.action));
                 }
             }
-            std::cout << "added all events related to current button" << std::endl;
+            std::cout << "added all events related to current element" << std::endl;
         }
 
         newScene->createVBO();

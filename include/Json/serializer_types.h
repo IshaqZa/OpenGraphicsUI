@@ -27,19 +27,19 @@ struct StructAppearance{
     NLOHMANN_DEFINE_TYPE_INTRUSIVE(StructAppearance, posX, posY, width, height, color, texturePosX, texturePosY, textureImagePath, renderType);
 };
 
-struct StructButton{
-
+struct StructElement{
+    std::string type;
     std::string name;
     std::vector<StructEvent> events;
     StructAppearance appearance;
     Shapes shape;
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(StructButton, name, events, appearance, shape);
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE(StructElement, type,  name, events, appearance, shape);
 };
 
 struct StructScene {
     std::string name;
     bool isBackgroundImage;
-    std::vector<StructButton> sceneMembers;
+    std::vector<StructElement> sceneMembers;
     std::string vertexShaderPath;
     std::string fragmentShaderPath;
     GLfloat backgroundColor[4];
