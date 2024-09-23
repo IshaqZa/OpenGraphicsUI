@@ -8,8 +8,6 @@
 #include <EventHandler/EventHandler.h>
 #include <EventHandler/EventType.h>
 
-using json = nlohmann::json;
-
 class EventHandler;
 
 class Scene {

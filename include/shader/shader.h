@@ -7,9 +7,6 @@
 #include <sstream>
 #include <iostream>
 #include <cerrno>
-#include <json/json.hpp>
-
-using json = nlohmann::json;
 
 std::string get_file_contents(const char* filename);
 

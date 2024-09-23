@@ -6,7 +6,6 @@
 #include <vector>
 #include <Buffer/EBO.h>
 #include <Buffer/texture.h>
-#include "Json/json.hpp"
 #include "glm/glm.hpp"
 
 #define RGBA_TYPE 0

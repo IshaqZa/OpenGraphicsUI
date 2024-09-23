@@ -9,23 +9,13 @@
 #include <memory>
 #include "glm/glm.hpp"
 #include "Shape.h"
-#include "Json/json.hpp"
 #include "TextRenderer/TextRenderer.h"
-
-using json = nlohmann::json;
-
 
 enum Shapes{
     TRIANGLE_SHAPE,
     RECTANGLE_SHAPE,
     CIRCLE_SHAPE
 };
-
-NLOHMANN_JSON_SERIALIZE_ENUM(Shapes,{
-    {TRIANGLE_SHAPE, "triangle"},
-    {RECTANGLE_SHAPE, "rectangle"},
-    {CIRCLE_SHAPE, "circle"}
-});
 
 class MenuElement {
 
