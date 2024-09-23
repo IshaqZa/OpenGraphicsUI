@@ -40,7 +40,6 @@ void actions::playOnHoverLeave(){
     std::cout << "set texture" << std::endl;
 }
 
-
 void actions::settingsOnHoverEnter(){
     std::unordered_map<std::string, std::shared_ptr<Scene>> scenes = sceneManager->getAllScenes();
     std::cout << "Hovered Over button" << std::endl;
@@ -49,10 +48,13 @@ void actions::settingsOnHoverEnter(){
     std::cout << "Returned Main Menu Scene" << std::endl;
     std::shared_ptr<Shader> currShader = scene->getShaderProgram();
     std::cout << "Returned active shader" << std::endl;
-    std::shared_ptr<MenuElement> btn = scene->getElementByName("options");
+    std::shared_ptr<MenuElement> btn = scene->getElementByName("play");
+    
     std::cout << "Returned Play Button" << std::endl;
     Texture tex("../resources/textures/OPTIONS blue.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_UNSIGNED_BYTE);
+    std::cout << "Created on hover texture" << std::endl;
     btn->setTexture(tex, (*currShader), "tex", 0);
+    std::cout << "Set the new texture into the button object" << std::endl;
 }
 void actions::settingsOnHoverLeave(){
     std::unordered_map<std::string, std::shared_ptr<Scene>> scenes = sceneManager->getAllScenes();
@@ -62,7 +64,7 @@ void actions::settingsOnHoverLeave(){
     std::cout << "Returned Main Menu Scene" << std::endl;
     std::shared_ptr<Shader> currShader = scene->getShaderProgram();
     std::cout << "Returned active shader" << std::endl;
-    std::shared_ptr<MenuElement> btn = scene->getElementByName("options");
+    std::shared_ptr<MenuElement> btn = scene->getElementByName("play");
     std::cout << "Returned Play Button" << std::endl;
     Texture tex("../resources/textures/OPTIONS purple.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_UNSIGNED_BYTE);
     btn->setTexture(tex, (*currShader), "tex", 0);
