@@ -1,6 +1,11 @@
 #include "ui/ui.h"
 
-MenuElement::MenuElement(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalIndex, std::string text, std::shared_ptr<Appearance2D> appearance, Shapes shape) {
+MenuElement::MenuElement(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalIndex, std::shared_ptr<Appearance2D> appearance, Shapes shape) {
+
+    transform.translate = glm::vec3(1.0f);
+    transform.rotate.degree = 0.0f;
+    transform.rotate.axis = glm::vec3(1.0f, 0.0f, 0.0f);
+    transform.scale = glm::vec3(1.0f);
 
     if(!vertices){
         std::cout << "vertices passed to Button constructor is empty" << std::endl;
@@ -95,7 +100,7 @@ bool MenuElement::contains(glm::vec2 pos){
     return false;
 }
 
-void MenuElement::setText(std::string text){ this->text = text; }
+void Label::setText(std::string text){ this->text = text; }
 
 void Button::setTexture(Texture texture, Shader& shader, const char* texLocation, GLuint unit) {
     appearance->texture = texture;
@@ -131,4 +136,60 @@ void Button::draw(GLuint texBool) {
     appearance->texture.Unbind();
     ebo->Unbind();
     std::cout << "Unbinding done" << std::endl;
+}
+
+Label::Label(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalIndex, std::shared_ptr<Appearance2D> appearance, Shapes shape) : MenuElement(vertices, globalIndex, appearance, shape){
+    textRenderer = std::make_shared<TextRenderer>();
+}
+
+void Label::draw(GLuint texBool) {
+
+    if(!appearance || !shape || !ebo) {
+        std::cerr << "Error drawing label due to initialised data" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
+    std::cout << "Binding texture" << std::endl;
+    appearance->texture.Bind();
+    std::cout << "Setting render type" << std::endl;
+    glUniform1i(texBool, appearance->renderType);
+    try{
+        std::cout << "Binding EBO" << std::endl;
+        ebo->Bind();
+    } catch(std::runtime_error& e){
+
+        std::cerr << "Error: " << e.what() << std::endl;
+
+    } catch(std::exception& e){
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
+    std::cout << "calling draw from shape object" << std::endl;
+    shape->draw();
+
+    std::cout << "Unbinding texture and ebo" << std::endl;
+    appearance->texture.Unbind();
+    ebo->Unbind();
+    std::cout << "Unbinding done" << std::endl;
+
+    textRenderer->RenderText(text, appearance->position.x, appearance->position.y, 1.0f, glm::vec4(1.0f));
+}
+
+void MenuElement::translate(glm::vec3 displace) {
+    transform.translate = displace;
+}
+
+void MenuElement::rotate(float degree, glm::vec3 axis) {
+    transform.rotate.degree = degree;
+    transform.rotate.axis = axis;
+}
+
+void MenuElement::scale(glm::vec3 scale){
+    transform.scale = scale;
+}
+
+void MenuElement::updateModelMatrix(){
+    model = glm::mat4(1.0f);
+    model = glm::translate(model, transform.translate);
+    model = glm::rotate(model, transform.rotate.degree, transform.rotate.axis);
+    model = glm::scale(model, transform.scale);
 }
