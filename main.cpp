@@ -108,15 +108,10 @@ int main(){
     while(!glfwWindowShouldClose(window)){
         
         std::cout << "starting scene update using scene manager" << std::endl;
-        try {
-            sceneManager->update(window);
-            std::cout << "starting current active scene rendering" << std::endl;
-            sceneManager->render();
-        } catch(std::runtime_error& e){
-            std::cerr << e.what() << std::endl;
-        } catch(std::exception& e){
-            std::cerr << e.what() << std::endl;
-        }
+        sceneManager->update(window);
+        std::cout << "starting current active scene rendering" << std::endl;
+        sceneManager->render();
+        
 
         glfwSwapBuffers(window);
         glfwPollEvents();
