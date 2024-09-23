@@ -15,7 +15,6 @@
 #include <Buffer/texture.h>
 #include <ui/ui.h>
 #include <EventHandler/EventHandler.h>
-#include <UILoader/UILoader.h>
 #include <EventHandler/Actions.h>
 using namespace std;
 
@@ -70,47 +69,41 @@ int main(){
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetErrorCallback(errorCallback);
-    UILoader UILoader;
+    
     SceneManager* sceneManager = SceneManager::getInstance();
-    if(!sceneManager) {
-        std::cout << "Scene Manager failed to initialise" << std::endl;
-        return EXIT_FAILURE;
-    }
 
-    UILoader.registerFunction("settings", &actions::settingsOnClick);
-    UILoader.registerFunction("quit", &actions::quitOnClick);
-    UILoader.registerFunction("empty", &actions::empty);
-    UILoader.registerFunction("onhoverPlayHighlight", &actions::playOnHoverEnter);
-    UILoader.registerFunction("onhoverPlayUnhighlight", &actions::playOnHoverLeave);
-    UILoader.registerFunction("onhoversettingsHighlight", &actions::settingsOnHoverEnter);
-    UILoader.registerFunction("onhoversettingsUnhighlight", &actions::settingsOnHoverLeave);
-    UILoader.registerFunction("onhoverQuitHighlight", &actions::quitOnHoverEnter);
-    UILoader.registerFunction("onhoverQuitUnhighlight", &actions::quitOnHoverLeave);
+    std::shared_ptr<Scene2D> MainMenu = std::make_shared<Scene2D>();
+    MainMenu->createVertexData();
+    MainMenu->createShader("../resources/Shaders/default.vert", "../resources/Shaders/default.frag");
+    MainMenu->createEventHandler();
+    MainMenu->setBackground(
+        glm::vec4(
+            0.5f
+        )
+    );
 
-    // std::cout << "Loading UI configuration" << std::endl;
-    UILoader.loadUiConfig("../resources/ui/ui.json");
-    std::cout << "Done loading UI configuration" << std::endl;
+    std::shared_ptr<std::vector<GLfloat>> vertices = MainMenu->getVertices();
 
-    std::shared_ptr<Scene> currentScenePtr = sceneManager->getCurrentScene();
+    Texture tex("../resources/textures/OPTIONS purple.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_UNSIGNED_BYTE);
 
-    if(!currentScenePtr){
-        std::cerr << "Current scene is empty" << std::endl;
-        exit(EXIT_FAILURE);
-    }
-    if(!currentScenePtr->getShaderProgram()){
-        std::cerr << "Current scene shader is empty" <<std::endl;
-        exit(EXIT_FAILURE);
-    }
+    std::shared_ptr<Appearance2D> app = std::make_shared<Appearance2D>(
+        glm::vec2(0.0f),
+        glm::vec2(0.1f),
+        glm::vec4(1.0f),
+        glm::vec2(0.0f),
+        tex,
+        1
+    );
 
+    std::shared_ptr<Button> play = std::make_shared<Button>(vertices, MainMenu->currentIndex(), "play", app, RECTANGLE_SHAPE);
+    MainMenu->addElement("play", play);
+    MainMenu->addEventListener(EVENT_ON_CLICK, "play", actions::settingsOnClick);
+    MainMenu->addEventListener(EVENT_ON_HOVER_ENTER, "play", actions::settingsOnHoverEnter);
+    MainMenu->addEventListener(EVENT_ON_HOVER_LEAVE, "play", actions::settingsOnHoverLeave);
 
-    // std::vector<GLfloat> vertices = (*sceneManager->getCurrSceneVertexData());
-
-    // for(int i = 0; i < vertices.size(); i++){
-    //     if(i%9 == 0 && i !=0) std::cout << std::endl;
-    //     std::cout << vertices[i] << ", ";
-        
-    // }
-
+    MainMenu->createVBO();
+    MainMenu->createVAO(3, 4, 2, GL_FLOAT);
+    sceneManager->addScene("Main Menu", MainMenu);
     
     while(!glfwWindowShouldClose(window)){
         

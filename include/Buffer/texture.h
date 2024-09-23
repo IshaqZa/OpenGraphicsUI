@@ -3,11 +3,10 @@
 
 #include<glad/glad.h>
 #include<stb/stb_image.h>
-#include<json/json.hpp>
 
 #include "shader/shader.h"
 
-using json = nlohmann::json;
+
 
 class Texture
 {

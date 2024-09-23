@@ -13,7 +13,6 @@ add_library(OpenUI
     src/imp/Buffer/VBO.cpp
     src/imp/EventHandler/EventHandler.cpp
     src/imp/UI/ui.cpp
-    src/imp/UI/UILoader.cpp
     src/imp/Texture/texture.cpp
     src/imp/Shader/shader.cpp
     src/imp/Scene/Scene.cpp
@@ -51,7 +50,6 @@ add_executable(tryout
     src/imp/EventHandler/EventHandler.cpp
     src/imp/EventHandler/Actions.cpp
     src/imp/UI/ui.cpp
-    src/imp/UI/UILoader.cpp
     src/imp/Texture/texture.cpp
     src/imp/Shader/shader.cpp
     src/imp/Scene/Scene.cpp

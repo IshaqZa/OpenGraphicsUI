@@ -1,2 +1,2 @@
 @echo off
-OpenUI.exe > log.txt 2>&1
+tryout.exe > log.txt 2>&1
