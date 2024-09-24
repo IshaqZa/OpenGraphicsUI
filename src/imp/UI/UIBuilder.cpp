@@ -37,17 +37,24 @@ UIBuilder& UIBuilder::setShape(Shapes shape){
 }
 
 bool UIBuilder::checkNull(){
-    if(
-        scene == nullptr 
-        || texture == nullptr 
-        || glm::length(pos) == 0 
-        || glm::length(color) == 0 
-        || glm::length(size) == 0 
-        || renderType == -1 
-        || text.empty()
-    ) return false;
+    
+    bool result = true;
 
-    return true;
+    if(texture == nullptr ) 
+    {
+        std::cout << "texture is null in ui builder" << std::endl;
+        result = false;
+    }
+    if(renderType == -1) {
+        std::cout << "render type has not been set in ui builder" << std::endl;
+        result = false;
+    }
+    if(text.empty()){
+        std::cout << "text is empty in ui builder" << std::endl;
+        result = false;
+    }
+
+    return result;
     
 }
 
@@ -57,7 +64,7 @@ std::shared_ptr<Button> UIBuilder::buildButton(){
             pos,
             size,
             color,
-            texture,
+            (*texture),
             renderType
         );
 
@@ -67,19 +74,19 @@ std::shared_ptr<Button> UIBuilder::buildButton(){
     return nullptr;
 }
 
-std::shared_ptr<Label> UIBuilder::buildLabel(){
+// std::shared_ptr<Label> UIBuilder::buildLabel(){
 
-    if(checkNull()){
-        std::shared_ptr<Appearance2D> app = std::make_shared<Appearance2D>(
-            pos,
-            size,
-            color,
-            texture,
-            renderType
-        );
+//     if(checkNull()){
+//         std::shared_ptr<Appearance2D> app = std::make_shared<Appearance2D>(
+//             pos,
+//             size,
+//             color,
+//             (*texture),
+//             renderType
+//         );
 
-        std::shared_ptr<Label> label = std::make_shared<Label>(scene->getVertices(), scene->currentIndex(), text, app, shape, std::make_shared<TextRenderer>());
-        return label;
-    }
-    return nullptr;
-}
+//         std::shared_ptr<Label> label = std::make_shared<Label>(scene->getVertices(), scene->currentIndex(), text, app, shape, std::make_shared<TextRenderer>());
+//         return label;
+//     }
+//     return nullptr;
+// }

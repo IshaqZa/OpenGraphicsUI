@@ -59,6 +59,7 @@ void Scene::setBackgroundImage(bool isImage){
 
 void Scene2D::addElement(std::string name, std::shared_ptr<MenuElement> element) {
     elementArray[name] = element;
+    std::cout << "UI Element: " << name << " has been added to the scene" << std::endl;
 }
 
 void Scene::createVAO(int posSize, int colorSize, int texSize, GLenum type){

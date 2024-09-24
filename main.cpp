@@ -83,19 +83,23 @@ int main(){
         )
     );
 
-    std::shared_ptr<std::vector<GLfloat>> vertices = MainMenu->getVertices();
-
     Texture tex("../resources/textures/OPTIONS purple.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_UNSIGNED_BYTE);
 
-    std::shared_ptr<Appearance2D> app = std::make_shared<Appearance2D>(
-        glm::vec2(0.0f),
-        glm::vec2(0.1f),
-        glm::vec4(1.0f),
-        tex,
-        1
-    );
+    UIBuilder playBuilder(MainMenu);
+    playBuilder.setPosition(glm::vec2(0.0f))
+               .setColor(glm::vec4(1.0f))
+               .setSize(glm::vec2(0.5f))
+               .setRenderType(IMAGE_TYPE)
+               .setTexture(std::make_shared<Texture>(tex))
+               .setText("play")
+               .setShape(RECTANGLE_SHAPE);
+    std::shared_ptr<Button> play = playBuilder.buildButton();
 
-    std::shared_ptr<Button> play = std::make_shared<Button>(vertices, MainMenu->currentIndex(), "play", app, RECTANGLE_SHAPE);
+    if(play == nullptr) {
+        std:: cout << "An error has occured" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
     MainMenu->addElement("play", play);
     MainMenu->addEventListener(EVENT_ON_CLICK, "play", actions::settingsOnClick);
     MainMenu->addEventListener(EVENT_ON_HOVER_ENTER, "play", actions::settingsOnHoverEnter);
