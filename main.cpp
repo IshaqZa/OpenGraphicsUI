@@ -16,6 +16,7 @@
 #include <ui/ui.h>
 #include <EventHandler/EventHandler.h>
 #include <EventHandler/Actions.h>
+#include <UI/UIBuilder.h>
 using namespace std;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height){
@@ -90,7 +91,6 @@ int main(){
         glm::vec2(0.0f),
         glm::vec2(0.1f),
         glm::vec4(1.0f),
-        glm::vec2(0.0f),
         tex,
         1
     );
