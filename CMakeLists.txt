@@ -21,6 +21,7 @@ add_library(OpenUI
     src/imp/TextRenderer/FontLoader.cpp
     src/imp/TextRenderer/TextRenderer.cpp
     src/imp/UI/UIbuilder.cpp
+    src/imp/UI/UIFactory.cpp
     src/external/stb_image.cpp
 )
 target_include_directories(OpenUI PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include/")
@@ -59,6 +60,7 @@ add_executable(tryout
     src/imp/TextRenderer/FontLoader.cpp
     src/imp/TextRenderer/TextRenderer.cpp
     src/imp/UI/UIbuilder.cpp
+    src/imp/UI/UIFactory.cpp
     src/external/stb_image.cpp
 )
 target_include_directories(tryout PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include/")

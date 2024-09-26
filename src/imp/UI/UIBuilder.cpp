@@ -79,6 +79,20 @@ std::shared_ptr<Button> UIBuilder::buildButton(){
     return nullptr;
 }
 
+std::shared_ptr<MenuElement> UIBuilder::buildElement(std::string type){
+    if(checkNull()){
+        std::shared_ptr<Appearance2D> app = std::make_shared<Appearance2D>(
+            pos,
+            size,
+            color,
+            (*texture),
+            renderType
+        );
+        return uiFactory->create(type, scene->getVertices(), scene->currentIndex(), text, app, shape);
+    }
+    return nullptr;
+}
+
 // std::shared_ptr<Label> UIBuilder::buildLabel(){
 
 //     if(checkNull()){
