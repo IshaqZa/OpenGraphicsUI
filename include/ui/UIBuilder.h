@@ -23,6 +23,7 @@ class UIBuilder{
         UIBuilder& setSize(glm::vec2 size);
         UIBuilder& setRenderType(int type);
         UIBuilder& setTexture(std::shared_ptr<Texture> texture);
+        UIBuilder& setTexture(std::string path);
         UIBuilder& setText(std::string text);
         UIBuilder& setShape(Shapes shape);
         bool checkNull();

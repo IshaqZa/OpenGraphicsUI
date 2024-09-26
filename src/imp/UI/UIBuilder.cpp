@@ -26,6 +26,11 @@ UIBuilder& UIBuilder::setTexture(std::shared_ptr<Texture> texture){
     return (*this);
 }
 
+UIBuilder& UIBuilder::setTexture(std::string path){
+    this->texture = std::make_shared<Texture>(path.c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_UNSIGNED_BYTE);
+    return (*this);
+}
+
 UIBuilder& UIBuilder::setText(std::string text){
     this->text = text;
     return (*this);

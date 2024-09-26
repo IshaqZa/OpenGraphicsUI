@@ -83,24 +83,23 @@ int main(){
         )
     );
 
-    Texture tex("../resources/textures/OPTIONS purple.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_UNSIGNED_BYTE);
-
     UIBuilder playBuilder(MainMenu);
     playBuilder.setPosition(glm::vec2(0.0f))
                .setColor(glm::vec4(1.0f))
                .setSize(glm::vec2(0.5f))
                .setRenderType(IMAGE_TYPE)
-               .setTexture(std::make_shared<Texture>(tex))
+               .setTexture("../resources/textures/OPTIONS purple.png")
                .setText("play")
                .setShape(RECTANGLE_SHAPE);
     std::shared_ptr<Button> play = playBuilder.buildButton();
 
-    if(play == nullptr) {
-        std:: cout << "An error has occured" << std::endl;
-        exit(EXIT_FAILURE);
-    }
+    playBuilder.setPosition(glm::vec2(-0.5f, 0.1))
+               .setTexture("../resources/textures/logo.png");
+    
+    std::shared_ptr<Button> logo = playBuilder.buildButton();
 
     MainMenu->addElement("play", play);
+    MainMenu->addElement("logo", logo);
     MainMenu->addEventListener(EVENT_ON_CLICK, "play", actions::settingsOnClick);
     MainMenu->addEventListener(EVENT_ON_HOVER_ENTER, "play", actions::settingsOnHoverEnter);
     MainMenu->addEventListener(EVENT_ON_HOVER_LEAVE, "play", actions::settingsOnHoverLeave);
