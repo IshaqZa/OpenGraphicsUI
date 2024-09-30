@@ -62,9 +62,18 @@ class Button : public MenuElement{
 class Label : public MenuElement {
     private:
         std::shared_ptr<TextRenderer> textRenderer;
+        GLfloat textScale = 1.0f;
+        glm::vec4 textColor = glm::vec4(0.0f);
     public:
         Label(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalIndex, std::string text, std::shared_ptr<Appearance2D> appearance, Shapes shape, std::shared_ptr<TextRenderer> textRenderer)
-        : MenuElement(vertices, globalIndex, text, appearance, shape), textRenderer(textRenderer){}
+        : MenuElement(vertices, globalIndex, text, appearance, shape), textRenderer(textRenderer){
+            std::cout << "Label instance created" << std::endl;
+        }
+        
+        void setTextScale(GLfloat scale);
+        void setTextColor(glm::vec4 color);
+        
+        void setTexture(Texture texture, Shader& shader, const char* texLocation, GLuint unit) override;
         void draw(GLuint texBool) override;
 };
 

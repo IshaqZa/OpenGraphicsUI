@@ -93,19 +93,28 @@ std::shared_ptr<MenuElement> UIBuilder::buildElement(std::string type){
     return nullptr;
 }
 
-// std::shared_ptr<Label> UIBuilder::buildLabel(){
+std::shared_ptr<Label> UIBuilder::buildLabel(Shader textShader, std::string fontPath){
 
-//     if(checkNull()){
-//         std::shared_ptr<Appearance2D> app = std::make_shared<Appearance2D>(
-//             pos,
-//             size,
-//             color,
-//             (*texture),
-//             renderType
-//         );
+    if(checkNull()){
+        std::shared_ptr<Appearance2D> app = std::make_shared<Appearance2D>(
+            pos,
+            size,
+            color,
+            (*texture),
+            renderType
+        );
+        std::cout << "app for label created" << std::endl;
 
-//         std::shared_ptr<Label> label = std::make_shared<Label>(scene->getVertices(), scene->currentIndex(), text, app, shape, std::make_shared<TextRenderer>());
-//         return label;
-//     }
-//     return nullptr;
-// }
+        std::shared_ptr<TextRenderer> textRenderer = std::make_shared<TextRenderer>(textShader);
+        std::cout << "Text Renderer instance pointer created" << std::endl;
+        std::shared_ptr<FontLoader> loader = std::make_shared<FontLoader>();
+        std::cout << "Font Loader instance pointer created" << std::endl;
+        textRenderer->loadCharacters(fontPath, loader);
+        std::cout << "Loaded characters' font" << std::endl;
+
+        std::shared_ptr<Label> label = std::make_shared<Label>(scene->getVertices(), scene->currentIndex(), text, app, shape, textRenderer);
+        std::cout << "Label instance pointer created" << std::endl;
+        return label;
+    }
+    return nullptr;
+}

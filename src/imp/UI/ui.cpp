@@ -134,3 +134,44 @@ void Button::draw(GLuint texBool) {
     ebo->Unbind();
     std::cout << "Unbinding done" << std::endl;
 }
+
+void Label::setTextScale(GLfloat scale){
+    textScale = scale;
+}
+
+void Label::setTextColor(glm::vec4 color){
+    textColor = color;
+}
+
+void Label::setTexture(Texture texture, Shader& shader, const char* texLocation, GLuint unit){}
+
+void Label::draw(GLuint texBool){
+    if(!appearance || !shape || !ebo) {
+        std::cerr << "Error drawing button due to initialised data" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
+    std::cout << "Binding texture" << std::endl;
+    appearance->texture.Bind();
+    std::cout << "Setting render type" << std::endl;
+    glUniform1i(texBool, appearance->renderType);
+    try{
+        std::cout << "Binding EBO" << std::endl;
+        ebo->Bind();
+    } catch(std::runtime_error& e){
+
+        std::cerr << "Error: " << e.what() << std::endl;
+
+    } catch(std::exception& e){
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
+    std::cout << "calling draw from shape object" << std::endl;
+    shape->draw();
+
+    std::cout << "Unbinding texture and ebo" << std::endl;
+    appearance->texture.Unbind();
+    ebo->Unbind();
+    std::cout << "Unbinding done" << std::endl;
+
+    textRenderer->RenderText(text, appearance->position.x, appearance->position.y, textScale, textColor);
+}

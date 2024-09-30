@@ -8,8 +8,12 @@ FontLoader::FontLoader(){
 }
 
 void FontLoader::loadFont(std::string path, FT_Face &face){
-    if(FT_New_Face(ft, path.c_str(), 0, &face));
-    face = this->face;
+
+    if(FT_New_Face(ft, path.c_str(), 0, &face)){
+        std::cout << "There was an error loading font" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+    this->face = face;
 }
 
 void FontLoader::loadCharacters(std::map<char, Character> Characters){

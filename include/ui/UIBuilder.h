@@ -32,7 +32,7 @@ class UIBuilder{
         bool checkNull();
         std::shared_ptr<MenuElement> buildElement(std::string type);
         std::shared_ptr<Button> buildButton();
-        std::shared_ptr<Label> buildLabel();
+        std::shared_ptr<Label> buildLabel(Shader textShader, std::string fontPath);
 
 };
 

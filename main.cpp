@@ -74,7 +74,6 @@ int main(){
     SceneManager* sceneManager = SceneManager::getInstance();
 
     std::shared_ptr<Scene2D> MainMenu = std::make_shared<Scene2D>();
-    MainMenu->createVertexData();
     MainMenu->createShader("../resources/Shaders/default.vert", "../resources/Shaders/default.frag");
     MainMenu->createEventHandler();
     MainMenu->setBackground(
@@ -85,21 +84,43 @@ int main(){
 
     UIBuilder playBuilder(MainMenu);
     playBuilder.setPosition(glm::vec2(0.0f))
-               .setColor(glm::vec4(1.0f))
+               .setColor(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f))
                .setSize(glm::vec2(0.5f))
-               .setRenderType(IMAGE_TYPE)
+               .setRenderType(RGBA_TYPE)
                .setTexture("../resources/textures/OPTIONS purple.png")
                .setText("play")
                .setShape(RECTANGLE_SHAPE);
     std::shared_ptr<Button> play = playBuilder.buildButton();
 
     playBuilder.setPosition(glm::vec2(-0.5f, 0.1))
+               .setRenderType(IMAGE_TYPE) 
                .setTexture("../resources/textures/logo.png");
     
     std::shared_ptr<Button> logo = playBuilder.buildButton();
 
+    playBuilder.setPosition(glm::vec2(-0.9, 0.1));
+    std::shared_ptr<Button> logo2 = playBuilder.buildButton();
+
+    UIBuilder labelBuilder(MainMenu);
+    labelBuilder.setPosition(glm::vec2(-0.5f, 0.6f))
+                .setColor(glm::vec4(0.0f))
+                .setSize(glm::vec2(0.5f))
+                .setRenderType(RGBA_TYPE)
+                .setTexture("../resources/textures/START purple.png")
+                .setText("test test")
+                .setShape(RECTANGLE_SHAPE);
+
+
+    Shader textShader("../resources/font/font.vert", "../resources/font/font.frag");
+
+    std::shared_ptr<Label> label = labelBuilder.buildLabel(textShader, "../resources/font/score.ttf");
+
+    
     MainMenu->addElement("play", play);
     MainMenu->addElement("logo", logo);
+    // MainMenu->addElement("label", label);
+    // MainMenu->addElement("logo2", logo2);
+    
     MainMenu->addEventListener(EVENT_ON_CLICK, "play", actions::settingsOnClick);
     MainMenu->addEventListener(EVENT_ON_HOVER_ENTER, "play", actions::settingsOnHoverEnter);
     MainMenu->addEventListener(EVENT_ON_HOVER_LEAVE, "play", actions::settingsOnHoverLeave);
@@ -115,7 +136,6 @@ int main(){
         std::cout << "starting current active scene rendering" << std::endl;
         sceneManager->render();
         
-
         glfwSwapBuffers(window);
         glfwPollEvents();
         // GLenum error = glGetError();

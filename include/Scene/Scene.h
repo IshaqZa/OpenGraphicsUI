@@ -27,9 +27,11 @@ class Scene {
         bool isBackgroundImage = false;
     
     public:
+        Scene() {
+            vertices = std::make_shared<std::vector<GLfloat>>();
+        }
         unsigned int* currentIndex();
         void activate();
-        void createVertexData();
         void linkVBO(std::shared_ptr<VBO> vbo);
         void linkVAO(std::shared_ptr<VAO> vao);
         void linkShader(std::shared_ptr<Shader> shader);

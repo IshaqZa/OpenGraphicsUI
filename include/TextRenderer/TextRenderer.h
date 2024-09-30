@@ -10,6 +10,7 @@
 #include <TextRenderer/FontLoader.h>
 #include <memory>
 #include <glm/glm.hpp>
+#include <vector>
 
 struct Text {
     std::string text;
@@ -19,12 +20,13 @@ struct Text {
 class TextRenderer {
 private:
     FT_Face face;
+    Shader shader;
     std::map<char, Character> Characters;
-    Shader s;
-    VBO vbo;
+    std::shared_ptr<VBO> vbo;
     VAO vao;
 
 public:
+    TextRenderer(Shader shader) : shader(shader) {};
     void setFontSize(int size);
     void setFontSize(int width, int height);
     void loadCharacters(std::string path, std::shared_ptr<FontLoader> loader);

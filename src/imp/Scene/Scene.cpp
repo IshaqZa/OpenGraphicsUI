@@ -1,9 +1,5 @@
 #include <Scene/Scene.h>
 
-void Scene::createVertexData(){
-    vertices = std::make_shared<std::vector<GLfloat>>();
-}
-
 void Scene::linkVBO(std::shared_ptr<VBO> vbo){
     this->vbo = vbo;
 }
@@ -143,6 +139,7 @@ void Scene2D::addEventListener(EventType eventType, std::string elementName, std
     if(!elementArray[elementName]) throw std::runtime_error("No such element to add event listener");
 
     events->addElementEvent(eventType, elementArray[elementName], action);
+    std::cout << "Event for element: " << elementName << " has been added" << std::endl;
 }
 
 std::shared_ptr<Shader> Scene::getShaderProgram(){
