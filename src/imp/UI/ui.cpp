@@ -2,6 +2,8 @@
 
 MenuElement::MenuElement(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalIndex, std::string text, std::shared_ptr<Appearance2D> appearance, Shapes shape) {
 
+    this->text = text;
+
     if(!vertices){
         std::cout << "vertices passed to Button constructor is empty" << std::endl;
         exit(EXIT_FAILURE);

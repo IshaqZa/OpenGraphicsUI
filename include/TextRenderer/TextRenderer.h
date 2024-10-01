@@ -11,6 +11,7 @@
 #include <memory>
 #include <glm/glm.hpp>
 #include <vector>
+#include <Debugger/Debugger.h>
 
 struct Text {
     std::string text;

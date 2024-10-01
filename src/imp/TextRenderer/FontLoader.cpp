@@ -55,6 +55,7 @@ void FontLoader::loadCharacters(std::map<char, Character> Characters){
             face->glyph->advance.x
         };
         Characters.insert(std::pair<char, Character>(c, character));
+        std::cout << "Current Glyph texture ID: " << texture << std::endl;
     }
 }
 

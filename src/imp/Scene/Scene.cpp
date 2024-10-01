@@ -108,6 +108,8 @@ void Scene2D::render(){
                 throw std::runtime_error("Empty element pointer");
             }
             std::cout << "rendering: " << x.first << std::endl;
+            shader->Activate();
+            vao->Bind();
             x.second->draw(isTex);
         }
         vao->Unbind();
