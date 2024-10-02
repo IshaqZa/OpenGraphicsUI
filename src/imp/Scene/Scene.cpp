@@ -44,7 +44,7 @@ void Scene::setBackground(Texture texture, const char* texLocation, GLuint unit)
         normBackgroundIndex + 3, normBackgroundIndex + 1, normBackgroundIndex + 2
     };
 
-    backgroundEBO = std::make_shared<EBO>(indices.data(), indices.size() * sizeof(indices));
+    backgroundEBO = std::make_shared<EBO>(indices.data(), indices.size() * sizeof(GLuint));
 
     index += 36;
 }

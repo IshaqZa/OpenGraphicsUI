@@ -70,13 +70,13 @@ void TextRenderer::RenderText(std::string text, float x, float y, float scale, g
         glBindTexture(GL_TEXTURE_2D, ch.TextureID);
         std::cout << "Bound texture with ID: " << ch.TextureID << std::endl;
         // update content of VBO memory
+        vao.Bind();
         vbo->Bind();
         glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat), vertices.data());
         std::cout << "updated vbo data for new character" << std::endl;
         glCheckError();
         vbo->Unbind();
         // render quad
-        vao.Bind();
         glDrawArrays(GL_TRIANGLES, 0, 6);
         std::cout << "called draw call for glyph: " << *c << std::endl;
         // now advance cursors for next glyph (note that advance is number of 1/64 pixels)

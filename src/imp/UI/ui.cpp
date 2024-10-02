@@ -5,6 +5,8 @@ MenuElement::MenuElement(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint*
     this->text = text;
     std::cout << "set text for menu element" << std::endl;
 
+    index = *globalIndex;
+
     if(!vertices){
         std::cout << "vertices passed to Button constructor is empty" << std::endl;
         exit(EXIT_FAILURE);
@@ -57,15 +59,21 @@ void MenuElement::setSize(glm::vec2 size){
 
 void MenuElement::setColor(glm::vec4 color){
     appearance->color = color;
+    std::cout << "Set new color for menu element" << std::endl;
 }
 
 void MenuElement::updateColor(std::shared_ptr<std::vector<GLfloat>> vertices, int colorOffSet){
     for(int i = 0; i < 4; i++){
+        std::cout << "iteration color update number: " << (i+1) << std::endl;
+        std::cout << "accessing vertex at index: " << (index + i * 9 + colorOffSet) << std::endl;
+        std::cout << "current index: " << index << std::endl;
         (*vertices)[index + i * 9 + colorOffSet] = appearance->color.x;
         (*vertices)[index + i * 9 + colorOffSet + 1] = appearance->color.y;
         (*vertices)[index + i * 9 + colorOffSet + 2] = appearance->color.z;
         (*vertices)[index + i * 9 + colorOffSet + 3] = appearance->color.w;
+        
     }
+    std::cout << "updated color for menu element" << std::endl;
 }
 
 void MenuElement::setRenderType(int renderType){
@@ -77,7 +85,6 @@ void MenuElement::setRenderType(int renderType){
 void MenuElement::printData(std::shared_ptr<std::vector<GLfloat>> vertices){
     std::cout << "Vertex Data: " << std::endl;
     for(int i = index; i < index + 9 * 4; i++){
-        std::cout << "reach here" << std::endl;
         std::cout << (*vertices)[i] << ",\t";
         if(i != 0 && (i+1)%9 == 0) std::cout << std::endl;
     }
@@ -139,7 +146,7 @@ void Button::draw(GLuint texBool) {
     if(appearance->renderType == IMAGE_TYPE) {
         this->texture->Unbind();
     }
-    ebo->Unbind();
+    // ebo->Unbind();
     std::cout << "Unbinding done" << std::endl;
 }
 
@@ -185,5 +192,5 @@ void Label::draw(GLuint texBool){
     ebo->Unbind();
     std::cout << "Unbinding done" << std::endl;
 
-    textRenderer->RenderText(text, appearance->position.x, appearance->position.y, textScale, textColor);
+    // textRenderer->RenderText(text, appearance->position.x, appearance->position.y, textScale, textColor);
 }
