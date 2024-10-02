@@ -6,7 +6,7 @@
 
 #include "shader/shader.h"
 
-
+#include <Debugger/Debugger.h>
 
 class Texture
 {

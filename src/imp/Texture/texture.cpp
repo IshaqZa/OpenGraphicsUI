@@ -67,12 +67,10 @@ Texture::Texture(const char* image, GLenum texType, GLenum slot, GLenum pixelTyp
 	// Unbinds the OpenGL Texture object so that it can't accidentally be modified
 	glBindTexture(texType, 0);
 
-	GLenum err = glGetError();
+	GLenum error = glCheckError();
 
-	if(err != GL_NO_ERROR){
-
-		std::cerr << "OpenGL error in Texture: " << err << std::endl;
-		
+	if(error != GL_NO_ERROR){
+		exit(EXIT_FAILURE);
 	}
 
 	std::cout << "Texture created successfully" << std::endl;
