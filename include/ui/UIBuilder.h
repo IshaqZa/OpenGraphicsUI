@@ -16,7 +16,6 @@ class UIBuilder{
         glm::vec2 size;
         int renderType = -1;
         Shapes shape;
-        std::string text;
 
 
     public:
@@ -27,12 +26,10 @@ class UIBuilder{
         UIBuilder& setRenderType(int type);
         UIBuilder& setTexture(std::shared_ptr<Texture> texture);
         UIBuilder& setTexture(std::string path);
-        UIBuilder& setText(std::string text);
         UIBuilder& setShape(Shapes shape);
         bool checkNull();
         std::shared_ptr<MenuElement> buildElement(std::string type);
         std::shared_ptr<Button> buildButton();
-        std::shared_ptr<Label> buildLabel(Shader textShader, std::string fontPath);
 
 };
 

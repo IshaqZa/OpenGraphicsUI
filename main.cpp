@@ -88,7 +88,6 @@ int main(){
                .setSize(glm::vec2(0.5f))
                .setRenderType(IMAGE_TYPE)
                .setTexture("../resources/textures/OPTIONS purple.png")
-               .setText("play")
                .setShape(RECTANGLE_SHAPE);
     std::shared_ptr<Button> play = playBuilder.buildButton();
 
@@ -100,24 +99,7 @@ int main(){
 
     playBuilder.setPosition(glm::vec2(-0.9, 0.1));
     std::shared_ptr<Button> logo2 = playBuilder.buildButton();
-
-    UIBuilder labelBuilder(MainMenu);
-    labelBuilder.setPosition(glm::vec2(-0.5f, 0.6f))
-                .setColor(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f))
-                .setSize(glm::vec2(0.5f))
-                .setRenderType(RGBA_TYPE)
-                .setTexture("../resources/textures/START purple.png")
-                .setText("test")
-                .setShape(RECTANGLE_SHAPE);
-
-
-    Shader textShader("../resources/font/font.vert", "../resources/font/font.frag");
-
-    std::shared_ptr<Label> label = labelBuilder.buildLabel(textShader, "../resources/font/text.ttf");
-    label->setTextColor(glm::vec4(0.2, 0.6, 0.1, 1.0f));
-    label->setTextScale(0.1f);
     
-    MainMenu->addElement("label", label);
     MainMenu->addElement("play", play);
     MainMenu->addElement("logo", logo);
     

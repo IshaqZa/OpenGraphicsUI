@@ -1,8 +1,7 @@
 #include "ui/ui.h"
 
-MenuElement::MenuElement(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalIndex, std::string text, std::shared_ptr<Appearance2D> appearance, Shapes shape) {
+MenuElement::MenuElement(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalIndex, std::shared_ptr<Appearance2D> appearance, Shapes shape) {
 
-    this->text = text;
     std::cout << "set text for menu element" << std::endl;
 
     index = *globalIndex;
@@ -106,8 +105,6 @@ bool MenuElement::contains(glm::vec2 pos){
     return false;
 }
 
-void MenuElement::setText(std::string text){ this->text = text; }
-
 void Button::setTexture(Texture texture, Shader& shader, const char* texLocation, GLuint unit) {
     this->texture = std::make_shared<Texture>(texture);
     std::cout << "changed texture in appearance object" << std::endl;
@@ -148,49 +145,4 @@ void Button::draw(GLuint texBool) {
     }
     // ebo->Unbind();
     std::cout << "Unbinding done" << std::endl;
-}
-
-void Label::setTextScale(GLfloat scale){
-    textScale = scale;
-}
-
-void Label::setTextColor(glm::vec4 color){
-    textColor = color;
-}
-
-void Label::setTexture(Texture texture, Shader& shader, const char* texLocation, GLuint unit){}
-
-void Label::draw(GLuint texBool){
-    if(!appearance || !shape || !ebo) {
-        std::cerr << "Error drawing button due to initialised data" << std::endl;
-        exit(EXIT_FAILURE);
-    }
-
-    std::cout << "Binding texture" << std::endl;
-    if(appearance->renderType == IMAGE_TYPE) {
-        this->texture->Bind();
-    }
-    std::cout << "Setting render type" << std::endl;
-    glUniform1i(texBool, appearance->renderType);
-    try{
-        std::cout << "Binding EBO" << std::endl;
-        ebo->Bind();
-    } catch(std::runtime_error& e){
-
-        std::cerr << "Error: " << e.what() << std::endl;
-
-    } catch(std::exception& e){
-        std::cerr << "Error: " << e.what() << std::endl;
-    }
-    std::cout << "calling draw from shape object" << std::endl;
-    shape->draw();
-
-    std::cout << "Unbinding texture and ebo" << std::endl;
-    if(appearance->renderType == IMAGE_TYPE) {
-        this->texture->Unbind();
-    }
-    ebo->Unbind();
-    std::cout << "Unbinding done" << std::endl;
-
-    // textRenderer->RenderText(text, appearance->position.x, appearance->position.y, textScale, textColor);
 }

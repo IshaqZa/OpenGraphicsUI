@@ -18,8 +18,6 @@ add_library(OpenUI
     src/imp/Scene/Scene.cpp
     src/imp/Scene/SceneManager.cpp
     src/imp/Shape/Shape.cpp
-    src/imp/TextRenderer/FontLoader.cpp
-    src/imp/TextRenderer/TextRenderer.cpp
     src/imp/UI/UIbuilder.cpp
     src/imp/UI/UIFactory.cpp
     src/external/stb_image.cpp
@@ -29,8 +27,6 @@ target_include_directories(OpenUI PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include/")
 
 find_package(GLFW3 REQUIRED)
 target_link_libraries(OpenUI PRIVATE glfw)
-
-target_link_libraries(OpenUI PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/libfreetype.a")
 
 if(UNIX)
     target_link_libraries(OpenUI PRIVATE X11 Xrandr Xi pthread dl m)
@@ -58,8 +54,6 @@ add_executable(tryout
     src/imp/Scene/Scene.cpp
     src/imp/Scene/SceneManager.cpp
     src/imp/Shape/Shape.cpp
-    src/imp/TextRenderer/FontLoader.cpp
-    src/imp/TextRenderer/TextRenderer.cpp
     src/imp/UI/UIbuilder.cpp
     src/imp/UI/UIFactory.cpp
     src/external/stb_image.cpp
@@ -68,8 +62,6 @@ target_include_directories(tryout PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include/")
 
 find_package(GLFW3 REQUIRED)
 target_link_libraries(tryout PRIVATE glfw)
-
-target_link_libraries(tryout PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/libfreetype.a")
 
 if(UNIX)
     target_link_libraries(tryout PRIVATE X11 Xrandr Xi pthread dl m)

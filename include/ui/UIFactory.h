@@ -9,13 +9,13 @@
 class UIFactory{
 
     private:
-        std::unordered_map<std::string, std::function<std::shared_ptr<MenuElement>(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalIndex, std::string text, std::shared_ptr<Appearance2D> appearance, Shapes shape)>> registry;
+        std::unordered_map<std::string, std::function<std::shared_ptr<MenuElement>(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalIndex, std::shared_ptr<Appearance2D> appearance, Shapes shape)>> registry;
         static UIFactory* instance;
         UIFactory(){};
     public:
         UIFactory(const UIFactory& obj) = delete;
-        void addType(std::string typeName, std::function<std::shared_ptr<MenuElement>(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalIndex, std::string text, std::shared_ptr<Appearance2D> appearance, Shapes shape)> func);
-        std::shared_ptr<MenuElement> create(std::string type, std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalIndex, std::string text, std::shared_ptr<Appearance2D> appearance, Shapes shape);
+        void addType(std::string typeName, std::function<std::shared_ptr<MenuElement>(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalIndex, std::shared_ptr<Appearance2D> appearance, Shapes shape)> func);
+        std::shared_ptr<MenuElement> create(std::string type, std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalIndex, std::shared_ptr<Appearance2D> appearance, Shapes shape);
         static UIFactory* getInstance();
 
 };

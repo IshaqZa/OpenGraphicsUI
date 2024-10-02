@@ -55,6 +55,7 @@ void Scene::setBackgroundImage(bool isImage){
 
 void Scene2D::addElement(std::string name, std::shared_ptr<MenuElement> element) {
     elementArray[name] = element;
+    elementArray[name]->printData(this->vertices);
     std::cout << "UI Element: " << name << " has been added to the scene" << std::endl;
 }
 
