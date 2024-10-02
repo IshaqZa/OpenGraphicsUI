@@ -27,6 +27,7 @@ class MenuElement {
         std::shared_ptr<Appearance2D> appearance;
         std::shared_ptr<std::vector<GLuint>> indices;
         std::shared_ptr<EBO> ebo;
+        std::shared_ptr<Texture> texture;
 
     public:
         MenuElement(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalIndex, std::string text, std::shared_ptr<Appearance2D> appearance, Shapes shape);

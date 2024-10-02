@@ -20,6 +20,10 @@ void TextRenderer::setFontSize(int width, int height){
 void TextRenderer::RenderText(std::string text, float x, float y, float scale, glm::vec3 color){
     
     std::cout << "rendering text: " << text << std::endl;
+    std::cout << "position(x): " << x << std::endl;
+    std::cout << "position(y): " << y << std::endl;
+    std::cout << "scale: " << scale << std::endl;
+    std::cout << "color(r)(g)(b)" << color.x << " " << color.y << " " << color.z << std::endl;
     
     shader.Activate();
     std::cout << "activating shader for text rendering" << std::endl;
@@ -55,7 +59,7 @@ void TextRenderer::RenderText(std::string text, float x, float y, float scale, g
         };
 
         if(vbo == nullptr) {
-            vbo = std::make_shared<VBO>(vertices.data(), vertices.size() * sizeof(vertices));
+            vbo = std::make_shared<VBO>(vertices.data(), vertices.size() * sizeof(GLfloat));
             std::cout << "set vertices vector to text vbo" << std::endl;
             vao.linkAttrib((*vbo), 0, 2, GL_FLOAT, 4, (void*)0);
             vao.linkAttrib((*vbo), 1, 2, GL_FLOAT, 4, (void*)(2 * sizeof(GLfloat)));
@@ -64,9 +68,10 @@ void TextRenderer::RenderText(std::string text, float x, float y, float scale, g
 
         // render glyph texture over quad
         glBindTexture(GL_TEXTURE_2D, ch.TextureID);
+        std::cout << "Bound texture with ID: " << ch.TextureID << std::endl;
         // update content of VBO memory
         vbo->Bind();
-        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices.data());
+        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat), vertices.data());
         std::cout << "updated vbo data for new character" << std::endl;
         glCheckError();
         vbo->Unbind();

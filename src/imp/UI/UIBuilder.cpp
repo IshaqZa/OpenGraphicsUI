@@ -44,12 +44,6 @@ UIBuilder& UIBuilder::setShape(Shapes shape){
 bool UIBuilder::checkNull(){
     
     bool result = true;
-
-    if(texture == nullptr ) 
-    {
-        std::cout << "texture is null in ui builder" << std::endl;
-        result = false;
-    }
     if(renderType == -1) {
         std::cout << "render type has not been set in ui builder" << std::endl;
         result = false;
@@ -69,11 +63,11 @@ std::shared_ptr<Button> UIBuilder::buildButton(){
             pos,
             size,
             color,
-            (*texture),
             renderType
         );
 
         std::shared_ptr<Button> btn = std::make_shared<Button>(scene->getVertices(), scene->currentIndex(), text, app, shape);
+        btn->setTexture((*texture), (*scene->getShaderProgram()), "tex", GL_TEXTURE0);
         return btn;
     }
     return nullptr;
@@ -85,10 +79,11 @@ std::shared_ptr<MenuElement> UIBuilder::buildElement(std::string type){
             pos,
             size,
             color,
-            (*texture),
             renderType
         );
-        return uiFactory->create(type, scene->getVertices(), scene->currentIndex(), text, app, shape);
+        std::shared_ptr<MenuElement> element = uiFactory->create(type, scene->getVertices(), scene->currentIndex(), text, app, shape);
+        element->setTexture((*texture), (*scene->getShaderProgram()), "tex", GL_TEXTURE0);
+        return element;
     }
     return nullptr;
 }
@@ -100,7 +95,6 @@ std::shared_ptr<Label> UIBuilder::buildLabel(Shader textShader, std::string font
             pos,
             size,
             color,
-            (*texture),
             renderType
         );
         std::cout << "app for label created" << std::endl;

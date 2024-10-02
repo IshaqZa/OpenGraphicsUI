@@ -3,6 +3,7 @@
 MenuElement::MenuElement(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint* globalIndex, std::string text, std::shared_ptr<Appearance2D> appearance, Shapes shape) {
 
     this->text = text;
+    std::cout << "set text for menu element" << std::endl;
 
     if(!vertices){
         std::cout << "vertices passed to Button constructor is empty" << std::endl;
@@ -10,12 +11,13 @@ MenuElement::MenuElement(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint*
     }
 
     this->appearance = appearance;
+    std::cout << "set appearance for menu element" << std::endl;
     if(!this->appearance) {
         std::cout << "Error assigning appearance shared_ptr" << std::endl;
         exit(EXIT_FAILURE);
     }
     GLuint eboIndex = *globalIndex / 9;
-    std:: cout << "assigned appearance and normalized global index to fit eboIndex" << std::endl;
+    std:: cout << "normalized global index to fit eboIndex" << std::endl;
 
     indices = std::make_shared<std::vector<GLuint>>();
     if(!indices){
@@ -39,7 +41,7 @@ MenuElement::MenuElement(std::shared_ptr<std::vector<GLfloat>> vertices, GLuint*
     }
 
     std::cout << "Created Shape" << std::endl;
-    ebo = std::make_shared<EBO>(indices->data(), indices->size() * sizeof(indices));
+    ebo = std::make_shared<EBO>(indices->data(), indices->size() * sizeof(GLuint));
     if(ebo==nullptr) std::cout << "Error creating EBO shared_ptr" << std::endl;
     *globalIndex += 36;
     std::cout << "Created ebo and updated global index" << std::endl;
@@ -100,9 +102,9 @@ bool MenuElement::contains(glm::vec2 pos){
 void MenuElement::setText(std::string text){ this->text = text; }
 
 void Button::setTexture(Texture texture, Shader& shader, const char* texLocation, GLuint unit) {
-    appearance->texture = texture;
+    this->texture = std::make_shared<Texture>(texture);
     std::cout << "changed texture in appearance object" << std::endl;
-    appearance->texture.texUnit(shader, texLocation, unit);
+    this->texture->texUnit(shader, texLocation, unit);
     std::cout << "called texUnit for texture change" << std::endl;
     std::cout << "Set texture for button" << std::endl;
 }
@@ -115,7 +117,9 @@ void Button::draw(GLuint texBool) {
     }
 
     std::cout << "Binding texture" << std::endl;
-    appearance->texture.Bind();
+    if(appearance->renderType == IMAGE_TYPE) {
+        this->texture->Bind();
+    }
     std::cout << "Setting render type" << std::endl;
     glUniform1i(texBool, appearance->renderType);
     try{
@@ -132,7 +136,9 @@ void Button::draw(GLuint texBool) {
     shape->draw();
 
     std::cout << "Unbinding texture and ebo" << std::endl;
-    appearance->texture.Unbind();
+    if(appearance->renderType == IMAGE_TYPE) {
+        this->texture->Unbind();
+    }
     ebo->Unbind();
     std::cout << "Unbinding done" << std::endl;
 }
@@ -154,7 +160,9 @@ void Label::draw(GLuint texBool){
     }
 
     std::cout << "Binding texture" << std::endl;
-    appearance->texture.Bind();
+    if(appearance->renderType == IMAGE_TYPE) {
+        this->texture->Bind();
+    }
     std::cout << "Setting render type" << std::endl;
     glUniform1i(texBool, appearance->renderType);
     try{
@@ -171,7 +179,9 @@ void Label::draw(GLuint texBool){
     shape->draw();
 
     std::cout << "Unbinding texture and ebo" << std::endl;
-    appearance->texture.Unbind();
+    if(appearance->renderType == IMAGE_TYPE) {
+        this->texture->Unbind();
+    }
     ebo->Unbind();
     std::cout << "Unbinding done" << std::endl;
 

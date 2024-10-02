@@ -63,9 +63,9 @@ void Scene::createVAO(int posSize, int colorSize, int texSize, GLenum type){
     vao = std::make_shared<VAO>();
     vao->Bind();
     if(vbo){
-        vao->linkAttrib(*vbo, 0, posSize, type, (posSize + colorSize + texSize) * sizeof(float), (void*) 0);
-        vao->linkAttrib(*vbo, 1, colorSize, type, (posSize + colorSize + texSize) * sizeof(float), (void*)(posSize * sizeof(float)));
-        vao->linkAttrib(*vbo, 2, texSize, type, (posSize + colorSize + texSize) * sizeof(float), (void*)((colorSize + posSize) * sizeof(float)));
+        vao->linkAttrib(*vbo, 0, posSize, type, (posSize + colorSize + texSize) * sizeof(GLfloat), (void*) 0);
+        vao->linkAttrib(*vbo, 1, colorSize, type, (posSize + colorSize + texSize) * sizeof(GLfloat), (void*)(posSize * sizeof(GLfloat)));
+        vao->linkAttrib(*vbo, 2, texSize, type, (posSize + colorSize + texSize) * sizeof(GLfloat), (void*)((colorSize + posSize) * sizeof(GLfloat)));
     } else {
         throw std::runtime_error("VBO not initialised!");
     }
@@ -73,7 +73,7 @@ void Scene::createVAO(int posSize, int colorSize, int texSize, GLenum type){
 }
 
 void Scene::createVBO(){
-    vbo = std::make_shared<VBO>(vertices->data(), vertices->size() * sizeof(vertices));
+    vbo = std::make_shared<VBO>(vertices->data(), vertices->size() * sizeof(GLfloat));
 }
 
 void Scene::activate(){

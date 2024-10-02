@@ -19,6 +19,6 @@ class FontLoader {
         FontLoader();
         void clear();
         void loadFont(std::string path, FT_Face &face);
-        void loadCharacters(std::map<char, Character> Characters);
+        void loadCharacters(std::map<char, Character> &Characters);
 
 };

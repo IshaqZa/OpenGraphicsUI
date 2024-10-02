@@ -113,13 +113,13 @@ int main(){
 
     Shader textShader("../resources/font/font.vert", "../resources/font/font.frag");
 
-    std::shared_ptr<Label> label = labelBuilder.buildLabel(textShader, "../resources/font/score.ttf");
+    std::shared_ptr<Label> label = labelBuilder.buildLabel(textShader, "../resources/font/text.ttf");
     label->setTextColor(glm::vec4(0.2, 0.6, 0.1, 1.0f));
     label->setTextScale(0.1f);
     
+    MainMenu->addElement("label", label);
     MainMenu->addElement("play", play);
     MainMenu->addElement("logo", logo);
-    MainMenu->addElement("label", label);
     
     // MainMenu->addElement("logo2", logo2);
     

@@ -16,7 +16,7 @@ void FontLoader::loadFont(std::string path, FT_Face &face){
     this->face = face;
 }
 
-void FontLoader::loadCharacters(std::map<char, Character> Characters){
+void FontLoader::loadCharacters(std::map<char, Character> &Characters){
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // disable byte-alignment restriction
   
     for (unsigned char c = 0; c < 128; c++)
