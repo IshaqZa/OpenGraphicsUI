@@ -76,11 +76,6 @@ int main(){
     std::shared_ptr<Scene2D> MainMenu = std::make_shared<Scene2D>();
     MainMenu->createShader("../resources/Shaders/default.vert", "../resources/Shaders/default.frag");
     MainMenu->createEventHandler();
-    MainMenu->setBackground(
-        glm::vec4(
-            0.5f
-        )
-    );
 
     UIBuilder btnBuilder(MainMenu);
     btnBuilder.setPosition(glm::vec2(-0.91f, 0.2f))
@@ -109,9 +104,9 @@ int main(){
     MainMenu->addEventListener(EVENT_ON_HOVER_ENTER, "quit", actions::quitOnHoverEnter);
     MainMenu->addEventListener(EVENT_ON_HOVER_LEAVE, "quit", actions::quitOnHoverLeave);
 
-    // MainMenu->setBackgroundImage(true);
-    // Texture tex("../resources/textures/background.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_UNSIGNED_BYTE);
-    // MainMenu->setBackground(tex, "tex", GL_TEXTURE0);
+    MainMenu->setBackgroundImage(true);
+    Texture tex("../resources/textures/background.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_UNSIGNED_BYTE);
+    MainMenu->setBackground(tex, "tex", 0);
 
     MainMenu->createVBO();
     MainMenu->createVAO(3, 4, 2, GL_FLOAT);

@@ -116,7 +116,7 @@ void Scene2D::render(){
             exit(EXIT_FAILURE);
         }
 
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)backgroundIndex);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         if(glCheckError() != GL_NO_ERROR){
             exit(EXIT_FAILURE);
         }
