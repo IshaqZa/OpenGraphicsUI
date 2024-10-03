@@ -82,32 +82,36 @@ int main(){
         )
     );
 
-    UIBuilder playBuilder(MainMenu);
-    playBuilder.setPosition(glm::vec2(0.0f))
+    UIBuilder btnBuilder(MainMenu);
+    btnBuilder.setPosition(glm::vec2(-0.91f, 0.2f))
                .setColor(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f))
-               .setSize(glm::vec2(0.5f))
+               .setSize(glm::vec2(0.5f, 0.35f))
                .setRenderType(IMAGE_TYPE)
-               .setTexture("../resources/textures/OPTIONS purple.png")
+               .setTexture("../resources/textures/START purple.png")
                .setShape(RECTANGLE_SHAPE);
-    std::shared_ptr<Button> play = playBuilder.buildButton();
+    std::shared_ptr<Button> play = btnBuilder.buildButton();
 
-    playBuilder.setPosition(glm::vec2(-0.5f, 0.1))
-               .setRenderType(IMAGE_TYPE) 
-               .setTexture("../resources/textures/logo.png");
+    btnBuilder.setPosition(glm::vec2(-0.91, -0.3))
+              .setTexture("../resources/textures/QUIT purple.png")
+              .setSize(glm::vec2(0.4f, 0.35f));
+
+    std::shared_ptr<Button> quit = btnBuilder.buildButton();
     
-    std::shared_ptr<Button> logo = playBuilder.buildButton();
-
-    playBuilder.setPosition(glm::vec2(-0.9, 0.1));
-    std::shared_ptr<Button> logo2 = playBuilder.buildButton();
     
     MainMenu->addElement("play", play);
-    MainMenu->addElement("logo", logo);
-    
-    // MainMenu->addElement("logo2", logo2);
+    MainMenu->addElement("quit", quit);
     
     MainMenu->addEventListener(EVENT_ON_CLICK, "play", actions::settingsOnClick);
-    MainMenu->addEventListener(EVENT_ON_HOVER_ENTER, "play", actions::settingsOnHoverEnter);
-    MainMenu->addEventListener(EVENT_ON_HOVER_LEAVE, "play", actions::settingsOnHoverLeave);
+    MainMenu->addEventListener(EVENT_ON_HOVER_ENTER, "play", actions::playOnHoverEnter);
+    MainMenu->addEventListener(EVENT_ON_HOVER_LEAVE, "play", actions::playOnHoverLeave);
+
+    MainMenu->addEventListener(EVENT_ON_CLICK, "quit", actions::quitOnClick);
+    MainMenu->addEventListener(EVENT_ON_HOVER_ENTER, "quit", actions::quitOnHoverEnter);
+    MainMenu->addEventListener(EVENT_ON_HOVER_LEAVE, "quit", actions::quitOnHoverLeave);
+
+    // MainMenu->setBackgroundImage(true);
+    // Texture tex("../resources/textures/background.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_UNSIGNED_BYTE);
+    // MainMenu->setBackground(tex, "tex", GL_TEXTURE0);
 
     MainMenu->createVBO();
     MainMenu->createVAO(3, 4, 2, GL_FLOAT);

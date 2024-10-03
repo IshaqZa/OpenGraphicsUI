@@ -106,8 +106,9 @@ bool MenuElement::contains(glm::vec2 pos){
 }
 
 void Button::setTexture(Texture texture, Shader& shader, const char* texLocation, GLuint unit) {
+    std::cout << "accessed set texture function from button class" << std::endl;
     this->texture = std::make_shared<Texture>(texture);
-    std::cout << "changed texture in appearance object" << std::endl;
+    std::cout << "changed texture" << std::endl;
     this->texture->texUnit(shader, texLocation, unit);
     std::cout << "called texUnit for texture change" << std::endl;
     std::cout << "Set texture for button" << std::endl;

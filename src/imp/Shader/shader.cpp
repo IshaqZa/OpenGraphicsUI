@@ -75,17 +75,29 @@ Shader::Shader(const char* vertexFile, const char* fragmentFile){
     }
 
     glDeleteShader(vertexShader);
+    if(glCheckError() != GL_NO_ERROR){
+        exit(EXIT_FAILURE);
+    }
     glDeleteShader(fragmentShader);
+    if(glCheckError() != GL_NO_ERROR){
+        exit(EXIT_FAILURE);
+    }
 }
 
 void Shader::Activate(){
 
     glUseProgram(ID);
+    if(glCheckError() != GL_NO_ERROR){
+        exit(EXIT_FAILURE);
+    }
 
 }
 
 void Shader::Delete(){
 
     glDeleteProgram(ID);
+    if(glCheckError() != GL_NO_ERROR){
+        exit(EXIT_FAILURE);
+    }
 
 }

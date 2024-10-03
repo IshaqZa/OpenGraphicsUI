@@ -3,6 +3,7 @@
 
 #include <glad/glad.h>
 #include "VBO.h"
+#include <Debugger/Debugger.h>
 
 class VAO {
 

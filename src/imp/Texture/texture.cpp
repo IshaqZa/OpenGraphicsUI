@@ -23,21 +23,36 @@ Texture::Texture(const char* image, GLenum texType, GLenum slot, GLenum pixelTyp
 	if(bytes == NULL){
 		std::cerr << "Texture Error: " << stbi_failure_reason() << std::endl;
 	}
-
 	// Generates an OpenGL texture object
 	glGenTextures(1, &ID);
+	std::cout << "Texture ID: " << ID << std::endl;
+	if(glCheckError() != GL_NO_ERROR){
+		exit(EXIT_FAILURE);
+	}
 	// Assigns the texture to a Texture Unit
 	glActiveTexture(slot);
+	if(glCheckError() != GL_NO_ERROR){
+		exit(EXIT_FAILURE);
+	}
 	glBindTexture(texType, ID);
+	if(glCheckError() != GL_NO_ERROR){
+		exit(EXIT_FAILURE);
+	}
 	std::cout << "generated textures, activated slot and bound" << std::endl;
 
 	// Configures the type of algorithm that is used to make the image smaller or bigger
 	glTexParameteri(texType, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
 	glTexParameteri(texType, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	if(glCheckError() != GL_NO_ERROR){
+		exit(EXIT_FAILURE);
+	}
 
 	// Configures the way the texture repeats (if it does at all)
 	glTexParameteri(texType, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(texType, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	if(glCheckError() != GL_NO_ERROR){
+		exit(EXIT_FAILURE);
+	}
 
 	std::cout << "Set needed parameters" << std::endl;
 
@@ -56,20 +71,22 @@ Texture::Texture(const char* image, GLenum texType, GLenum slot, GLenum pixelTyp
 		std::cerr << "Image type unsupported" << std::endl;
 		exit(EXIT_FAILURE);
 	}
+	if(glCheckError() != GL_NO_ERROR){
+		exit(EXIT_FAILURE);
+	}
 	std::cout << "Generated 2D Image Texture" << std::endl;
 	// Generates MipMaps
 	glGenerateMipmap(texType);
-
+	if(glCheckError() != GL_NO_ERROR){
+		exit(EXIT_FAILURE);
+	}
 	std::cout << "Generated mipmap" << std::endl;
 
 	// Deletes the image data as it is already in the OpenGL Texture object
 	stbi_image_free(bytes);
 	// Unbinds the OpenGL Texture object so that it can't accidentally be modified
 	glBindTexture(texType, 0);
-
-	GLenum error = glCheckError();
-
-	if(error != GL_NO_ERROR){
+	if(glCheckError() != GL_NO_ERROR){
 		exit(EXIT_FAILURE);
 	}
 
@@ -80,23 +97,39 @@ void Texture::texUnit(Shader& shader, const char* uniform, GLuint unit)
 {
 	// Gets the location of the uniform
 	GLuint texUni = glGetUniformLocation(shader.ID, uniform);
+	std::cout << "Texture unit location for uniform(" << uniform << ") is: " << texUni << std::endl;
+	if(glCheckError() != GL_NO_ERROR){
+        exit(EXIT_FAILURE);
+    }
 	// Shader needs to be activated before changing the value of a uniform
 	shader.Activate();
 	// Sets the value of the uniform
 	glUniform1i(texUni, unit);
+	if(glCheckError() != GL_NO_ERROR){
+        exit(EXIT_FAILURE);
+    }
 }
 
 void Texture::Bind()
 {
 	glBindTexture(type, ID);
+	if(glCheckError() != GL_NO_ERROR){
+        exit(EXIT_FAILURE);
+    }
 }
 
 void Texture::Unbind()
 {
 	glBindTexture(type, 0);
+	if(glCheckError() != GL_NO_ERROR){
+        exit(EXIT_FAILURE);
+    }
 }
 
 void Texture::Delete()
 {
 	glDeleteTextures(1, &ID);
+	if(glCheckError() != GL_NO_ERROR){
+        exit(EXIT_FAILURE);
+    }
 }

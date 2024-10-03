@@ -2,8 +2,12 @@
 
 GLenum glCheckError_(const char *file, int line){
     GLenum errorCode;
+    GLenum firstCode = GL_NO_ERROR;
     while ((errorCode = glGetError()) != GL_NO_ERROR)
     {
+        if(firstCode == GL_NO_ERROR){
+            firstCode = errorCode;
+        }
         std::string error;
         switch (errorCode)
         {
@@ -15,5 +19,5 @@ GLenum glCheckError_(const char *file, int line){
         }
         std::cout << error << " | " << file << " (" << line << ")" << std::endl;
     }
-    return errorCode;
+    return firstCode;
 }

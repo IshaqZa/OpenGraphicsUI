@@ -11,6 +11,9 @@ void Scene::linkVAO(std::shared_ptr<VAO> vao){
 void Scene::linkShader(std::shared_ptr<Shader> shader){
     this->shader = shader;
     isTex = glGetUniformLocation(shader->ID, "isTex");
+    if(glCheckError() != GL_NO_ERROR){
+        exit(EXIT_FAILURE);
+    }
 }
 
 void Scene2D::createEventHandler(){
@@ -21,6 +24,10 @@ void Scene2D::createEventHandler(){
 std::shared_ptr<Shader> Scene::createShader(const char* vertexFile, const char* fragmentFile){
     shader = std::make_shared<Shader>(vertexFile, fragmentFile);
     isTex = glGetUniformLocation(shader->ID, "isTex");
+    if(glCheckError() != GL_NO_ERROR){
+        exit(EXIT_FAILURE);
+    }
+
     return shader;
 }
 
@@ -31,7 +38,7 @@ void Scene::setBackground(glm::vec4 backgroundColor){
 void Scene::setBackground(Texture texture, const char* texLocation, GLuint unit){
     backgroundImage = std::make_shared<Texture>(texture);
     backgroundImage->texUnit((*shader), texLocation, unit);
-    vertices->insert(vertices->begin(), {
+    vertices->insert(vertices->end(), {
             -1.0f, 1.0f, 0.0f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, // top left
             -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom left
             1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.5f, 1.0f, 1.0f, 0.0f, // bottom right
@@ -45,6 +52,7 @@ void Scene::setBackground(Texture texture, const char* texLocation, GLuint unit)
     };
 
     backgroundEBO = std::make_shared<EBO>(indices.data(), indices.size() * sizeof(GLuint));
+    backgroundIndex = index;
 
     index += 36;
 }
@@ -79,6 +87,9 @@ void Scene::createVBO(){
 
 void Scene::activate(){
     glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, backgroundColor.w);
+    if(glCheckError() != GL_NO_ERROR){
+        exit(EXIT_FAILURE);
+    }
 
     if(vao == nullptr) throw std::runtime_error("VAO not initialised");
     if(vbo == nullptr) throw std::runtime_error("VBO not initialised");
@@ -88,6 +99,9 @@ void Scene::activate(){
 
 void Scene2D::render(){
     glClear(GL_COLOR_BUFFER_BIT);
+    if(glCheckError() != GL_NO_ERROR){
+        exit(EXIT_FAILURE);
+    }
     std::cout << "background color cleared" << std::endl;
     shader->Activate();
     std::cout << "Shader activated" << std::endl;
@@ -98,7 +112,14 @@ void Scene2D::render(){
         backgroundEBO->Bind();
         backgroundImage->Bind();
         glUniform1i(isTex, 1);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        if(glCheckError() != GL_NO_ERROR){
+            exit(EXIT_FAILURE);
+        }
+
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)backgroundIndex);
+        if(glCheckError() != GL_NO_ERROR){
+            exit(EXIT_FAILURE);
+        }
         backgroundImage->Unbind();
         backgroundEBO->Unbind();
     }
@@ -149,4 +170,11 @@ std::shared_ptr<Shader> Scene::getShaderProgram(){
     return shader;
 }
 
-std::shared_ptr<MenuElement> Scene2D::getElementByName(std::string name){ return elementArray[name]; }
+std::shared_ptr<MenuElement> Scene2D::getElementByName(std::string name){ 
+    std::shared_ptr<MenuElement> element = elementArray[name];
+    if(element == nullptr){
+        std::cout << "No such element (" << name << ") in scene exists" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+    return elementArray[name]; 
+}

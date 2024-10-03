@@ -57,7 +57,7 @@ std::shared_ptr<Button> UIBuilder::buildButton(){
         );
 
         std::shared_ptr<Button> btn = std::make_shared<Button>(scene->getVertices(), scene->currentIndex(), app, shape);
-        btn->setTexture((*texture), (*scene->getShaderProgram()), "tex", GL_TEXTURE0);
+        btn->setTexture((*texture), (*scene->getShaderProgram()), "tex", 0);
         return btn;
     }
     return nullptr;
@@ -72,7 +72,7 @@ std::shared_ptr<MenuElement> UIBuilder::buildElement(std::string type){
             renderType
         );
         std::shared_ptr<MenuElement> element = uiFactory->create(type, scene->getVertices(), scene->currentIndex(), app, shape);
-        element->setTexture((*texture), (*scene->getShaderProgram()), "tex", GL_TEXTURE0);
+        element->setTexture((*texture), (*(scene->getShaderProgram())), "tex", 0);
         return element;
     }
     return nullptr;
