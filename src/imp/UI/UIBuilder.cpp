@@ -71,8 +71,14 @@ std::shared_ptr<MenuElement> UIBuilder::buildElement(std::string type){
             color,
             renderType
         );
+        std::cout << "Appearance pointer created for element" << std::endl;
+        
+        uiFactory = UIFactory::getInstance();
         std::shared_ptr<MenuElement> element = uiFactory->create(type, scene->getVertices(), scene->currentIndex(), app, shape);
-        element->setTexture((*texture), (*(scene->getShaderProgram())), "tex", 0);
+        std::cout << "create function called for element" << std::endl;
+        if(texture != nullptr){
+            element->setTexture((*texture), (*(scene->getShaderProgram())), "tex", 0);
+        }
         return element;
     }
     return nullptr;
