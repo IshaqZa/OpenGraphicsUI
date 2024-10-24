@@ -24,3 +24,4 @@
 - Any element that will be displayed, such as a label, button, slider, etc..., needs to be extended from the MenuElement class to provide the basic funcitonality needed to create such elements
 - Any context screen, such as menus, game context, etc..., needs to be extended from the base Scene class
 - A sample game known as "Blackhole" is used as a showcase for this project ([github link](https://github.com/IshaqZa/showcase))
+- The main.cpp file in this project was purely for testing purposes
