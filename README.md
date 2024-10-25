@@ -7,6 +7,7 @@
     - **Programming Language**: C++
     - **Graphics Library**: OpenGL
     - **Other supporting Libraries**: GLFW, glad, GLM, stb_image
+- **Credit**: The VBO, VAO, EBO, Texture and Shader classes are to be attributed to [learnopengl.com](https://www.learnopengl.com)
 ## Getting Started
 
 ### Compiling the project (tested using MSYS2 and MinGW on windows)
